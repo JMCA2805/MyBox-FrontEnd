@@ -1,9 +1,10 @@
-import Agg from './components/Agg'
+import NavBar from './components/NavBar'
+
 function App() {
 
   return (
     <>
-      <Agg />
+    <NavBar />
     </>
   )
 }
