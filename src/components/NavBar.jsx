@@ -60,14 +60,14 @@ function NavBar() {
           <div className="flex items-center justify-center w-1/2 ">
             <button
               type="submit"
-              className="flex items-center text-center bg-azure justify-center h-10 px-4 mx-2 rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8"
+              className="flex items-center text-center bg-azure justify-center h-10 px-4 mx-2 rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8 ssm:px-0 ssm:mx-0"
             >
               {/* Segun la resolucion el contenido del boton cambia */}
               {width <= 575 ? (
                 <img
                   src="src\assets\icons\plus.png"
                   alt="+"
-                  className="p-2"
+                  className="p-1"
                 />
               ) : (
                 <span className="text-white font-medium">Agregar</span>
