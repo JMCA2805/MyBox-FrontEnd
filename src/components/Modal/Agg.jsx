@@ -11,6 +11,7 @@ import {
 } from "@material-tailwind/react";
 
 function Agg() {
+  // Estableciendo las variables
   const [image, setImage] = useState(null);
   const [titulo, setTitulo] = useState(null);
   const [marca, setMarca] = useState(null);
@@ -33,6 +34,7 @@ function Agg() {
     resolution();
   });
 
+  // Inputs sin contenidos
   const focusOnFirstEmptyInput = () => {
     if (titulo === null || titulo === "") {
       document.getElementById("titulo").focus();
@@ -82,24 +84,24 @@ function Agg() {
     formData.append("precio_adquisicion", precio);
     formData.append("fecha_adquisicion", fecha);
 
-    setTitulo("")
-    setImage("")
-    setMarca("")
-    setModelo("")
-    setCantidad("")
-    setPrecio("")
-    setFecha("")
+    setTitulo("");
+    setImage("");
+    setMarca("");
+    setModelo("");
+    setCantidad("");
+    setPrecio("");
+    setFecha("");
 
     const response = await fetch("http://localhost:4000/AgregarIItem", {
       method: "POST",
       body: formData,
     });
     const data = await response.json();
-    handleOpen();
   };
 
   return (
     <>
+      {/* Boton para abrir el Modal */}
       <Button
         onClick={handleOpen}
         variant="gradient"
@@ -113,10 +115,13 @@ function Agg() {
         )}
       </Button>
       <>
+        {/* Modal */}
         <Dialog open={open} handler={handleOpen}>
+          {/* Cabecera del modal */}
           <DialogHeader className="border-purple-navy/20 border-b bg-azure text-white">
             Agregar un Artículo
           </DialogHeader>
+          {/* Cuerpo del Modal */}
           <DialogBody className="flex justify-center items-center bg-ghost-white">
             <form
               className="flex-col flex px-4 justify-center items-center"
@@ -136,10 +141,10 @@ function Agg() {
               </div>
               <div className="mb-4 w-full">
                 <input
-                type="date"
+                  type="date"
                   onChange={(e) => {
                     setFecha(e.target.value);
-                    console.log(e.target.value)
+                    console.log(e.target.value);
                   }}
                   id="fecha"
                   className="w-full rounded-lg "
@@ -203,6 +208,7 @@ function Agg() {
               </div>
             </form>
           </DialogBody>
+          {/* Footer del Nodal */}
           <DialogFooter className="flex justify-center items-center">
             <Button
               onClick={handleOpen}
