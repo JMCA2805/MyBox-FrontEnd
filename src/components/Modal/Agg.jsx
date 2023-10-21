@@ -69,14 +69,25 @@ function Agg() {
   };
 
   const Agregar = async (e) => {
+    const convertImageToBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    };
+
     e.preventDefault();
     const alert = await focusOnFirstEmptyInput();
     if (alert === true) {
       return;
     }
-
+    const base64Image = await convertImageToBase64(image);
     const formData = new FormData();
-    formData.append("image", image);
+    formData.append("image", base64Image);
     formData.append("titulo", titulo);
     formData.append("marca", marca);
     formData.append("modelo", modelo);
