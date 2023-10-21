@@ -105,7 +105,7 @@ function Edit() {
       <Button
         onClick={handleOpen}
         variant="gradient"
-        className=""
+        className="flex items-center text-center bg-azure justify-center h-10 px-4 mx-2 rounded-lg ssm:rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8 ssm:px-0 ssm:mx-0"
       >
         {/* Segun la resolucion el contenido del boton cambia */}
         {width <= 575 ? (
@@ -118,7 +118,7 @@ function Edit() {
         {/* Modal */}
         <Dialog open={open} handler={handleOpen}>
           {/* Cabecera del modal */}
-          <DialogHeader className="border-purple-navy/20 border-b bg-azure text-white">
+          <DialogHeader className="dark:bg-midnight-blue border-purple-navy/20 border-b bg-azure text-white">
             Editar un Artículo
           </DialogHeader>
           {/* Cuerpo del Modal */}

@@ -19,10 +19,14 @@ function NavBar() {
       document.querySelector("html").classList.add("dark");
       document.getElementById("theme").style.content =
         'url("src/assets/icons/moon.png")';
+      document.getElementById("logo_theme").style.content =
+        'url("src/assets/logo_v2.png")';
     } else {
       document.querySelector("html").classList.remove("dark");
       document.getElementById("theme").style.content =
         'url("src/assets/icons/sun.png")';
+      document.getElementById("logo_theme").style.content =
+        'url("src/assets/logo.png")';
     }
   }, [theme]);
 
@@ -33,7 +37,7 @@ function NavBar() {
   return (
     <>
       {/* Creacion del NavBar */}
-      <nav className="h-16 w-full bg-white shadow-lg flex ssm:h-12">
+      <nav className="h-16 w-full bg-white shadow-lg flex ssm:h-12 dark:bg-midnight-blue">
         {/* Contenedor del logo */}
         <div className="w-1/6 h-full flex justify-center items-center md:w-1/4 ssm:w-1/4">
           <button
@@ -41,11 +45,7 @@ function NavBar() {
               reload();
             }}
           >
-            <img
-              src="src\assets\logo.png"
-              alt="Logo"
-              className="h-12 ssm:h-8"
-            />
+            <img id="logo_theme" alt="Logo" className="h-12 ssm:h-8" />
           </button>
         </div>
         {/* Contenedor del Buscar */}
@@ -53,7 +53,7 @@ function NavBar() {
           {/* Buscador */}
           <input
             type="text"
-            className="w-3/6 h-10 text-lg text-gray font-medium px-6 rounded-full border-2 border-azure focus:outline-none focus:border-midnight-blue focus:text-purple-navy ssm:w-3/5 ssm:h-8"
+            className="w-3/6 h-10 text-lg text-gray font-medium px-6 rounded-full border-2 border-azure focus:outline-none focus:border-midnight-blue focus:text-purple-navy ssm:w-3/5 ssm:h-8 dark:bg-purple-navy dark:text-white"
             placeholder="Buscar"
           />
           {/* Boton de Buscar */}

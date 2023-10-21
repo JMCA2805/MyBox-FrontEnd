@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Edit from './Modal/Edit'
+import Edit from "./Modal/Edit";
 
 function Card() {
   const [items, setItems] = useState([]);
@@ -28,8 +28,8 @@ function Card() {
   return (
     <div className="grid grid-cols-5 gap-4 px-12 py-12">
       {items.map((item) => (
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full border-purple-navy/30  p-4 h-96 hover:shadow-xl hover:border-azure hover:border-2">
-          <div className="relative h-2/5 flex items-center justify-center w-full border-b border-purple-navy/30">
+        <div className="dark:text-white dark:bg-midnight-blue bg-white rounded-lg shadow-lg overflow-hidden w-full border-purple-navy/30  p-4 h-96 hover:shadow-xl hover:border-azure hover:border-2">
+          <div className="relative h-2/5 flex items-center justify-center w-full border-b border-purple-navy/30 dark:border-white/30">
             {" "}
             {/* Centra la imagen */}
             <img
@@ -65,7 +65,7 @@ function Card() {
               <div className="flex text-sm">
                 <span className="text-sm font-bold">Precio:</span>
                 <span className="font-normal text-center ml-1 ">
-                  {item.precio_adquisicion + "$" }
+                  {item.precio_adquisicion + "$"}
                 </span>
               </div>
               <div className="flex">
@@ -79,10 +79,10 @@ function Card() {
 
           <div className="flex text-white justify-between items-center">
             {/* Agrega padding al div del encabezado */}
-           <button className="flex items-center text-center bg-azure justify-center h-10 px-4 mx-2 rounded-lg ssm:rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8 ssm:px-0 ssm:mx-0">
-              <Edit/>
-            </button>
-            <button className="flex w-1/2 items-center text-center bg-midnight-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-midnight-blue focus:bg-purple-navy border-b-4 border-purple-navy ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1">
+
+            <Edit />
+
+            <button className="dark:bg-purple-navy dark:border-pigment-blue dark:hover:bg-blue-900 flex w-1/2 items-center text-center bg-midnight-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-midnight-blue focus:bg-purple-navy border-b-4 border-purple-navy ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1">
               <span>Eliminar</span>
             </button>
           </div>

@@ -118,7 +118,7 @@ function Agg() {
         {/* Modal */}
         <Dialog open={open} handler={handleOpen}>
           {/* Cabecera del modal */}
-          <DialogHeader className="border-purple-navy/20 border-b bg-azure text-white">
+          <DialogHeader className="dark:bg-midnight-blue border-purple-navy/20 border-b bg-azure text-white">
             Agregar un Artículo
           </DialogHeader>
           {/* Cuerpo del Modal */}
