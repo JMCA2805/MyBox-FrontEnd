@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Edit from './Modal/Edit'
 
 function Card() {
   const [items, setItems] = useState([]);
@@ -78,8 +79,8 @@ function Card() {
 
           <div className="flex text-white justify-between items-center">
             {/* Agrega padding al div del encabezado */}
-            <button className="flex w-1/2 items-center text-center bg-pigment-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1">
-              <span>Editar</span>
+           <button className="flex items-center text-center bg-azure justify-center h-10 px-4 mx-2 rounded-lg ssm:rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8 ssm:px-0 ssm:mx-0">
+              <Edit/>
             </button>
             <button className="flex w-1/2 items-center text-center bg-midnight-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-midnight-blue focus:bg-purple-navy border-b-4 border-purple-navy ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1">
               <span>Eliminar</span>
