@@ -23,16 +23,6 @@ function Edit() {
   //Creacion del estado del modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
-  const [width, setWidth] = useState(600);
-
-  // Obtener la resolucion
-  const resolution = () => {
-    setWidth(window.innerWidth);
-  };
-  // Actualizar la Resolucion
-  window.addEventListener("resize", () => {
-    resolution();
-  });
 
   // Inputs sin contenidos
   const focusOnFirstEmptyInput = () => {
@@ -105,14 +95,9 @@ function Edit() {
       <Button
         onClick={handleOpen}
         variant="gradient"
-        className="flex items-center text-center bg-azure justify-center h-10 px-4 mx-2 rounded-lg ssm:rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8 ssm:px-0 ssm:mx-0"
+        className=" dark:bg-azure dark:border-pigment-blue dark:hover:bg-purple-navy flex w-1/2 items-center text-center bg-midnight-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pigment-blue focus:bg-purple-navy border-b-4 border-purple-navy ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1"
       >
-        {/* Segun la resolucion el contenido del boton cambia */}
-        {width <= 575 ? (
-          <img src="src\assets\icons\plus.png" alt="+" className="p-1" />
-        ) : (
-          <span className="text-white font-medium">Editar</span>
-        )}
+        <span className="text-white font-medium">Editar</span>
       </Button>
       <>
         {/* Modal */}

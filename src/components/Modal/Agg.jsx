@@ -147,7 +147,7 @@ function Agg() {
                   onChange={(e) => {
                     setImage(e.target.files[0]);
                   }}
-                  className="text-sm text-gray-900 focus:text-purple-navy border border-azure rounded-lg cursor-pointer bg-ghost-white focus:outline-none  mb-4"
+                  className="dark:bg-azure text-sm text-gray-900 focus:text-purple-navy border border-azure rounded-lg cursor-pointer bg-ghost-white focus:outline-none  mb-4"
                 />
               </div>
               <div className="mb-4 w-full">

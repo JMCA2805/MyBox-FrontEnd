@@ -26,7 +26,7 @@ function Card() {
     return dia + "-" + mes + "-" + año;
   };
   return (
-    <div className="grid grid-cols-5 gap-4 px-12 py-12">
+    <div className="grid grid-cols-5 gap-4 px-12 py-12 md:grid-cols-3 ssm:grid-cols-1">
       {items.map((item) => (
         <div className="dark:text-white dark:bg-midnight-blue bg-white rounded-lg shadow-lg overflow-hidden w-full border-purple-navy/30  p-4 h-96 hover:shadow-xl hover:border-azure hover:border-2">
           <div className="relative h-2/5 flex items-center justify-center w-full border-b border-purple-navy/30 dark:border-white/30">
@@ -82,7 +82,7 @@ function Card() {
 
             <Edit />
 
-            <button className="dark:bg-purple-navy dark:border-pigment-blue dark:hover:bg-blue-900 flex w-1/2 items-center text-center bg-midnight-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-midnight-blue focus:bg-purple-navy border-b-4 border-purple-navy ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1">
+            <button className="dark:bg-purple-navy dark:border-pigment-blue dark:hover:bg-blue-900 flex w-1/2 items-center text-center bg-midnight-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pigment-blue focus:bg-purple-navy border-b-4 border-purple-navy ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1">
               <span>Eliminar</span>
             </button>
           </div>
