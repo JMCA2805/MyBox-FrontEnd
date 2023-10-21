@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="pl-6 w-2/6 flex items-center h-full ssm:mb-2 ssm:pl-0 ssm:w-full ssm:justify-center">
           <img src="src\assets\logo_v2.png" alt="Logo" className="h-14" />
         </div>
-        <div className=" text-white font-bold justify-center items-center pl-12 ssm:pl-0 w-4/6 bg-midnight-blue h-2/3 ssm:h-28 rounded-t-lg flex md:text-xs ssm:w-full ssm:flex-col ssm:pt-2 ssm:w-full">
+        <div className=" text-white font-bold justify-center items-center pl-12 ssm:pl-0 w-4/6 bg-midnight-blue h-2/3 ssm:h-28 rounded-t-lg flex md:text-xs ssm:w-full ssm:flex-col ssm:pt-2">
           <div className="w-1/4 ssm:w-full">
             <div className="ssm:text-sm flex justify-center items-center">
               <a

@@ -7,6 +7,29 @@ function NavBar() {
     window.location.reload(false);
   };
 
+  const [theme, setTheme] = useState(() => {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+    return "light";
+  });
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.querySelector("html").classList.add("dark");
+      document.getElementById("theme").style.content =
+        'url("src/assets/icons/moon.png")';
+    } else {
+      document.querySelector("html").classList.remove("dark");
+      document.getElementById("theme").style.content =
+        'url("src/assets/icons/sun.png")';
+    }
+  }, [theme]);
+
+  const handleChangeTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  };
+
   return (
     <>
       {/* Creacion del NavBar */}
@@ -56,13 +79,10 @@ function NavBar() {
           <div className="flex items-center justify-end w-1/2">
             <button
               type="submit"
+              onClick={handleChangeTheme}
               className="flex items-center text-center bg-azure justify-center w-10 h-10 mx-6 rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8  ssm:mx-0"
             >
-              <img
-                src="src\assets\icons\moon.png"
-                alt="Buscar"
-                className="p-2"
-              />
+              <img alt="Buscar" className="p-2" id="theme" />
             </button>
           </div>
         </div>
