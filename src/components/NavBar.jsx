@@ -49,7 +49,7 @@ function NavBar() {
           </button>
         </div>
         {/* Contenedor del Buscar */}
-        <section className="w-4/6 flex justify-center items-center h-full md:w-3/5 ssm:w-2/4">
+        <section className="w-4/6 flex justify-center items-center h-full md:w-3/5 ssm:w-3/4">
           {/* Buscador */}
           <input
             type="text"
@@ -67,22 +67,18 @@ function NavBar() {
               className="p-2"
             />
           </button>
+          <Agg />
         </section>
         {/* Contenedor de botones */}
-        <div className="flex items-center justify-center w-1/6 md:w-1/4 ssm:w-1/5">
-          {/* Contenedor del boton Agregar */}
-          <div className="flex items-center justify-center w-1/2 ">
-            {/* Boton del Modal */}
-            <Agg />
-          </div>
+        <div className="flex items-center justify-center w-1/6 md:w-1/4 ssm:w-1/5 bg-black">
           {/* Contenedor del boton de Modo Oscuro-Claro */}
-          <div className="flex items-center justify-end w-1/2">
+          <div className="flex items-center justify-end w-full">
             <button
               type="submit"
               onClick={handleChangeTheme}
               className="flex items-center text-center bg-azure justify-center w-10 h-10 mx-6 rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8  ssm:mx-0"
             >
-              <img alt="Buscar" className="p-2" id="theme" />
+              <img alt="Claro-Oscuro" className="p-2" id="theme" />
             </button>
           </div>
         </div>

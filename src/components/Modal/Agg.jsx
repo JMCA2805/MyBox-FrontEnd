@@ -1,6 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { Datepicker, FileInput } from "flowbite-react";
+import { useState } from "react";
+import { FileInput } from "flowbite-react";
 import {
   Button,
   Dialog,
@@ -23,16 +23,6 @@ function Agg() {
   //Creacion del estado del modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
-  const [width, setWidth] = useState(600);
-
-  // Obtener la resolucion
-  const resolution = () => {
-    setWidth(window.innerWidth);
-  };
-  // Actualizar la Resolucion
-  window.addEventListener("resize", () => {
-    resolution();
-  });
 
   // Inputs sin contenidos
   const focusOnFirstEmptyInput = () => {
@@ -69,25 +59,14 @@ function Agg() {
   };
 
   const Agregar = async (e) => {
-    const convertImageToBase64 = (file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    };
-
     e.preventDefault();
     const alert = await focusOnFirstEmptyInput();
     if (alert === true) {
       return;
     }
-    const base64Image = await convertImageToBase64(image);
+
     const formData = new FormData();
-    formData.append("image", base64Image);
+    formData.append("image", image);
     formData.append("titulo", titulo);
     formData.append("marca", marca);
     formData.append("modelo", modelo);
@@ -103,7 +82,7 @@ function Agg() {
     setPrecio("");
     setFecha("");
 
-    const response = await fetch("http://localhost:4000/AgregarIItem", {
+    const response = await fetch("http://localhost:4000/AgregarItem", {
       method: "POST",
       body: formData,
     });
@@ -113,18 +92,14 @@ function Agg() {
   return (
     <>
       {/* Boton para abrir el Modal */}
-      <Button
+      <button
         onClick={handleOpen}
         variant="gradient"
-        className="flex items-center text-center bg-azure justify-center h-10 px-4 mx-2 rounded-lg ssm:rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8 ssm:px-0 ssm:mx-0"
+        className="flex items-center bg-azure justify-center w-10 h-10 mx-2 rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8"
       >
         {/* Segun la resolucion el contenido del boton cambia */}
-        {width <= 575 ? (
-          <img src="src\assets\icons\plus.png" alt="+" className="p-1" />
-        ) : (
-          <span className="text-white font-medium">Agregar</span>
-        )}
-      </Button>
+        <img src="src\assets\icons\plus.png" alt="+" className="p-1" />
+      </button>
       <>
         {/* Modal */}
         <Dialog open={open} handler={handleOpen}>
@@ -143,7 +118,8 @@ function Agg() {
             >
               <div className="max-w-md" id="fileUpload">
                 <FileInput
-                  id="file"
+                  name="image"
+                  id="image"
                   onChange={(e) => {
                     setImage(e.target.files[0]);
                   }}
