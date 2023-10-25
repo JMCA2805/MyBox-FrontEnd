@@ -18,15 +18,27 @@ function NavBar() {
     if (theme === "dark") {
       document.querySelector("html").classList.add("dark");
       document.getElementById("theme").style.content =
-        'url("src/assets/icons/moon.png")';
+        'url("src/assets/icons/moon-orange.png")';
       document.getElementById("logo_theme").style.content =
-        'url("src/assets/logo_v2.png")';
+        'url("src/assets/logo.png")';
+      document.getElementById("logo_footer").style.content =
+      'url("src/assets/logo.png")';
+      document.getElementById("search").style.content =
+        'url("src/assets/icons/search-orange.png")';
+      document.getElementById("plus").style.content =
+        'url("src/assets/icons/plus-orange.png")';
     } else {
       document.querySelector("html").classList.remove("dark");
       document.getElementById("theme").style.content =
         'url("src/assets/icons/sun.png")';
       document.getElementById("logo_theme").style.content =
-        'url("src/assets/logo.png")';
+        'url("src/assets/logo_v2.png")';
+      document.getElementById("logo_footer").style.content =
+        'url("src/assets/logo_v2.png")';
+      document.getElementById("search").style.content =
+        'url("src/assets/icons/search-white.png")';
+      document.getElementById("plus").style.content =
+        'url("src/assets/icons/plus.png")';
     }
   }, [theme]);
 
@@ -37,9 +49,9 @@ function NavBar() {
   return (
     <>
       {/* Creacion del NavBar */}
-      <nav className="h-16 w-full bg-white shadow-lg flex ssm:h-12 dark:bg-midnight-blue">
+      <nav className="h-16 w-full bg-dark-tangerine shadow-lg flex ssm:h-12 dark:bg-black">
         {/* Contenedor del logo */}
-        <div className="w-1/6 h-full flex justify-center items-center md:w-1/4 ssm:w-1/4">
+        <div className="w-1/6 h-full flex justify-center items-center md:w-1/4 ssm:w-2/4">
           <button
             onClick={() => {
               reload();
@@ -53,32 +65,28 @@ function NavBar() {
           {/* Buscador */}
           <input
             type="text"
-            className="w-3/6 h-10 text-lg text-gray font-medium px-6 rounded-full border-2 border-azure focus:outline-none focus:border-midnight-blue focus:text-purple-navy ssm:w-3/5 ssm:h-8 dark:bg-purple-navy dark:text-white"
+            className="w-3/6 h-10 text-lg text-gray font-medium px-6 rounded-full border-0 bg-white-smoke focus:text-black ssm:w-3/5 ssm:h-8 dark:bg-woodsmoke dark:border-2 focus:ring-0 dark:focus:text-white dark:placeholder:text-blue-gray-100 dark:border-dark-tangerine dark:text-blue-gray-100"
             placeholder="Buscar"
           />
           {/* Boton de Buscar */}
           <button
             type="submit"
-            className="flex items-center bg-azure justify-center w-10 h-10 mx-2 rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8"
+            className="flex items-center justify-center w-10 h-10 mx-2 rounded-full ssm:w-8 ssm:h-8"
           >
-            <img
-              src="src\assets\icons\search-white.png"
-              alt="Buscar"
-              className="p-2"
-            />
+            <img id="search" alt="Buscar" className="p-1" />
           </button>
           <Agg />
         </section>
         {/* Contenedor de botones */}
-        <div className="flex items-center justify-center w-1/6 md:w-1/4 ssm:w-1/5 bg-black">
+        <div className="flex items-center justify-center w-1/6 md:w-1/4 ssm:w-1/5">
           {/* Contenedor del boton de Modo Oscuro-Claro */}
           <div className="flex items-center justify-end w-full">
             <button
               type="submit"
               onClick={handleChangeTheme}
-              className="flex items-center text-center bg-azure justify-center w-10 h-10 mx-6 rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8  ssm:mx-0"
+              className="flex items-center justify-center w-10 h-10 mx-2 rounded-full ssm:w-8 ssm:h-8"
             >
-              <img alt="Claro-Oscuro" className="p-2" id="theme" />
+              <img alt="Claro-Oscuro" className="p-1" id="theme" />
             </button>
           </div>
         </div>

@@ -95,10 +95,10 @@ function Agg() {
       <button
         onClick={handleOpen}
         variant="gradient"
-        className="flex items-center bg-azure justify-center w-10 h-10 mx-2 rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8"
+        className="flex items-center justify-center w-10 h-10 mx-2 rounded-full ssm:w-8 ssm:h-8"
       >
         {/* Segun la resolucion el contenido del boton cambia */}
-        <img src="src\assets\icons\plus.png" alt="+" className="p-1" />
+        <img id="plus" alt="+"/>
       </button>
       <>
         {/* Modal */}

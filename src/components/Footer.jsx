@@ -2,12 +2,12 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="mt-auto overflow-hidden bg-pigment-blue pt-6 px-12">
+    <footer className="mt-auto overflow-hidden bg-dark-tangerine dark:bg-black pt-6 px-12">
       <div className="flex justify-center items-end w-full h-20 ssm:flex-col ssm:items-center ssm:h-36">
         <div className="pl-6 w-2/6 flex items-center h-full ssm:mb-2 ssm:pl-0 ssm:w-full ssm:justify-center">
-          <img src="src\assets\logo_v2.png" alt="Logo" className="h-14" />
+          <img id="logo_footer" alt="Logo" className="h-14" />
         </div>
-        <div className=" text-white font-bold justify-center items-center pl-12 ssm:pl-0 w-4/6 bg-midnight-blue h-2/3 ssm:h-28 rounded-t-lg flex md:text-xs ssm:w-full ssm:flex-col ssm:pt-2">
+        <div className=" text-white font-bold justify-center items-center pl-12 ssm:pl-0 w-4/6 bg-pizazz dark:bg-black h-2/3 ssm:h-28 rounded-t-lg flex md:text-xs ssm:w-full ssm:flex-col ssm:pt-2">
           <div className="w-1/4 ssm:w-full">
             <div className="ssm:text-sm flex justify-center items-center">
               <a
@@ -72,7 +72,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center px-6 items-end w-full h-20 bg-midnight-blue rounded-l-lg rounded-bl-none ssm:flex-col ssm:justify-center ssm:h-32 ssm:text-xs ssm:items-center ssm:w-full">
+      <div className="flex justify-center px-6 items-end w-full h-20 bg-pizazz dark:bg-black rounded-l-lg rounded-bl-none ssm:flex-col ssm:justify-center ssm:h-32 ssm:text-xs ssm:items-center ssm:w-full">
         <div className="flex flex-col w-2/6 md:text-xs ssm:text-xs ssm:w-full ssm:text-center">
           <span className="text-white/70">Universidad Valle del Momboy</span>
           <span className="text-white/70">Rif XXXXXXXXXXX-X</span>
@@ -124,7 +124,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center w-full bg-midnight-blue">
+      <div className="flex justify-center items-center w-full bg-pizazz dark:bg-black">
         <span className="text-white/70">© 2023 MyBox</span>
       </div>
     </footer>
