@@ -1,13 +1,10 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { Datepicker, FileInput } from "flowbite-react";
+import { useState } from "react";
 import {
-  Button,
   Dialog,
   DialogHeader,
   DialogBody,
   DialogFooter,
-  Input,
 } from "@material-tailwind/react";
 
 function Agg() {
@@ -19,23 +16,37 @@ function Agg() {
   const [cantidad, setCantidad] = useState(null);
   const [precio, setPrecio] = useState(null);
   const [fecha, setFecha] = useState(null);
+  const [inputFile, setInputFile] = useState(null);
+  const [message, setMessage] = useState(null);
 
   //Creacion del estado del modal
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
-  const [width, setWidth] = useState(600);
-
-  // Obtener la resolucion
-  const resolution = () => {
-    setWidth(window.innerWidth);
+  const handleOpen = () => {
+    setOpen(!open);
+    setTitulo("");
+    setImage("");
+    setMarca("");
+    setModelo("");
+    setCantidad("");
+    setPrecio("");
+    setFecha("");
+    setInputFile(null);
   };
-  // Actualizar la Resolucion
-  window.addEventListener("resize", () => {
-    resolution();
-  });
+
+  const [open2, setOpen2] = useState(false);
+  const handleOpen2 = () => setOpen2(!open2);
 
   // Inputs sin contenidos
   const focusOnFirstEmptyInput = () => {
+    if (inputFile === null || inputFile === undefined) {
+      document.getElementById("image").click();
+    }
+
+    if (fecha === null || fecha === "") {
+      document.getElementById("fecha").focus();
+      return true;
+    }
+
     if (titulo === null || titulo === "") {
       document.getElementById("titulo").focus();
       return true;
@@ -61,33 +72,18 @@ function Agg() {
       return true;
     }
 
-    if (fecha === null || fecha === "") {
-      document.getElementById("fecha").focus();
-      return true;
-    }
     return false;
   };
 
   const Agregar = async (e) => {
-    const convertImageToBase64 = (file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    };
-
     e.preventDefault();
     const alert = await focusOnFirstEmptyInput();
     if (alert === true) {
       return;
     }
-    const base64Image = await convertImageToBase64(image);
+
     const formData = new FormData();
-    formData.append("image", base64Image);
+    formData.append("image", image);
     formData.append("titulo", titulo);
     formData.append("marca", marca);
     formData.append("modelo", modelo);
@@ -95,45 +91,35 @@ function Agg() {
     formData.append("precio_adquisicion", precio);
     formData.append("fecha_adquisicion", fecha);
 
-    setTitulo("");
-    setImage("");
-    setMarca("");
-    setModelo("");
-    setCantidad("");
-    setPrecio("");
-    setFecha("");
-
-    const response = await fetch("http://localhost:4000/AgregarIItem", {
+    const response = await fetch("http://localhost:4000/AgregarItem", {
       method: "POST",
       body: formData,
     });
     const data = await response.json();
+    await setMessage(data.message)
+    handleOpen2();
   };
 
   return (
     <>
       {/* Boton para abrir el Modal */}
-      <Button
+      <button
         onClick={handleOpen}
         variant="gradient"
-        className="flex items-center text-center bg-azure justify-center h-10 px-4 mx-2 rounded-lg ssm:rounded-full hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-8 ssm:h-8 ssm:px-0 ssm:mx-0"
+        className="flex items-center justify-center w-10 h-10 mx-2 rounded-full ssm:w-8 ssm:h-8"
       >
         {/* Segun la resolucion el contenido del boton cambia */}
-        {width <= 575 ? (
-          <img src="src\assets\icons\plus.png" alt="+" className="p-1" />
-        ) : (
-          <span className="text-white font-medium">Agregar</span>
-        )}
-      </Button>
+        <img id="plus" alt="+" />
+      </button>
       <>
         {/* Modal */}
         <Dialog open={open} handler={handleOpen}>
           {/* Cabecera del modal */}
-          <DialogHeader className="dark:bg-midnight-blue border-purple-navy/20 border-b bg-azure text-white">
+          <DialogHeader className="dark:bg-black bg-dark-tangerine text-white">
             Agregar un Artículo
           </DialogHeader>
           {/* Cuerpo del Modal */}
-          <DialogBody className="flex justify-center items-center bg-ghost-white">
+          <DialogBody className="flex justify-center items-center bg-white-smoke dark:bg-woodsmoke">
             <form
               className="flex-col flex px-4 justify-center items-center"
               onSubmit={async (e) => {
@@ -141,13 +127,18 @@ function Agg() {
               }}
               encType="multipart/form-data"
             >
-              <div className="max-w-md" id="fileUpload">
-                <FileInput
-                  id="file"
+              <div className="w-full mb-4">
+                <input
+                  type="file"
+                  name="image"
+                  id="image"
+                  className="w-full border-2 rounded-lg border-dark-tangerine dark:border-white file:bg-dark-tangerine file:text-white dark:file:bg-black file:font-bold file:border-none h-10 file:h-full dark:text-white text-gray focus:border-blaze-orange"
+                  accept=".png, .jpg"
                   onChange={(e) => {
                     setImage(e.target.files[0]);
+                    setInputFile(e.target.files[0]);
                   }}
-                  className="dark:bg-azure text-sm text-gray-900 focus:text-purple-navy border border-azure rounded-lg cursor-pointer bg-ghost-white focus:outline-none  mb-4"
+                  required
                 />
               </div>
               <div className="mb-4 w-full">
@@ -155,89 +146,106 @@ function Agg() {
                   type="date"
                   onChange={(e) => {
                     setFecha(e.target.value);
-                    console.log(e.target.value);
                   }}
                   id="fecha"
-                  className="w-full rounded-lg "
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-gray focus:text-black bg-transparent focus:border-blaze-orange dark:focus:border-dark-tangerine"
+                  required
                 />
               </div>
               <div className="mb-4 w-full">
-                <Input
-                  color="blue"
-                  label="Ingrese el titulo"
+                <input
+                  placeholder="Ingrese el titulo"
                   onChange={(e) => {
                     setTitulo(e.target.value);
                   }}
-                  className="focus:border-azure focus:text-purple-navy bg-white"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="titulo"
+                  required
                 />
               </div>
 
               <div className="mb-4 w-full">
-                <Input
-                  color="blue"
-                  label="Ingrese la marca"
+                <input
+                  placeholder="Ingrese la marca"
                   onChange={(e) => {
                     setMarca(e.target.value);
                   }}
-                  className="focus:border-azure focus:text-purple-navy bg-white"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="marca"
                 />
               </div>
               <div className="mb-4 w-full">
-                <Input
-                  color="blue"
-                  label="Ingrese el modelo"
+                <input
+                  placeholder="Ingrese el modelo"
                   onChange={(e) => {
                     setModelo(e.target.value);
                   }}
                   id="modelo"
-                  className="focus:border-azure focus:text-purple-navy bg-white"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                 />
               </div>
               <div className="mb-4 w-full">
-                <Input
-                  color="blue"
-                  label="Ingrese la cantidad"
+                <input
+                  placeholder="Ingrese la cantidad"
                   onChange={(e) => {
                     setCantidad(e.target.value);
                   }}
-                  className="focus:border-azure focus:text-purple-navy bg-white"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="cantidad"
                 />
               </div>
               <div className="mb-4 w-full">
-                <Input
-                  color="blue"
-                  label="Ingrese el precio"
+                <input
+                  placeholder="Ingrese el precio"
                   onChange={(e) => {
                     setPrecio(e.target.value);
                   }}
-                  className="focus:border-azure focus:text-purple-navy bg-white"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="precio"
                 />
               </div>
             </form>
           </DialogBody>
           {/* Footer del Nodal */}
-          <DialogFooter className="flex justify-center items-center">
-            <Button
+          <DialogFooter className="flex justify-center items-center bg-white-smoke dark:bg-black">
+            <button
               onClick={handleOpen}
-              className="flex items-center text-center bg-pigment-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1"
+              className="flex items-center text-center bg-pizazz dark:bg-gray dark:hover:text-dark-tangerine dark:hover:bg-woodsmoke dark:border-0 justify-center h-10 px-4 mx-2 rounded-lg hover:bg-dark-tangerine focus:bg-blaze-orange border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
             >
               <span>Cancelar</span>
-            </Button>
-            <Button
-              className="flex items-center text-center bg-midnight-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-midnight-blue focus:bg-purple-navy border-b-4 border-purple-navy ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1"
+            </button>
+            <button
+              type="submit"
+              className="flex items-center text-center bg-pizazz dark:bg-gray dark:hover:text-dark-tangerine dark:hover:bg-woodsmoke dark:border-0 justify-center h-10 px-4 mx-2 rounded-lg hover:bg-dark-tangerine focus:bg-blaze-orange border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
               onClick={(e) => {
                 Agregar(e);
               }}
             >
               <span>Guardar</span>
-            </Button>
+            </button>
           </DialogFooter>
         </Dialog>
       </>
+      <Dialog open={open2} handler={handleOpen2}>
+        {/* Cabecera del modal */}
+        <DialogHeader className="dark:bg-black bg-dark-tangerine text-white">
+          Aviso
+        </DialogHeader>
+        {/* Cuerpo del Modal */}
+        <DialogBody className="flex justify-center items-center bg-white-smoke dark:bg-woodsmoke dark:text-white text-black font-bold">
+          <span>{message}</span>
+        </DialogBody>
+        <DialogFooter className="flex justify-center items-center bg-white-smoke dark:bg-black">
+          <button
+            onClick={async () => {
+              await handleOpen2();
+            }}
+            className="flex items-center text-center bg-pizazz dark:bg-gray dark:hover:text-dark-tangerine dark:hover:bg-woodsmoke dark:border-0 justify-center h-10 px-4 mx-2 rounded-lg hover:bg-dark-tangerine focus:bg-blaze-orange border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
+          >
+            Aceptar
+          </button>
+        </DialogFooter>
+      </Dialog>
     </>
   );
 }

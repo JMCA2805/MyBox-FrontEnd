@@ -19,15 +19,16 @@ module.exports = withMT({
     extend: {
       colors: {
         white: "#ffffff",
-        "ghost-white": "#f9f9ff",
-        azure: "#3f7ce2",
-        "pigment-blue": "#3035a1",
-        "midnight-blue": "#251e7c",
-        "purple-navy": "#4d4d73",
-        black: "#000000",
+        "white-smoke": "#f5f5f5",
         gray: "#757575",
+        "pastel-orange": "#ffb74d",
+        "dark-tangerine": "#ffa726",
+        "pizazz": "#FF9100",
+        "blaze-orange": "#FF6D00",
+        woodsmoke: "#141414",
+        black: "#000000",
       },
     },
   },
-  plugins: [require("flowbite/plugin")],
+  plugins: [],
 });
