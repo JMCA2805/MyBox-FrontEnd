@@ -26,50 +26,49 @@ function Card() {
     return dia + "-" + mes + "-" + año;
   };
   return (
-    <div className="grid grid-cols-5 gap-4 px-12 py-12 md:grid-cols-3 ssm:grid-cols-1">
+    <div className="grid grid-cols-5 gap-4 p-12 md:grid-cols-3 ssm:grid-cols-2 ssm:p-4">
       {items.map((item) => (
-        <div className="dark:text-white dark:bg-midnight-blue bg-white rounded-lg shadow-lg overflow-hidden w-full border-purple-navy/30  p-4 h-96 hover:shadow-xl hover:border-azure hover:border-2">
-          <div className="relative h-2/5 flex items-center justify-center w-full border-b border-purple-navy/30 dark:border-white/30">
-            {" "}
+        <div className="dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 h-96 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2">
+          <div className="relative h-2/5 flex items-center justify-center w-full border-b border-pizazz/30 bg-white-smoke rounded-t-lg dark:bg-woodsmoke">
             {/* Centra la imagen */}
             <img
-              className="absolute h-full w-full object-cover"
+              className="h-full p-2"
               src={`${item.imagen}`}
               alt={`Imagen de ${item.titulo}`}
             />
           </div>
-          <div className="h-36">
-            <h1 className="text-center text-base font-bold mt-1">
+          <div className="h-36 py-2 ssm:h-32">
+            <h1 className="text-center text-base font-bold mt-1 ssm:text-sm">
               {item.titulo}
             </h1>
             {/* Agrega el título del ítem centrado debajo de la imagen */}
             <div className="flex flex-col">
-              <div className="flex text-sm">
-                <span className="text-sm font-bold">Modelo:</span>
-                <span className="font-normal text-center ml-1  ">
-                  {item.modelo}
-                </span>
-              </div>
-              <div className="flex text-sm">
-                <span className="text-sm font-bold">Marca: </span>
+              <div className="flex text-xs">
+                <span className="text-xs font-bold">Marca: </span>
                 <span className="font-normal text-center ml-1 ">
                   {item.marca}
                 </span>
               </div>
-              <div className="flex text-sm">
-                <span className="text-sm font-bold">Cantidad:</span>
+              <div className="flex text-xs">
+                <span className="text-xs font-bold">Modelo:</span>
+                <span className="font-normal text-center ml-1  ">
+                  {item.modelo}
+                </span>
+              </div>
+              <div className="flex text-xs">
+                <span className="text-xs font-bold">Cantidad:</span>
                 <span className="font-normal text-center ml-1 ">
                   {item.cantidad + " u"}
                 </span>
               </div>
-              <div className="flex text-sm">
-                <span className="text-sm font-bold">Precio:</span>
+              <div className="flex text-xs">
+                <span className="text-xs font-bold">Precio:</span>
                 <span className="font-normal text-center ml-1 ">
                   {item.precio_adquisicion + "$"}
                 </span>
               </div>
               <div className="flex">
-                <span className="text-sm font-bold">Fecha:</span>
+                <span className="text-xs font-bold">Fecha:</span>
                 <span className="font-normal text-center ml-1  text-sm">
                   {formatDate(item.fecha_adquisicion)}
                 </span>
@@ -82,7 +81,7 @@ function Card() {
 
             <Edit />
 
-            <button className="dark:bg-purple-navy dark:border-pigment-blue dark:hover:bg-blue-900 flex w-1/2 items-center text-center bg-midnight-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pigment-blue focus:bg-purple-navy border-b-4 border-purple-navy ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1">
+            <button className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 ml-1 ssm:mx-0 ssm:ml-1 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange w-1/2 ssm:h-8 ssm:px-0 ssm:my-1 ssm:text-xs text-white font-bold">
               <span>Eliminar</span>
             </button>
           </div>

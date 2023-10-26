@@ -92,13 +92,12 @@ function Edit() {
   return (
     <>
       {/* Boton para abrir el Modal */}
-      <Button
+      <button
         onClick={handleOpen}
-        variant="gradient"
-        className=" dark:bg-azure dark:border-pigment-blue dark:hover:bg-purple-navy flex w-1/2 items-center text-center bg-midnight-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pigment-blue focus:bg-purple-navy border-b-4 border-purple-navy ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1"
-      >
-        <span className="text-white font-medium">Editar</span>
-      </Button>
+        className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mr-1 ssm:mx-0 ssm:mr-1 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange w-1/2 ssm:h-8 ssm:px-0 ssm:my-1 ssm:text-xs text-white font-bold"
+        >
+        <span>Editar</span>
+      </button>
       <>
         {/* Modal */}
         <Dialog open={open} handler={handleOpen}>

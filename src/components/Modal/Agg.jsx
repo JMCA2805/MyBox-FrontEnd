@@ -133,7 +133,7 @@ function Agg() {
                   name="image"
                   id="image"
                   className="w-full border-2 rounded-lg border-dark-tangerine dark:border-white file:bg-dark-tangerine file:text-white dark:file:bg-black file:font-bold file:border-none h-10 file:h-full dark:text-white text-gray focus:border-blaze-orange"
-                  accept=".png, .jpg"
+                  accept=".png"
                   onChange={(e) => {
                     setImage(e.target.files[0]);
                     setInputFile(e.target.files[0]);
@@ -210,13 +210,13 @@ function Agg() {
           <DialogFooter className="flex justify-center items-center bg-white-smoke dark:bg-black">
             <button
               onClick={handleOpen}
-              className="flex items-center text-center bg-pizazz dark:bg-gray dark:hover:text-dark-tangerine dark:hover:bg-woodsmoke dark:border-0 justify-center h-10 px-4 mx-2 rounded-lg hover:bg-dark-tangerine focus:bg-blaze-orange border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
+              className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
             >
               <span>Cancelar</span>
             </button>
             <button
               type="submit"
-              className="flex items-center text-center bg-pizazz dark:bg-gray dark:hover:text-dark-tangerine dark:hover:bg-woodsmoke dark:border-0 justify-center h-10 px-4 mx-2 rounded-lg hover:bg-dark-tangerine focus:bg-blaze-orange border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
+              className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
               onClick={(e) => {
                 Agregar(e);
               }}
