@@ -65,7 +65,7 @@ function NavBar() {
           {/* Buscador */}
           <input
             type="text"
-            className="w-3/6 h-10 text-lg text-gray font-medium px-6 rounded-full border-0 bg-white-smoke focus:text-black ssm:w-3/5 ssm:h-8 dark:bg-woodsmoke dark:border-2 focus:ring-0 dark:focus:text-white dark:placeholder:text-blue-gray-100 dark:border-dark-tangerine dark:text-blue-gray-100"
+            className="w-3/6 h-10 text-lg text-gray font-medium px-6 rounded-full border-0 bg-white-smoke focus:text-black ssm:w-3/5 ssm:h-8 dark:bg-woodsmoke dark:border-2 focus:ring-0 dark:focus:text-white dark:placeholder:text-blue-gray-100 dark:border-dark-tangerine dark:text-blue-gray-100 outline-none"
             placeholder="Buscar"
           />
           {/* Boton de Buscar */}
