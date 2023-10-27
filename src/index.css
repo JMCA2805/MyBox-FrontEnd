@@ -2,3 +2,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.dark #github {
+    content: url("src/assets/icons/github-logo-orange.png");
+}
+
+#github {
+    content: url("src/assets/icons/github-logo-240.png");
+}

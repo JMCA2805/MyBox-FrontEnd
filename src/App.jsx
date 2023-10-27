@@ -1,6 +1,6 @@
 import NavBar from "./components/NavBar";
 import Card from './components/Card'
-import Footer from "./components/footer"
+import Footer from "./components/Footer"
 
 function App() {
   return (

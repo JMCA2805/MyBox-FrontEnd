@@ -21,8 +21,6 @@ function NavBar() {
         'url("src/assets/icons/moon-orange.png")';
       document.getElementById("logo_theme").style.content =
         'url("src/assets/logo.png")';
-      document.getElementById("logo_footer").style.content =
-      'url("src/assets/logo.png")';
       document.getElementById("search").style.content =
         'url("src/assets/icons/search-orange.png")';
       document.getElementById("plus").style.content =
@@ -32,8 +30,6 @@ function NavBar() {
       document.getElementById("theme").style.content =
         'url("src/assets/icons/sun.png")';
       document.getElementById("logo_theme").style.content =
-        'url("src/assets/logo_v2.png")';
-      document.getElementById("logo_footer").style.content =
         'url("src/assets/logo_v2.png")';
       document.getElementById("search").style.content =
         'url("src/assets/icons/search-white.png")';
