@@ -10,7 +10,7 @@ import {
   Input,
 } from "@material-tailwind/react";
 
-function Edit() {
+function Edit({item}) {
   // Estableciendo las variables
   const [image, setImage] = useState(null);
   const [titulo, setTitulo] = useState(null);
@@ -64,9 +64,8 @@ function Edit() {
     if (alert === true) {
       return;
     }
-
     const formData = new FormData();
-    formData.append("image", image);
+   // formData.append("image", image);
     formData.append("titulo", titulo);
     formData.append("marca", marca);
     formData.append("modelo", modelo);
@@ -74,13 +73,13 @@ function Edit() {
     formData.append("precio_adquisicion", precio);
     formData.append("fecha_adquisicion", fecha);
 
-    setTitulo("");
-    setImage("");
-    setMarca("");
-    setModelo("");
-    setCantidad("");
-    setPrecio("");
-    setFecha("");
+    setTitulo(item.titulo);
+   // setImage(item.image);
+    setMarca(item.marca);
+    setModelo(item.modelo);
+    setCantidad(item.cantidad);
+    setPrecio(item.precio_adquisicion);
+    setFecha(item.fecha_adquisicion);
 
     const response = await fetch("http://localhost:4000/item/:id", {
       method: "PATCH",
@@ -88,7 +87,19 @@ function Edit() {
     });
     const data = await response.json();
   };
+  
+  const formatDate = (dateString) => {
+    let fecha = new Date(dateString);
+    let dia = fecha.getDate();
+    let mes = fecha.getMonth() + 1; // Los meses en JavaScript empiezan en 0
+    let año = fecha.getFullYear();
 
+    // Asegúrate de que el día y el mes tengan dos dígitos
+    if (dia < 10) dia = "0" + dia;
+    if (mes < 10) mes = "0" + mes;
+
+    return año + "-" + mes + "-" + dia ;
+  };
   return (
     <>
       {/* Boton para abrir el Modal */}
@@ -102,11 +113,11 @@ function Edit() {
         {/* Modal */}
         <Dialog open={open} handler={handleOpen}>
           {/* Cabecera del modal */}
-          <DialogHeader className="dark:bg-midnight-blue border-purple-navy/20 border-b bg-azure text-white">
+          <DialogHeader className="dark:bg-black bg-dark-tangerine text-white">
             Editar un Artículo
           </DialogHeader>
           {/* Cuerpo del Modal */}
-          <DialogBody className="flex justify-center items-center bg-ghost-white">
+          <DialogBody className="flex justify-center items-center bg-white-smoke dark:bg-woodsmoke">
             <form
               className="flex-col flex px-4 justify-center items-center"
               onSubmit={async (e) => {
@@ -114,23 +125,24 @@ function Edit() {
               }}
               encType="multipart/form-data"
             >
-              <div className="max-w-md" id="fileUpload">
+               <div className="w-full mb-4" id="fileUpload">
                 <FileInput
                   id="file"
+                  value={item.image}
                   onChange={(e) => {
                     setImage(e.target.files[0]);
                   }}
                   className="text-sm text-gray-900 focus:text-purple-navy border border-azure rounded-lg cursor-pointer bg-ghost-white focus:outline-none  mb-4"
                 />
-              </div>
+              </div> 
               <div className="mb-4 w-full">
                 <input
                   type="date"
                   onChange={(e) => {
                     setFecha(e.target.value);
-                    console.log(e.target.value);
                   }}
                   id="fecha"
+                  value={formatDate(item.fecha_adquisicion)}
                   className="w-full rounded-lg "
                 />
               </div>
@@ -138,6 +150,7 @@ function Edit() {
                 <Input
                   color="blue"
                   label="Ingrese el titulo"
+                  value={item.titulo}
                   onChange={(e) => {
                     setTitulo(e.target.value);
                   }}
@@ -150,6 +163,7 @@ function Edit() {
                 <Input
                   color="blue"
                   label="Ingrese la marca"
+                  value={item.marca}
                   onChange={(e) => {
                     setMarca(e.target.value);
                   }}
@@ -161,6 +175,7 @@ function Edit() {
                 <Input
                   color="blue"
                   label="Ingrese el modelo"
+                  value={item.modelo}
                   onChange={(e) => {
                     setModelo(e.target.value);
                   }}
@@ -172,6 +187,7 @@ function Edit() {
                 <Input
                   color="blue"
                   label="Ingrese la cantidad"
+                  value={item.cantidad}
                   onChange={(e) => {
                     setCantidad(e.target.value);
                   }}
@@ -183,6 +199,7 @@ function Edit() {
                 <Input
                   color="blue"
                   label="Ingrese el precio"
+                  value={item.precio_adquisicion}
                   onChange={(e) => {
                     setPrecio(e.target.value);
                   }}
@@ -193,15 +210,15 @@ function Edit() {
             </form>
           </DialogBody>
           {/* Footer del Nodal */}
-          <DialogFooter className="flex justify-center items-center">
+          <DialogFooter className="flex justify-center items-center bg-white-smoke dark:bg-black">
             <Button
               onClick={handleOpen}
-              className="flex items-center text-center bg-pigment-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-purple-navy focus:bg-midnight-blue border-b-4 border-midnight-blue ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1"
+              className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
             >
               <span>Cancelar</span>
             </Button>
             <Button
-              className="flex items-center text-center bg-midnight-blue justify-center h-10 px-4 mx-2 rounded-lg hover:bg-midnight-blue focus:bg-purple-navy border-b-4 border-purple-navy ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1"
+              className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
               onClick={(e) => {
                 Editar(e);
               }}
