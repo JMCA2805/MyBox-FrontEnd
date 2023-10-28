@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Datepicker, FileInput } from "flowbite-react";
 import {
   Button,
   Dialog,
@@ -126,7 +125,7 @@ function Edit({item}) {
               encType="multipart/form-data"
             >
                <div className="w-full mb-4" id="fileUpload">
-                <FileInput
+                <input
                   id="file"
                   value={item.image}
                   onChange={(e) => {

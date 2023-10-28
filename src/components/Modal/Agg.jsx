@@ -1,23 +1,24 @@
-import React from "react";
 import { useState } from "react";
 import {
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-} from "@material-tailwind/react";
+  Modal,
+  Button,
+  ButtonIcon,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "./Modal";
 
 function Agg() {
   // Estableciendo las variables
-  const [image, setImage] = useState(null);
-  const [titulo, setTitulo] = useState(null);
-  const [marca, setMarca] = useState(null);
-  const [modelo, setModelo] = useState(null);
-  const [cantidad, setCantidad] = useState(null);
-  const [precio, setPrecio] = useState(null);
-  const [fecha, setFecha] = useState(null);
-  const [inputFile, setInputFile] = useState(null);
-  const [message, setMessage] = useState(null);
+  const [image, setImage] = useState("");
+  const [titulo, setTitulo] = useState("");
+  const [marca, setMarca] = useState("");
+  const [modelo, setModelo] = useState("");
+  const [cantidad, setCantidad] = useState("");
+  const [precio, setPrecio] = useState("");
+  const [fecha, setFecha] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState("");
 
   //Creacion del estado del modal
   const [open, setOpen] = useState(false);
@@ -30,18 +31,23 @@ function Agg() {
     setCantidad("");
     setPrecio("");
     setFecha("");
-    setInputFile(null);
+    const form = document.getElementById("form_agg");
+    form.reset();
   };
 
   const [open2, setOpen2] = useState(false);
   const handleOpen2 = () => setOpen2(!open2);
+  const handleClose = () => {
+    setOpen2(!open2);
+    if (status === 500) {
+      handleOpen2();
+      return;
+    }
+    handleOpen();
+  };
 
   // Inputs sin contenidos
   const focusOnFirstEmptyInput = () => {
-    if (inputFile === null || inputFile === undefined) {
-      document.getElementById("image").click();
-    }
-
     if (fecha === null || fecha === "") {
       document.getElementById("fecha").focus();
       return true;
@@ -77,6 +83,10 @@ function Agg() {
 
   const Agregar = async (e) => {
     e.preventDefault();
+    if (image === null || image === "") {
+      document.getElementById("image").click();
+      return;
+    }
     const alert = await focusOnFirstEmptyInput();
     if (alert === true) {
       return;
@@ -96,35 +106,31 @@ function Agg() {
       body: formData,
     });
     const data = await response.json();
-    await setMessage(data.message)
+    await setMessage(data.message);
+    await setStatus(data.status);
     handleOpen2();
   };
 
   return (
     <>
       {/* Boton para abrir el Modal */}
-      <button
-        onClick={handleOpen}
-        variant="gradient"
-        className="flex items-center justify-center w-10 h-10 mx-2 rounded-full ssm:w-8 ssm:h-8"
-      >
+      <ButtonIcon handleOpen={handleOpen}>
         {/* Segun la resolucion el contenido del boton cambia */}
         <img id="plus" alt="+" />
-      </button>
+      </ButtonIcon>
       <>
         {/* Modal */}
-        <Dialog open={open} handler={handleOpen}>
+        <Modal open={open} handleOpen={handleOpen}>
           {/* Cabecera del modal */}
-          <DialogHeader className="dark:bg-black bg-dark-tangerine text-white">
-            Agregar un Artículo
-          </DialogHeader>
+          <ModalHeader>Agregar un Artículo</ModalHeader>
           {/* Cuerpo del Modal */}
-          <DialogBody className="flex justify-center items-center bg-white-smoke dark:bg-woodsmoke">
+          <ModalBody>
             <form
               className="flex-col flex px-4 justify-center items-center"
               onSubmit={async (e) => {
                 Agregar(e);
               }}
+              id="form_agg"
               encType="multipart/form-data"
             >
               <div className="w-full mb-4">
@@ -136,9 +142,7 @@ function Agg() {
                   accept=".png"
                   onChange={(e) => {
                     setImage(e.target.files[0]);
-                    setInputFile(e.target.files[0]);
                   }}
-                  required
                 />
               </div>
               <div className="mb-4 w-full">
@@ -149,7 +153,6 @@ function Agg() {
                   }}
                   id="fecha"
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-gray focus:text-black bg-transparent focus:border-blaze-orange dark:focus:border-dark-tangerine"
-                  required
                 />
               </div>
               <div className="mb-4 w-full">
@@ -160,7 +163,6 @@ function Agg() {
                   }}
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="titulo"
-                  required
                 />
               </div>
 
@@ -194,7 +196,7 @@ function Agg() {
                   id="cantidad"
                 />
               </div>
-              <div className="mb-4 w-full">
+              <div className="w-full">
                 <input
                   placeholder="Ingrese el precio"
                   onChange={(e) => {
@@ -205,47 +207,36 @@ function Agg() {
                 />
               </div>
             </form>
-          </DialogBody>
+          </ModalBody>
           {/* Footer del Nodal */}
-          <DialogFooter className="flex justify-center items-center bg-white-smoke dark:bg-black">
-            <button
-              onClick={handleOpen}
-              className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
-            >
+          <ModalFooter>
+            <Button handleOpen={handleOpen}>
               <span>Cancelar</span>
-            </button>
+            </Button>
             <button
-              type="submit"
-              className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
               onClick={(e) => {
                 Agregar(e);
               }}
+              className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
             >
               <span>Guardar</span>
             </button>
-          </DialogFooter>
-        </Dialog>
+          </ModalFooter>
+        </Modal>
       </>
-      <Dialog open={open2} handler={handleOpen2}>
+
+      <Modal open={open2} handleOpen={handleClose}>
         {/* Cabecera del modal */}
-        <DialogHeader className="dark:bg-black bg-dark-tangerine text-white">
-          Aviso
-        </DialogHeader>
+        <ModalHeader>Aviso</ModalHeader>
         {/* Cuerpo del Modal */}
-        <DialogBody className="flex justify-center items-center bg-white-smoke dark:bg-woodsmoke dark:text-white text-black font-bold">
-          <span>{message}</span>
-        </DialogBody>
-        <DialogFooter className="flex justify-center items-center bg-white-smoke dark:bg-black">
-          <button
-            onClick={async () => {
-              await handleOpen2();
-            }}
-            className="flex items-center text-center bg-pizazz dark:bg-gray dark:hover:text-dark-tangerine dark:hover:bg-woodsmoke dark:border-0 justify-center h-10 px-4 mx-2 rounded-lg hover:bg-dark-tangerine focus:bg-blaze-orange border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
-          >
-            Aceptar
-          </button>
-        </DialogFooter>
-      </Dialog>
+        <ModalBody>
+          <span className="text-white">{message}</span>
+        </ModalBody>
+        {/* Footer del Modal */}
+        <ModalFooter>
+          <Button handleOpen={handleClose}>Aceptar</Button>
+        </ModalFooter>
+      </Modal>
     </>
   );
 }

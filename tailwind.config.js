@@ -1,12 +1,7 @@
-const withMT = require("@material-tailwind/react/utils/withMT");
 /** @type {import('tailwindcss').Config} */
 
-module.exports = withMT({
-  content: [
-    "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
-  ],
+module.exports = {
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   darkMode: "class",
   theme: {
     screens: {
@@ -23,7 +18,7 @@ module.exports = withMT({
         gray: "#757575",
         "pastel-orange": "#ffb74d",
         "dark-tangerine": "#ffa726",
-        "pizazz": "#FF9100",
+        pizazz: "#FF9100",
         "blaze-orange": "#FF6D00",
         woodsmoke: "#141414",
         black: "#000000",
@@ -31,4 +26,4 @@ module.exports = withMT({
     },
   },
   plugins: [],
-});
+};
