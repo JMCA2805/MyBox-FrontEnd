@@ -1,50 +1,69 @@
-import { useState } from 'react';
-import { Dialog, DialogHeader, DialogBody, DialogFooter, Button } from '@material-tailwind/react';
+import { useState } from "react";
+import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from "./Modal";
 
-function ItemDelete({item}) {
+function ItemDelete({ item }) {
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState("");
   const [open, setOpen] = useState(false);
-
   const handleOpen = () => setOpen(!open);
-  const handleClose = () => setOpen(false);
 
-  const itemId = item._id; // Reemplaza esto con el ID del ítem que 
+  const [open2, setOpen2] = useState(false);
+  const handleOpen2 = () => setOpen2(!open2);
 
-  const handleDelete = () => {
-    const element = document.querySelector('#delete-request .status');
-      fetch(`http://localhost:8000/item/${itemId}`, 
-      { method: 'DELETE' })
-    .then(() => element.innerHTML = 'Delete successful');
-    console.log('Ítem eliminado');
-    handleClose();
+  const handleClose = () => {
+    setOpen2(!open2);
+    if (status === 500) {
+      handleOpen2();
+      return;
+    }
+    handleOpen();
   };
-console.log(item._id)
+
+  const itemId = item._id; // Reemplaza esto con el ID del ítem que
+
+  const handleDelete = async () => {
+    const response = await fetch(`http://localhost:8000/item/${itemId}`, {
+      method: "DELETE"
+    });
+    const data = await response.json();
+    await setMessage(data.message);
+    await setStatus(data.status);
+    handleOpen2();
+  };
 
   return (
     <>
-      <Button 
-      onClick={handleOpen} >
-        Eliminar
-      </Button>
+      <Button handleOpen={handleOpen}> Eliminar</Button>
 
-      <Dialog open={open} size="sm" active={open} onClose={handleClose}>
-        <DialogHeader className="dark:bg-black bg-dark-tangerine text-white" onClose={handleClose}>
-          Confirmar eliminación
-        </DialogHeader>
+      <Modal open={open} handleOpen={handleOpen}>
+        <ModalHeader>Confirmar eliminación</ModalHeader>
 
-        <DialogBody>
-          ¿Estás seguro de que quieres eliminar este ítem?
-        </DialogBody>
+        <ModalBody>¿Estás seguro de que quieres eliminar este ítem?</ModalBody>
 
-        <DialogFooter>
-          <Button color="blue" onClick={handleClose} ripple="dark">
-            Cancelar
-          </Button>
+        <ModalFooter>
+          <Button handleOpen={handleOpen}>Cancelar</Button>
 
-          <Button color="red" onClick={handleDelete} ripple="light">
+          <button
+            className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
+            onClick={handleDelete}
+          >
             Eliminar
-          </Button>
-        </DialogFooter>
-      </Dialog>
+          </button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal open={open2} handleOpen={handleClose}>
+        {/* Cabecera del modal */}
+        <ModalHeader>Aviso</ModalHeader>
+        {/* Cuerpo del Modal */}
+        <ModalBody>
+          <span className="text-black dark:text-white">{message}</span>
+        </ModalBody>
+        {/* Footer del Modal */}
+        <ModalFooter>
+          <Button handleOpen={handleClose}>Aceptar</Button>
+        </ModalFooter>
+      </Modal>
     </>
   );
 }

@@ -29,7 +29,7 @@ function Card() {
   return (
     <div className="grid grid-cols-5 gap-4 p-12 md:grid-cols-3 ssm:grid-cols-2 ssm:p-4">
       {items.map((item) => (
-        <div className="hover:-translate-y-6 hover:scale-105 hover:ease-in hover:duration-300 hover:dark:bg-black dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 h-96 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2">
+        <div id={item._id} className="dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 h-96 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2">
           <div className="h-2/5 flex items-center justify-center w-full border-b border-pizazz/30 bg-white-smoke rounded-t-lg dark:bg-woodsmoke">
             {/* Centra la imagen */}
             <img
@@ -82,9 +82,6 @@ function Card() {
 
             <Edit item={item} />
             <ItemDelete item={item}/>
-            {/* <button className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 ml-1 ssm:mx-0 ssm:ml-1 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange w-1/2 ssm:h-8 ssm:px-0 ssm:my-1 ssm:text-xs text-white font-bold">
-              <span>Eliminar</span>
-            </button> */}
           </div>
         </div>
       ))}
