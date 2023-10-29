@@ -11,13 +11,13 @@ import {
 
 function Edit({item}) {
   // Estableciendo las variables
-  const [image, setImage] = useState(null);
-  const [titulo, setTitulo] = useState(null);
-  const [marca, setMarca] = useState(null);
-  const [modelo, setModelo] = useState(null);
-  const [cantidad, setCantidad] = useState(null);
-  const [precio, setPrecio] = useState(null);
-  const [fecha, setFecha] = useState(null);
+  const [image, setImage] = useState(item.imagen);
+  const [titulo, setTitulo] = useState(item.titulo);
+  const [marca, setMarca] = useState(item.marca);
+  const [modelo, setModelo] = useState(item.modelo);
+  const [cantidad, setCantidad] = useState(item.cantidad);
+  const [precio, setPrecio] = useState(item.precio_adquisicion);
+  const [fecha, setFecha] = useState(item.fecha_adquisicion);
 
   //Creacion del estado del modal
   const [open, setOpen] = useState(false);
@@ -25,35 +25,6 @@ function Edit({item}) {
 
   // Inputs sin contenidos
   const focusOnFirstEmptyInput = () => {
-    if (titulo === null || titulo === "") {
-      document.getElementById("titulo").focus();
-      return true;
-    }
-
-    if (marca === null || marca === "") {
-      document.getElementById("marca").focus();
-      return true;
-    }
-
-    if (modelo === null || modelo === "") {
-      document.getElementById("modelo").focus();
-      return true;
-    }
-
-    if (cantidad === null || cantidad === "") {
-      document.getElementById("cantidad").focus();
-      return true;
-    }
-
-    if (precio === null || precio === "") {
-      document.getElementById("precio").focus();
-      return true;
-    }
-
-    if (fecha === null || fecha === "") {
-      document.getElementById("fecha").focus();
-      return true;
-    }
     return false;
   };
 
@@ -64,7 +35,7 @@ function Edit({item}) {
       return;
     }
     const formData = new FormData();
-   // formData.append("image", image);
+    formData.append("image", image);
     formData.append("titulo", titulo);
     formData.append("marca", marca);
     formData.append("modelo", modelo);
@@ -72,21 +43,24 @@ function Edit({item}) {
     formData.append("precio_adquisicion", precio);
     formData.append("fecha_adquisicion", fecha);
 
+    setImage(item.image);
     setTitulo(item.titulo);
-   // setImage(item.image);
     setMarca(item.marca);
     setModelo(item.modelo);
     setCantidad(item.cantidad);
     setPrecio(item.precio_adquisicion);
     setFecha(item.fecha_adquisicion);
 
-    const response = await fetch("http://localhost:4000/item/:id", {
-      method: "PATCH",
-      body: formData,
-    });
-    const data = await response.json();
+    const itemId = item._id; // Reemplaza esto con el ID del ítem que deseas editar
+    const url = `http://localhost:4000/items/${itemId}`;
+    fetch(url, {
+      method: 'PUT',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
   };
-  
   const formatDate = (dateString) => {
     let fecha = new Date(dateString);
     let dia = fecha.getDate();
@@ -124,16 +98,20 @@ function Edit({item}) {
               }}
               encType="multipart/form-data"
             >
-               <div className="w-full mb-4" id="fileUpload">
+               <div className="w-full mb-4">
                 <input
-                  id="file"
-                  value={item.image}
+                  type="file"
+                  name="image"
+                  id="image"
+                  className="w-full border-2 rounded-lg border-dark-tangerine dark:border-white file:bg-dark-tangerine file:text-white dark:file:bg-black file:font-bold file:border-none h-10 file:h-full dark:text-white text-gray focus:border-blaze-orange"
+                  accept=".png"
                   onChange={(e) => {
                     setImage(e.target.files[0]);
+                    setInputFile(e.target.files[0]);
                   }}
-                  className="text-sm text-gray-900 focus:text-purple-navy border border-azure rounded-lg cursor-pointer bg-ghost-white focus:outline-none  mb-4"
+                  required
                 />
-              </div> 
+              </div>
               <div className="mb-4 w-full">
                 <input
                   type="date"
@@ -141,7 +119,7 @@ function Edit({item}) {
                     setFecha(e.target.value);
                   }}
                   id="fecha"
-                  value={formatDate(item.fecha_adquisicion)}
+                  value={formatDate(fecha)}
                   className="w-full rounded-lg "
                 />
               </div>
@@ -149,12 +127,13 @@ function Edit({item}) {
                 <Input
                   color="blue"
                   label="Ingrese el titulo"
-                  value={item.titulo}
+                  
                   onChange={(e) => {
                     setTitulo(e.target.value);
                   }}
                   className="focus:border-azure focus:text-purple-navy bg-white"
                   id="titulo"
+                  value={titulo}
                 />
               </div>
 
@@ -162,7 +141,7 @@ function Edit({item}) {
                 <Input
                   color="blue"
                   label="Ingrese la marca"
-                  value={item.marca}
+                  value={marca}
                   onChange={(e) => {
                     setMarca(e.target.value);
                   }}
@@ -174,7 +153,7 @@ function Edit({item}) {
                 <Input
                   color="blue"
                   label="Ingrese el modelo"
-                  value={item.modelo}
+                  value={modelo}
                   onChange={(e) => {
                     setModelo(e.target.value);
                   }}
@@ -186,7 +165,7 @@ function Edit({item}) {
                 <Input
                   color="blue"
                   label="Ingrese la cantidad"
-                  value={item.cantidad}
+                  value={cantidad}
                   onChange={(e) => {
                     setCantidad(e.target.value);
                   }}
@@ -198,7 +177,7 @@ function Edit({item}) {
                 <Input
                   color="blue"
                   label="Ingrese el precio"
-                  value={item.precio_adquisicion}
+                  value={precio}
                   onChange={(e) => {
                     setPrecio(e.target.value);
                   }}
@@ -216,14 +195,15 @@ function Edit({item}) {
             >
               <span>Cancelar</span>
             </Button>
-            <Button
+            <button
+              type="submit"
               className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
               onClick={(e) => {
                 Editar(e);
               }}
             >
-              <span>Guardar</span>
-            </Button>
+              <span>Editar</span>
+            </button>
           </DialogFooter>
         </Dialog>
       </>
