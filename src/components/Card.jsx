@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { useItemsContext } from "../UpProvider";
 import Edit from "./Modal/Edit";
 import ItemDelete from "./Modal/Delete";

@@ -1,10 +1,12 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Agg from "./Modal/Agg";
-import { SearchContext } from "../UpProvider";
-function NavBar() {
-  //Recargar la pagina desde cache
-  const { inputSearch, setInputSearch } = useContext(SearchContext);
+import { SearchContext, useUpItemsContext } from "../UpProvider";
 
+function NavBar() {
+  const setInputSearch = useContext(SearchContext);
+  const update = useUpItemsContext();
+
+  //Recargar la pagina desde cache
   const reload = () => {
     window.location.reload(false);
   };
@@ -44,9 +46,15 @@ function NavBar() {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
-  const handleInputSearchChange = (event ) =>{
-    setInputSearch(event.target.value);
-  }
+  const handleInputSearchChange = async (e) => {
+    setInputSearch(e.target.value);
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.keyCode === 13) {
+      update();
+    }
+  };
   return (
     <>
       {/* Creacion del NavBar */}
@@ -68,13 +76,16 @@ function NavBar() {
             type="text"
             className="w-3/6 h-10 text-lg text-gray font-medium px-6 rounded-full border-0 bg-white-smoke focus:text-black ssm:w-3/5 ssm:h-8 dark:bg-woodsmoke dark:border-2 focus:ring-0 dark:focus:text-white dark:placeholder:text-blue-gray-100 dark:border-dark-tangerine dark:text-blue-gray-100 outline-none"
             placeholder="Buscar"
-            value={inputSearch}
             onChange={handleInputSearchChange}
+            onKeyUp={handleKeyUp}
           />
           {/* Boton de Buscar */}
           <button
             type="submit"
             className="flex items-center justify-center w-10 h-10 mx-2 rounded-full ssm:w-8 ssm:h-8"
+            onClick={() => {
+              update();
+            }}
           >
             <img id="search" alt="Buscar" className="p-1" />
           </button>
