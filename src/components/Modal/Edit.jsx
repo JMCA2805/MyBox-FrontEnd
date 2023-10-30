@@ -35,7 +35,6 @@ function Edit({ item }) {
   const [cantidad, setCantidad] = useState(item.cantidad);
   const [precio, setPrecio] = useState(item.precio_adquisicion);
   const [fecha, setFecha] = useState(item.fecha_adquisicion);
-
   //Creacion del estado del modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
@@ -113,7 +112,7 @@ function Edit({ item }) {
               }}
               encType="multipart/form-data"
             >
-              <div className="w-full mb-4">
+               <div className="w-full mb-4">
                 <input
                   type="file"
                   name="image"
@@ -122,7 +121,9 @@ function Edit({ item }) {
                   accept=".png"
                   onChange={(e) => {
                     setImage(e.target.files[0]);
+                    setInputFile(e.target.files[0]);
                   }}
+                  required
                 />
               </div>
               <div className="mb-4 w-full">
@@ -132,6 +133,7 @@ function Edit({ item }) {
                     setFecha(e.target.value);
                   }}
                   id="fecha"
+                  value={formatDate(fecha)}
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-gray focus:text-black bg-transparent focus:border-blaze-orange dark:focus:border-dark-tangerine"
                 />
               </div>
@@ -143,6 +145,7 @@ function Edit({ item }) {
                   }}
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="titulo"
+                  value={titulo}
                 />
               </div>
 
@@ -154,6 +157,7 @@ function Edit({ item }) {
                   }}
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="marca"
+                  value={marca}
                 />
               </div>
               <div className="mb-4 w-full">
@@ -163,6 +167,7 @@ function Edit({ item }) {
                     setModelo(e.target.value);
                   }}
                   id="modelo"
+                  value={modelo}
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                 />
               </div>
@@ -174,6 +179,7 @@ function Edit({ item }) {
                   }}
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="cantidad"
+                  value={cantidad}
                 />
               </div>
               <div className="w-full">
@@ -184,6 +190,7 @@ function Edit({ item }) {
                   }}
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="precio"
+                  value={precio}
                 />
               </div>
             </form>
