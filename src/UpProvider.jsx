@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 
 const itemsContext = React.createContext();
 const upitemsContext = React.createContext();
+export const SearchContext = React.createContext();
 
 export function useItemsContext() {
   return useContext(itemsContext);
@@ -13,6 +14,7 @@ export function useUpItemsContext() {
 
 export default function UpProvider({ children }) {
   const [items, setItems] = useState([]);
+  const [inputSearch, setInputSearch] = useState('');
 
   const fetchData = () => {
     fetch("http://localhost:4000/ListarItem")
@@ -21,7 +23,6 @@ export default function UpProvider({ children }) {
         setItems(data); // Guarda los datos recibidos en el estado
       })
       .catch((error) => console.error("Error:", error));
-      
   };
 
   useEffect(() => {
@@ -31,7 +32,9 @@ export default function UpProvider({ children }) {
   return (
     <itemsContext.Provider value={items}>
       <upitemsContext.Provider value={fetchData}>
-        {children}
+        <SearchContext.Provider value={{ inputSearch, setInputSearch }}>
+          {children}
+        </SearchContext.Provider>
       </upitemsContext.Provider>
     </itemsContext.Provider>
   );
