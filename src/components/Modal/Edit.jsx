@@ -1,17 +1,32 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { useUpItemsContext } from "../../UpProvider";
 import {
+  Modal,
   Button,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  Input,
-} from "@material-tailwind/react";
+  ButtonIcon,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "./Modal";
 
 function Edit({ item }) {
   const update = useUpItemsContext();
+
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState("");
+  const [open2, setOpen2] = useState(false);
+  const handleOpen2 = () => setOpen2(!open2);
+
+  const handleClose = () => {
+    setOpen2(!open2);
+    if (status === 500) {
+      handleOpen2();
+      return;
+    }
+    handleOpen();
+    update()
+  };
+
   // Estableciendo las variables
   const [image, setImage] = useState(item.imagen);
   const [titulo, setTitulo] = useState(item.titulo);
@@ -60,10 +75,14 @@ function Edit({ item }) {
       body: formData,
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        setMessage(data.message);
+        setStatus(data.status);
+        handleOpen2()
+      })
       .catch((error) => console.error("Error:", error));
-    update();
   };
+
   const formatDate = (dateString) => {
     let fecha = new Date(dateString);
     let dia = fecha.getDate();
@@ -79,21 +98,14 @@ function Edit({ item }) {
   return (
     <>
       {/* Boton para abrir el Modal */}
-      <button
-        onClick={handleOpen}
-        className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mr-1 ssm:mx-0 ssm:mr-1 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange w-1/2 ssm:h-8 ssm:px-0 ssm:my-1 ssm:text-xs text-white font-bold"
-      >
-        <span>Editar</span>
-      </button>
+      <Button handleOpen={handleOpen}> Editar</Button>
       <>
         {/* Modal */}
-        <Dialog open={open} handler={handleOpen}>
+        <Modal open={open} handleOpen={handleOpen}>
           {/* Cabecera del modal */}
-          <DialogHeader className="dark:bg-black bg-dark-tangerine text-white">
-            Editar un Artículo
-          </DialogHeader>
+          <ModalHeader>Editar un Artículo</ModalHeader>
           {/* Cuerpo del Modal */}
-          <DialogBody className="flex justify-center items-center bg-white-smoke dark:bg-woodsmoke">
+          <ModalBody>
             <form
               className="flex-col flex px-4 justify-center items-center"
               onSubmit={async (e) => {
@@ -110,9 +122,7 @@ function Edit({ item }) {
                   accept=".png"
                   onChange={(e) => {
                     setImage(e.target.files[0]);
-                    setInputFile(e.target.files[0]);
                   }}
-                  required
                 />
               </div>
               <div className="mb-4 w-full">
@@ -122,92 +132,88 @@ function Edit({ item }) {
                     setFecha(e.target.value);
                   }}
                   id="fecha"
-                  value={formatDate(fecha)}
-                  className="w-full rounded-lg "
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-gray focus:text-black bg-transparent focus:border-blaze-orange dark:focus:border-dark-tangerine"
                 />
               </div>
               <div className="mb-4 w-full">
-                <Input
-                  color="blue"
-                  label="Ingrese el titulo"
+                <input
+                  placeholder="Ingrese el titulo"
                   onChange={(e) => {
                     setTitulo(e.target.value);
                   }}
-                  className="focus:border-azure focus:text-purple-navy bg-white"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="titulo"
-                  value={titulo}
                 />
               </div>
 
               <div className="mb-4 w-full">
-                <Input
-                  color="blue"
-                  label="Ingrese la marca"
-                  value={marca}
+                <input
+                  placeholder="Ingrese la marca"
                   onChange={(e) => {
                     setMarca(e.target.value);
                   }}
-                  className="focus:border-azure focus:text-purple-navy bg-white"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="marca"
                 />
               </div>
               <div className="mb-4 w-full">
-                <Input
-                  color="blue"
-                  label="Ingrese el modelo"
-                  value={modelo}
+                <input
+                  placeholder="Ingrese el modelo"
                   onChange={(e) => {
                     setModelo(e.target.value);
                   }}
                   id="modelo"
-                  className="focus:border-azure focus:text-purple-navy bg-white"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                 />
               </div>
               <div className="mb-4 w-full">
-                <Input
-                  color="blue"
-                  label="Ingrese la cantidad"
-                  value={cantidad}
+                <input
+                  placeholder="Ingrese la cantidad"
                   onChange={(e) => {
                     setCantidad(e.target.value);
                   }}
-                  className="focus:border-azure focus:text-purple-navy bg-white"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="cantidad"
                 />
               </div>
-              <div className="mb-4 w-full">
-                <Input
-                  color="blue"
-                  label="Ingrese el precio"
-                  value={precio}
+              <div className="w-full">
+                <input
+                  placeholder="Ingrese el precio"
                   onChange={(e) => {
                     setPrecio(e.target.value);
                   }}
-                  className="focus:border-azure focus:text-purple-navy bg-white"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                   id="precio"
                 />
               </div>
             </form>
-          </DialogBody>
+          </ModalBody>
           {/* Footer del Nodal */}
-          <DialogFooter className="flex justify-center items-center bg-white-smoke dark:bg-black">
-            <Button
-              onClick={handleOpen}
-              className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
-            >
-              <span>Cancelar</span>
-            </Button>
+          <ModalFooter>
+            <Button handleOpen={handleOpen}>Cancelar</Button>
             <button
-              type="submit"
               className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
               onClick={(e) => {
                 Editar(e);
               }}
             >
-              <span>Editar</span>
+              Guardar
             </button>
-          </DialogFooter>
-        </Dialog>
+          </ModalFooter>
+        </Modal>
+
+        <Modal open={open2} handleOpen={handleClose}>
+        {/* Cabecera del modal */}
+        <ModalHeader>Aviso</ModalHeader>
+        {/* Cuerpo del Modal */}
+        <ModalBody>
+          <span className="text-black dark:text-white">{message}</span>
+        </ModalBody>
+        {/* Footer del Modal */}
+        <ModalFooter>
+          <Button handleOpen={handleClose}>Aceptar</Button>
+        </ModalFooter>
+      </Modal>
       </>
     </>
   );
