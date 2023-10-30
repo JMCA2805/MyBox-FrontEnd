@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import Agg from "./Modal/Agg";
-
+import { SearchContext } from "../UpProvider";
 function NavBar() {
   //Recargar la pagina desde cache
+  const { inputSearch, setInputSearch } = useContext(SearchContext);
+
   const reload = () => {
     window.location.reload(false);
   };
@@ -42,6 +44,9 @@ function NavBar() {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
+  const handleInputSearchChange = (event ) =>{
+    setInputSearch(event.target.value);
+  }
   return (
     <>
       {/* Creacion del NavBar */}
@@ -63,6 +68,8 @@ function NavBar() {
             type="text"
             className="w-3/6 h-10 text-lg text-gray font-medium px-6 rounded-full border-0 bg-white-smoke focus:text-black ssm:w-3/5 ssm:h-8 dark:bg-woodsmoke dark:border-2 focus:ring-0 dark:focus:text-white dark:placeholder:text-blue-gray-100 dark:border-dark-tangerine dark:text-blue-gray-100 outline-none"
             placeholder="Buscar"
+            value={inputSearch}
+            onChange={handleInputSearchChange}
           />
           {/* Boton de Buscar */}
           <button
