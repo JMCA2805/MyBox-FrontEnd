@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useUpItemsContext } from "../../UpProvider";
 import {
   Modal,
   Button,
@@ -9,6 +10,8 @@ import {
 } from "./Modal";
 
 function Agg() {
+  const update = useUpItemsContext();
+
   // Estableciendo las variables
   const [image, setImage] = useState("");
   const [titulo, setTitulo] = useState("");
@@ -108,7 +111,8 @@ function Agg() {
     const data = await response.json();
     await setMessage(data.message);
     await setStatus(data.status);
-    handleOpen2();
+    await handleOpen2();
+    await update();
   };
 
   return (

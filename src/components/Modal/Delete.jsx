@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useUpItemsContext } from "../../UpProvider";
 import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from "./Modal";
 
 function ItemDelete({ item }) {
+  const update = useUpItemsContext();
+
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
   const [open, setOpen] = useState(false);
@@ -17,18 +20,19 @@ function ItemDelete({ item }) {
       return;
     }
     handleOpen();
+    update()
   };
 
   const itemId = item._id; // Reemplaza esto con el ID del ítem que
 
   const handleDelete = async () => {
     const response = await fetch(`http://localhost:8000/item/${itemId}`, {
-      method: "DELETE"
+      method: "DELETE",
     });
     const data = await response.json();
     await setMessage(data.message);
     await setStatus(data.status);
-    handleOpen2();
+    await handleOpen2();
   };
 
   return (

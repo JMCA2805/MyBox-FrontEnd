@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useUpItemsContext } from "../../UpProvider";
 import {
   Button,
   Dialog,
@@ -9,7 +10,8 @@ import {
   Input,
 } from "@material-tailwind/react";
 
-function Edit({item}) {
+function Edit({ item }) {
+  const update = useUpItemsContext();
   // Estableciendo las variables
   const [image, setImage] = useState(item.imagen);
   const [titulo, setTitulo] = useState(item.titulo);
@@ -54,12 +56,13 @@ function Edit({item}) {
     const itemId = item._id; // Reemplaza esto con el ID del ítem que deseas editar
     const url = `http://localhost:4000/items/${itemId}`;
     fetch(url, {
-      method: 'PUT',
-      body: formData
+      method: "PUT",
+      body: formData,
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
+    update();
   };
   const formatDate = (dateString) => {
     let fecha = new Date(dateString);
@@ -71,7 +74,7 @@ function Edit({item}) {
     if (dia < 10) dia = "0" + dia;
     if (mes < 10) mes = "0" + mes;
 
-    return año + "-" + mes + "-" + dia ;
+    return año + "-" + mes + "-" + dia;
   };
   return (
     <>
@@ -79,7 +82,7 @@ function Edit({item}) {
       <button
         onClick={handleOpen}
         className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mr-1 ssm:mx-0 ssm:mr-1 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange w-1/2 ssm:h-8 ssm:px-0 ssm:my-1 ssm:text-xs text-white font-bold"
-        >
+      >
         <span>Editar</span>
       </button>
       <>
@@ -98,7 +101,7 @@ function Edit({item}) {
               }}
               encType="multipart/form-data"
             >
-               <div className="w-full mb-4">
+              <div className="w-full mb-4">
                 <input
                   type="file"
                   name="image"
@@ -127,7 +130,6 @@ function Edit({item}) {
                 <Input
                   color="blue"
                   label="Ingrese el titulo"
-                  
                   onChange={(e) => {
                     setTitulo(e.target.value);
                   }}
