@@ -26,7 +26,7 @@ function ItemDelete({ item }) {
   const itemId = item._id; // Reemplaza esto con el ID del ítem que
 
   const handleDelete = async () => {
-    const response = await fetch(`http://localhost:8000/item/${itemId}`, {
+    const response = await fetch(`http://localhost:4000/item/${itemId}`, {
       method: "DELETE",
     });
     const data = await response.json();
