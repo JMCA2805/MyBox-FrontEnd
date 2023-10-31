@@ -20,7 +20,7 @@ function ItemDelete({ item }) {
       return;
     }
     handleOpen();
-    update()
+    update(true)
   };
 
   const itemId = item._id; // Reemplaza esto con el ID del ítem que

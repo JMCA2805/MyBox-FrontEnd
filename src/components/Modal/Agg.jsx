@@ -112,7 +112,7 @@ function Agg() {
     await setMessage(data.message);
     await setStatus(data.status);
     await handleOpen2();
-    await update();
+    await update(true);
   };
 
   return (

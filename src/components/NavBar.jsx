@@ -48,11 +48,14 @@ function NavBar() {
 
   const handleInputSearchChange = async (e) => {
     setInputSearch(e.target.value);
+    if(e.target.value == ""){
+      update(true)
+    }
   };
 
   const handleKeyUp = (e) => {
     if (e.keyCode === 13) {
-      update();
+      update(false);
     }
   };
   return (

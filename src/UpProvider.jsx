@@ -19,9 +19,8 @@ export function useSearchContext() {
 export default function UpProvider({ children }) {
   const [items, setItems] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
-
-  const fetchData = async () => {
-    if (inputSearch === "" || inputSearch === null || inputSearch === undefined) {
+  const fetchData = async (load) => {
+    if (load === true) {
       fetch("http://localhost:4000/ListarItem")
         .then((res) => res.json())
         .then((data) => {
@@ -32,7 +31,6 @@ export default function UpProvider({ children }) {
       fetch(`http://localhost:4000/FilterProducts/${inputSearch}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           data.length > 0 ? setItems(data) : setItems([]);
         })
         .catch((error) => console.error("Error:", error));
@@ -40,7 +38,7 @@ export default function UpProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(true);
   }, []);
 
   return (
