@@ -1,10 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import Agg from "./Modal/Agg";
-import { SearchContext, useUpItemsContext } from "../UpProvider";
+import { SearchContext, useUpItemsContext } from "../contexts/UpProvider";
 import { Link, useMatch } from "react-router-dom";
 
 function NavBar() {
   const match = useMatch("/");
+  const match2 = useMatch("/Home");
 
   const setInputSearch = useContext(SearchContext);
   const update = useUpItemsContext();
@@ -23,7 +24,7 @@ function NavBar() {
         'url("src/assets/icons/moon-orange.png")';
       document.getElementById("logo_theme").style.content =
         'url("src/assets/logo.png")';
-      if (match) {
+      if (match || match2) {
         document.getElementById("search").style.content =
           'url("src/assets/icons/search-orange.png")';
         document.getElementById("plus").style.content =
@@ -35,7 +36,7 @@ function NavBar() {
         'url("src/assets/icons/sun.png")';
       document.getElementById("logo_theme").style.content =
         'url("src/assets/logo_v2.png")';
-      if (match) {
+      if (match || match2) {
         document.getElementById("search").style.content =
           'url("src/assets/icons/search-white.png")';
         document.getElementById("plus").style.content =
@@ -72,7 +73,7 @@ function NavBar() {
         </div>
         {/* Contenedor del Buscar */}
         <section className="w-4/6 flex justify-center items-center h-full md:w-3/5 ssm:w-3/4">
-          {match ? (
+          {match || match2 ? (
             <>
               {/* Buscador */}
               <input

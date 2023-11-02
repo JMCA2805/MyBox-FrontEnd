@@ -1,4 +1,4 @@
-import UpProvider from "../UpProvider";
+import UpProvider from "../contexts/UpProvider";
 import NavBar from "../components/NavBar";
 import Card from "../components/Card";
 import Footer from "../components/Footer";

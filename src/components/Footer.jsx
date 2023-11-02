@@ -2,9 +2,10 @@ import { useMatch } from "react-router-dom";
 
 const Footer = () => {
   const match = useMatch("/");
+  const match2 = useMatch("/Home");
   return (
     <footer className="mt-auto overflow-hidden bg-pizazz dark:bg-black">
-      {match ? (
+      {match || match2? (
         <>
           <div className="text-white dark:text-pizazz font-bold justify-center items-center w-full ssm:h-28 flex md:text-xs ssm:w-full ssm:flex-col ssm:pt-2 h-12">
             <div className="w-1/4 ssm:w-full">

@@ -1,10 +1,13 @@
 import { useState } from "react";
 import Nav from "../components/NavBar";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
 
 export default function Login() {
-  // Estableciendo las variables
+  const { signin } = useAuth();
+  // Estableciendo las
+  const [data, setData] = useState({});
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -35,15 +38,10 @@ export default function Login() {
       password,
     };
 
-    const response = await fetch("http://localhost:4000/login", {
-      method: "POST",
-      body: JSON.stringify(data_login),
-      headers: { "Content-type": "application/json; charset=UTF-8" }
-    });
-    const data = await response.json();
-    sessionStorage.setItem("token", data.token);
+    await signin(data_login);
     //De dar error falta el mensaje con el modal
   };
+  // if (data.status == 200) return <Navigate to="/Home" replace />;
   return (
     <>
       <Nav />

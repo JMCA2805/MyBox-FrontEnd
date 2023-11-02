@@ -1,4 +1,4 @@
-import { useItemsContext } from "../UpProvider";
+import { useItemsContext } from "../contexts/UpProvider";
 import Edit from "./Modal/Edit";
 import ItemDelete from "./Modal/Delete";
 

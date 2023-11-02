@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUpItemsContext } from "../../UpProvider";
+import { useUpItemsContext } from "../../contexts/UpProvider";
 import {
   Modal,
   Button,
