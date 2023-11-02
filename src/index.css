@@ -66,3 +66,10 @@
   animation: premove-show 1s ease-in-out;;
 }
 
+.dark ::-ms-reveal {
+  filter: invert(100%);
+}
+
+.dark ::-webkit-calendar-picker-indicator {
+  filter: invert(100%);
+}
