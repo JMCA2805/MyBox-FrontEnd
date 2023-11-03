@@ -1,8 +1,13 @@
 import { useItemsContext } from "../contexts/UpProvider";
 import Edit from "./Modal/Edit";
 import ItemDelete from "./Modal/Delete";
+import { useMatch } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
 
 function Card() {
+  const match = useMatch("/");
+  const match2 = useMatch("/Home");
+  const { user, isAuthenticated } = useAuth();
   const items = useItemsContext();
 
   const formatDate = (dateString) => {
@@ -23,9 +28,9 @@ function Card() {
         <div
           key={item._id}
           id={item._id}
-          className="dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 h-96 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2"
+          className={"dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " + (match2 && user.rol == "Admin" ? "h-96" : "h-80")}
         >
-          <div className="h-2/5 flex items-center justify-center w-full border-b border-pizazz/30 bg-white-smoke rounded-t-lg dark:bg-woodsmoke">
+          <div className={"flex items-center justify-center w-full border-b border-pizazz/30 bg-white-smoke rounded-t-lg dark:bg-woodsmoke " + (match2 && user.rol == "Admin" ? "h-2/5 " : "h-2/4")}>
             {/* Centra la imagen */}
             <img
               className="h-full p-2"
@@ -71,13 +76,14 @@ function Card() {
               </div>
             </div>
           </div>
+          {match2 && user.rol == "Admin" ? (
+            <div className="flex text-white justify-between items-center">
+              {/* Agrega padding al div del encabezado */}
 
-          <div className="flex text-white justify-between items-center">
-            {/* Agrega padding al div del encabezado */}
-
-            <Edit item={item} />
-            <ItemDelete item={item} />
-          </div>
+              <Edit item={item} />
+              <ItemDelete item={item} />
+            </div>
+          ) : null}
         </div>
       ))}
     </div>
