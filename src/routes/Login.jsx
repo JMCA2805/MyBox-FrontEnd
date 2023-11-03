@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Nav from "../components/NavBar";
 import Footer from "../components/Footer";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 
 export default function Login() {
+  const navigate = useNavigate()
   const { signin } = useAuth();
   // Estableciendo las
   const [data, setData] = useState({});
@@ -38,10 +39,9 @@ export default function Login() {
       password,
     };
 
-    await signin(data_login);
-    //De dar error falta el mensaje con el modal
+    const response = await signin(data_login);
+    navigate(response)
   };
-  // if (data.status == 200) return <Navigate to="/Home" replace />;
   return (
     <>
       <Nav />

@@ -8,20 +8,28 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState({});
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const signup = async (user) => {
-    // try {
-    //   const res = await registerRequest(user);
-    //   if (res.status === 200) {
-    //     setUser(res.data);
-    //     setIsAuthenticated(true);
-    //   }
-    // } catch (error) {
-    //   console.log(error.response.data);
-    //   setErrors(error.response.data.message);
-    // }
+    const response = await fetch("http://localhost:4000/registro", {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.status == 200) {
+      setUser(data.payload);
+      setIsAuthenticated(true);
+      sessionStorage.setItem("token", data.token);
+      return "/Home";
+    } else {
+      setUser(null);
+      setIsAuthenticated(false);
+      return "/Register";
+    }
   };
 
   const signin = async (user) => {
@@ -31,23 +39,27 @@ export const AuthProvider = ({ children }) => {
       headers: { "Content-type": "application/json; charset=UTF-8" },
     });
     const data = await response.json();
-    console.log(data)
-    setIsAuthenticated(true);
     if (data.status == 200) {
+      setUser(data.payload);
+      setIsAuthenticated(true);
       sessionStorage.setItem("token", data.token);
+      return "/Home";
+    } else {
+      setUser(null);
+      setIsAuthenticated(false);
+      return "/Login";
     }
   };
 
   const logout = () => {
-    // Cookies.remove("token");
-    // setUser(null);
-    // setIsAuthenticated(false);
+    sessionStorage.removeItem("token");
+    setUser(null);
+    setIsAuthenticated(false);
   };
 
   useEffect(() => {
     const checkLogin = async () => {
       const token = sessionStorage.getItem("token");
-
       if (!token) {
         setIsAuthenticated(false);
         setLoading(false);
@@ -63,15 +75,17 @@ export const AuthProvider = ({ children }) => {
           },
         });
         const data = await response.json();
-        console.log(data);
-        // if (!res.data) return setIsAuthenticated(false);
-        // setIsAuthenticated(true);
-        // setUser(res.data);
-        // setLoading(false);
+        if (data.status == 200) {
+          setIsAuthenticated(true);
+          setUser(data.payload);
+          setLoading(false);
+        }
       } catch (error) {
         console.log(error);
         setIsAuthenticated(false);
+        setUser(null);
         setLoading(false);
+        await logout();
       }
     };
     checkLogin();
@@ -85,6 +99,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         isAuthenticated,
         loading,
+        user,
       }}
     >
       {children}

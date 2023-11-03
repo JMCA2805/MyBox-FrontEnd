@@ -1,9 +1,13 @@
 import { useState } from "react";
 import Nav from "../components/NavBar";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
 
 export default function Register() {
+  const navigate = useNavigate()
+  const { signup } = useAuth();
+
   // Estableciendo las variables
   const [name, setName] = useState("");
   const [lastname, setLastName] = useState("");
@@ -70,14 +74,8 @@ export default function Register() {
       gender,
     };
 
-    const response = await fetch("http://localhost:4000/registro", {
-      method: "POST",
-      body: JSON.stringify(data_register),
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-    });
-    const data = await response.json();
-    sessionStorage.setItem("token", data.token);
-    //De dar error falta el mensaje con el modal
+    const response = await signup(data_register);
+    navigate(response)
   };
   return (
     <>

@@ -5,10 +5,9 @@ import Register from "./routes/Register";
 import Login from "./routes/Login";
 import NotFoundPage from "./routes/NotFoundPage";
 import ProtectedRoute from "./ProtectedRoute";
-import { AuthProvider } from "./contexts/AuthProvider";
+import { AuthProvider, useAuth } from "./contexts/AuthProvider";
 
 function App() {
-  const [user, setUser] = useState(null);
   return (
     <>
       <AuthProvider>
@@ -19,7 +18,7 @@ function App() {
             <Route path="/Login" element={<Login />} />
             <Route path="*" element={<NotFoundPage />} />
             {/* //Faltan los permisos */}
-            <Route element={<ProtectedRoute />}>
+            <Route element={<ProtectedRoute rol={["User","Admin"]}/>}>
               <Route path="/Home" element={<MyBox />} />
             </Route>
           </Routes>
