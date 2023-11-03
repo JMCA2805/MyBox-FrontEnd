@@ -1,0 +1,115 @@
+/* Config Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dark #github {
+  content: url("src/assets/icons/github-logo-orange.png");
+}
+
+#github {
+  content: url("src/assets/icons/github-logo-240.png");
+}
+
+.dark #theme {
+  content: url("src/assets/icons/moon-orange.png");
+}
+
+#theme {
+  content: url("src/assets/icons/sun.png");
+}
+
+.dark #logo_theme {
+  content: url("src/assets/logo.png");
+}
+
+#logo_theme {
+  content: url("src/assets/logo_v2.png");
+}
+
+.dark #search {
+  content: url("src/assets/icons/search-orange.png");
+}
+
+#search {
+  content: url("src/assets/icons/search-white.png");
+}
+
+.dark #plus {
+  content: url("src/assets/icons/plus-orange.png");
+}
+
+#plus {
+  content: url("src/assets/icons/plus.png");
+}
+
+.dark #menu {
+  content: url("src/assets/icons/menu-regular-240-orange.png");
+}
+
+#menu {
+  content: url("src/assets/icons/menu-regular-240.png");
+}
+
+@keyframes move-show {
+  0% {
+    transform: translate(0, -100px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes premove-show {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(0, -100px);
+  }
+}
+
+@keyframes opacity-show {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 100;
+  }
+}
+
+@keyframes opacity-hidden {
+  0% {
+    opacity: 100;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.prevshow {
+  animation: opacity-hidden 1s linear;
+}
+.show {
+  animation: opacity-show 1s linear;
+}
+
+.move {
+  animation: move-show 1s ease-in-out;
+}
+
+.premove {
+  animation: premove-show 1s ease-in-out;;
+}
+
+.dark ::-ms-reveal {
+  filter: invert(100%);
+}
+
+.dark ::-webkit-calendar-picker-indicator {
+  filter: invert(100%);
+}
