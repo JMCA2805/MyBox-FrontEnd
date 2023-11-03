@@ -22,15 +22,54 @@ function Card() {
 
     return dia + "-" + mes + "-" + año;
   };
+
+  const favorito = async (fav) => {
+    const response = await fetch("http://localhost:4000/favoritos", {
+      method: "POST",
+      body: JSON.stringify(fav),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    });
+    const data = await response.json();
+    console.log(data);
+  };
+
   return (
     <div className="grid grid-cols-5 gap-4 p-12 md:grid-cols-3 ssm:grid-cols-2 ssm:p-4">
       {items.map((item) => (
         <div
           key={item._id}
           id={item._id}
-          className={"dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " + (match2 && user.rol == "Admin" ? "h-96" : "h-80")}
+          className={
+            "relative dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " +
+            (match2 && user.rol == "Admin" ? "h-96" : "h-80")
+          }
         >
-          <div className={"flex items-center justify-center w-full border-b border-pizazz/30 bg-white-smoke rounded-t-lg dark:bg-woodsmoke " + (match2 && user.rol == "Admin" ? "h-2/5 " : "h-2/4")}>
+          {match2 && user.rol == "User" ? (
+            <>
+              <button
+                className="absolute w-10 h-10 right-0 top-0 dark:bg-transparent bg-white rounded-full hover:border-2 hover:border-dark-tangerine"
+                onClick={() => {
+                  favorito({ categoria: item._id, userId: user.username });
+                  //"Funcion para cambiar el icono por el relleno y agregar a favorito"
+                  //Usar un true para confirmar el response de que esta en favorito y false para no estar en favorito
+                  //Y ese mismo tru usar para ver si se va a guardar de favoritos o eliminar
+                }}
+              >
+                {/* Centra la imagen */}
+                <img
+                  className="h-full p-1"
+                  src="src\assets\icons\star-regular-240.png"
+                  alt="Estrella"
+                />
+              </button>
+            </>
+          ) : null}
+          <div
+            className={
+              "flex items-center justify-center w-full border-b border-pizazz/30 bg-white-smoke rounded-t-lg dark:bg-woodsmoke " +
+              (match2 && user.rol == "Admin" ? "h-2/5 " : "h-2/4")
+            }
+          >
             {/* Centra la imagen */}
             <img
               className="h-full p-2"
