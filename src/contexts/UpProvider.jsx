@@ -18,17 +18,18 @@ export function useSearchContext() {
 
 export default function UpProvider({ children }) {
   const [items, setItems] = useState([]);
+  const [listCategory, setListCategory] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
   const fetchData = async (load) => {
     if (load === true) {
-      fetch("http://localhost:4000/ListarItem")
+      await fetch("http://localhost:4000/ListarItem")
         .then((res) => res.json())
         .then((data) => {
           setItems(data);
         })
         .catch((error) => console.error("Error:", error));
     } else {
-      fetch(`http://localhost:4000/FilterProducts/${inputSearch}`)
+      await fetch(`http://localhost:4000/FilterProducts/${inputSearch}`)
         .then((res) => res.json())
         .then((data) => {
           data.length > 0 ? setItems(data) : setItems([]);
@@ -36,9 +37,33 @@ export default function UpProvider({ children }) {
         .catch((error) => console.error("Error:", error));
     }
   };
+  const getCategory = async () => {
+    await fetch("http://localhost:4000/Listar_categorias")
+      .then((res) => res.json())
+      .then((data) => {
+        setListCategory(data);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  const addCategory = async () => {
+    const formData = new FormData();
+    formData.append("name", subcategory);
+
+    await fetch("http://localhost:4000/Agregar_categorias", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
 
   useEffect(() => {
     fetchData(true);
+    getCategory();
   }, []);
 
   //Data de Agg
@@ -48,6 +73,7 @@ export default function UpProvider({ children }) {
   const [marca, setMarca] = useState("");
   const [modelo, setModelo] = useState("");
   const [category, setCategory] = useState("");
+  const [subcategory, setSubCategory] = useState("");
   const [cantidad, setCantidad] = useState("");
   const [precio, setPrecio] = useState("");
   const [fecha, setFecha] = useState("");
@@ -61,6 +87,7 @@ export default function UpProvider({ children }) {
     setMarca("");
     setModelo("");
     setCategory("");
+    setSubCategory("");
     setCantidad("");
     setPrecio("");
     setFecha("");
@@ -94,7 +121,7 @@ export default function UpProvider({ children }) {
   const [openMessage, setOpenMessage] = useState(false);
   const handleOpenMessage = () => setOpenMessage(!openMessage);
   const handleClose = () => {
-    if (status === 500) {
+    if (status != 200) {
       handleOpenMessage();
       setMessage("");
       return;
@@ -107,6 +134,7 @@ export default function UpProvider({ children }) {
     fetchData(true);
     setMessage("");
   };
+
   return (
     <itemsContext.Provider
       value={{
@@ -146,6 +174,11 @@ export default function UpProvider({ children }) {
         setOpenMessage,
         handleClose,
         handleOpenMessage,
+        listCategory,
+        getCategory,
+        addCategory,
+        subcategory,
+        setSubCategory,
       }}
     >
       <upitemsContext.Provider value={fetchData}>

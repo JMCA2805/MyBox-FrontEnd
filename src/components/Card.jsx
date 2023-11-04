@@ -51,7 +51,7 @@ function Card() {
           key={item._id}
           id={item._id}
           className={
-            "relative z-0 dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " +
+            "hover:-translate-y-6 hover:scale-105 hover:ease-in hover:duration-300 hover:dark:bg-black relative z-0 dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " +
             (match2 && user.rol == "Admin" ? "h-96" : "h-80")
           }
         >

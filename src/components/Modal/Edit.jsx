@@ -3,6 +3,8 @@ import { useItemsContext } from "../../contexts/UpProvider";
 import { useEffect, useState } from "react";
 
 function Edit() {
+  const [hidden, setHidden] = useState(" hidden");
+
   //Creacion del estado del modal
   const {
     openEdit,
@@ -27,7 +29,21 @@ function Edit() {
     setStatus,
     item,
     handleOpenMessage,
+    listCategory,
+    getCategory,
+    subcategory,
+    setSubCategory,
+    addCategory,
   } = useItemsContext();
+
+  const handleHidden = () => {
+    category === "true" ? setHidden(" flex") : setHidden(" hidden");
+    setSubCategory("");
+  };
+
+  useEffect(() => {
+    handleHidden();
+  }, [category]);
 
   // Inputs sin contenidos
   const focusOnFirstEmptyInput = () => {
@@ -51,11 +67,17 @@ function Edit() {
       return true;
     }
 
-    if (category === null || category === "") {
-      document.getElementById("category").focus();
-      return true;
+    if (category === "true" && subcategory == "") {
+      if (subcategory === null || subcategory === "") {
+        document.getElementById("categoryEdit").focus();
+        return true;
+      }
+    } else {
+      if (category === null || category === "") {
+        document.getElementById("category_select_edit").focus();
+        return true;
+      }
     }
-
     if (cantidad === null || cantidad === "") {
       document.getElementById("cantidad").focus();
       return true;
@@ -79,7 +101,12 @@ function Edit() {
     formData.append("titulo", titulo);
     formData.append("marca", marca);
     formData.append("modelo", modelo);
-    formData.append("category", category);
+    if (category == "true" && subcategory != "") {
+      formData.append("category", subcategory);
+      await addCategory();
+    } else {
+      formData.append("category", category);
+    }
     formData.append("cantidad", cantidad);
     formData.append("precio_adquisicion", precio);
     formData.append("fecha_adquisicion", fecha);
@@ -97,6 +124,7 @@ function Edit() {
         handleOpenMessage();
       })
       .catch((error) => console.error("Error:", error));
+      await getCategory()
   };
 
   const formatDate = (dateString) => {
@@ -146,7 +174,7 @@ function Edit() {
                   onChange={(e) => {
                     setFecha(e.target.value);
                   }}
-                  value={formatDate(fecha=="" ? "01/01/1111" :fecha)}
+                  value={formatDate(fecha == "" ? "01/01/1111" : fecha)}
                   id="fecha"
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-gray focus:text-black bg-transparent focus:border-blaze-orange dark:focus:border-dark-tangerine"
                 />
@@ -186,13 +214,30 @@ function Edit() {
                 />
               </div>
               <div className="mb-4 w-full">
+                <select
+                  onChange={(e) => setCategory(e.target.value)}
+                  name="category_select_edit"
+                  id="category_select_edit"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange bg-white dark:bg-black"
+                >
+                  <option value={category}>{"Categoría actual: " + category}</option>
+                  {listCategory
+                    ? listCategory.map((cat) => (
+                        <option key={cat._id} value={cat.name}>
+                          {cat.name}
+                        </option>
+                      ))
+                    : null}
+                  <option value={true}>Agregar otro</option>
+                </select>
+              </div>
+              <div className={"mb-4 w-full " + hidden}>
                 <input
-                  placeholder="Ingrese la categoría"
+                  placeholder="Ingrese la Categoría"
                   onChange={(e) => {
-                    setCategory(e.target.value);
+                    setSubCategory(e.target.value);
                   }}
-                  value={category}
-                  id="category"
+                  id="categoryEdit"
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                 />
               </div>

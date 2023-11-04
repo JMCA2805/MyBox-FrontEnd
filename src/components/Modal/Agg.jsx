@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useItemsContext, useUpItemsContext } from "../../contexts/UpProvider";
 import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from "./Modal";
 
 function Agg() {
   const update = useUpItemsContext();
+  const [hidden, setHidden] = useState(" hidden");
 
   //Creacion del estado del modal
   const {
@@ -28,8 +29,21 @@ function Agg() {
     setMessage,
     setStatus,
     handleOpenMessage,
+    listCategory,
+    getCategory,
+    subcategory,
+    setSubCategory,
+    addCategory,
   } = useItemsContext();
 
+  const handleHidden = () => {
+    category === "true" ? setHidden(" flex") : setHidden(" hidden");
+    setSubCategory("");
+  };
+
+  useEffect(() => {
+    handleHidden();
+  }, [category]);
   // Inputs sin contenidos
   const focusOnFirstEmptyInput = () => {
     if (fecha === null || fecha === "") {
@@ -52,9 +66,16 @@ function Agg() {
       return true;
     }
 
-    if (category === null || category === "") {
-      document.getElementById("categoryAgg").focus();
-      return true;
+    if (category === "true" && subcategory == "") {
+      if (subcategory === null || subcategory === "") {
+        document.getElementById("categoryAgg").focus();
+        return true;
+      }
+    } else {
+      if (category === null || category === ""  || category === "false") {
+        document.getElementById("category_select").focus();
+        return true;
+      }
     }
 
     if (cantidad === null || cantidad === "") {
@@ -86,7 +107,12 @@ function Agg() {
     formData.append("titulo", titulo);
     formData.append("marca", marca);
     formData.append("modelo", modelo);
-    formData.append("category", category);
+    if (category == "true" && subcategory != "") {
+      formData.append("category", subcategory);
+      await addCategory();
+    } else {
+      formData.append("category", category);
+    }
     formData.append("cantidad", cantidad);
     formData.append("precio_adquisicion", precio);
     formData.append("fecha_adquisicion", fecha);
@@ -99,6 +125,7 @@ function Agg() {
     await setMessage(data.message);
     await setStatus(data.status);
     handleOpenMessage();
+    await getCategory()
     await update(true);
   };
 
@@ -172,11 +199,29 @@ function Agg() {
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                 />
               </div>
-               <div className="mb-4 w-full">
+              <div className="mb-4 w-full">
+                <select
+                  onChange={(e) => setCategory(e.target.value)}
+                  name="category_select"
+                  id="category_select"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange bg-white dark:bg-black"
+                >
+                  <option value={false}>Seleccione la categoría</option>
+                  {listCategory
+                    ? listCategory.map((cat) => (
+                        <option key={cat._id} value={cat.name}>
+                          {cat.name}
+                        </option>
+                      ))
+                    : null}
+                  <option value={true}>Agregar otro</option>
+                </select>
+              </div>
+              <div className={"mb-4 w-full " + hidden}>
                 <input
                   placeholder="Ingrese la Categoría"
                   onChange={(e) => {
-                    setCategory(e.target.value);
+                    setSubCategory(e.target.value);
                   }}
                   id="categoryAgg"
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
