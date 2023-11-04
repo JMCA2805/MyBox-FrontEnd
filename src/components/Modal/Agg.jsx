@@ -1,83 +1,62 @@
 import { useState } from "react";
-import { useUpItemsContext } from "../../contexts/UpProvider";
-import {
-  Modal,
-  Button,
-  ButtonIcon,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "./Modal";
+import { useItemsContext, useUpItemsContext } from "../../contexts/UpProvider";
+import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from "./Modal";
 
 function Agg() {
   const update = useUpItemsContext();
 
-  // Estableciendo las variables
-  const [image, setImage] = useState("");
-  const [titulo, setTitulo] = useState("");
-  const [marca, setMarca] = useState("");
-  const [modelo, setModelo] = useState("");
-  const [cantidad, setCantidad] = useState("");
-  const [precio, setPrecio] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState("");
-
   //Creacion del estado del modal
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(!open);
-    setTitulo("");
-    setImage("");
-    setMarca("");
-    setModelo("");
-    setCantidad("");
-    setPrecio("");
-    setFecha("");
-    const form = document.getElementById("form_agg");
-    form.reset();
-  };
-
-  const [open2, setOpen2] = useState(false);
-  const handleOpen2 = () => setOpen2(!open2);
-  const handleClose = () => {
-    setOpen2(!open2);
-    if (status === 500) {
-      handleOpen2();
-      return;
-    }
-    handleOpen();
-  };
+  const {
+    openAgg,
+    handleOpenAgg,
+    image,
+    setImage,
+    titulo,
+    setTitulo,
+    marca,
+    setMarca,
+    modelo,
+    setModelo,
+    cantidad,
+    setCantidad,
+    precio,
+    setPrecio,
+    fecha,
+    setFecha,
+    setMessage,
+    setStatus,
+    handleOpenMessage,
+  } = useItemsContext();
 
   // Inputs sin contenidos
   const focusOnFirstEmptyInput = () => {
     if (fecha === null || fecha === "") {
-      document.getElementById("fecha").focus();
+      document.getElementById("fechaAgg").focus();
       return true;
     }
 
     if (titulo === null || titulo === "") {
-      document.getElementById("titulo").focus();
+      document.getElementById("tituloAgg").focus();
       return true;
     }
 
     if (marca === null || marca === "") {
-      document.getElementById("marca").focus();
+      document.getElementById("marcaAgg").focus();
       return true;
     }
 
     if (modelo === null || modelo === "") {
-      document.getElementById("modelo").focus();
+      document.getElementById("modeloAgg").focus();
       return true;
     }
 
     if (cantidad === null || cantidad === "") {
-      document.getElementById("cantidad").focus();
+      document.getElementById("cantidadAgg").focus();
       return true;
     }
 
     if (precio === null || precio === "") {
-      document.getElementById("precio").focus();
+      document.getElementById("precioAgg").focus();
       return true;
     }
 
@@ -87,7 +66,7 @@ function Agg() {
   const Agregar = async (e) => {
     e.preventDefault();
     if (image === null || image === "") {
-      document.getElementById("image").click();
+      document.getElementById("imageAgg").click();
       return;
     }
     const alert = await focusOnFirstEmptyInput();
@@ -111,20 +90,15 @@ function Agg() {
     const data = await response.json();
     await setMessage(data.message);
     await setStatus(data.status);
-    await handleOpen2();
+    handleOpenMessage();
     await update(true);
   };
 
   return (
     <>
-      {/* Boton para abrir el Modal */}
-      <ButtonIcon handleOpen={handleOpen}>
-        {/* Segun la resolucion el contenido del boton cambia */}
-        <img id="plus" alt="+" />
-      </ButtonIcon>
       <>
         {/* Modal */}
-        <Modal open={open} handleOpen={handleOpen}>
+        <Modal open={openAgg} handleOpen={handleOpenAgg}>
           {/* Cabecera del modal */}
           <ModalHeader>Agregar un Artículo</ModalHeader>
           {/* Cuerpo del Modal */}
@@ -141,7 +115,7 @@ function Agg() {
                 <input
                   type="file"
                   name="image"
-                  id="image"
+                  id="imageAgg"
                   className="w-full border-2 rounded-lg border-dark-tangerine dark:border-white file:bg-dark-tangerine file:text-white dark:file:bg-black file:font-bold file:border-none h-10 file:h-full dark:text-white text-gray focus:border-blaze-orange"
                   accept=".png"
                   onChange={(e) => {
@@ -155,7 +129,7 @@ function Agg() {
                   onChange={(e) => {
                     setFecha(e.target.value);
                   }}
-                  id="fecha"
+                  id="fechaAgg"
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-gray focus:text-black bg-transparent focus:border-blaze-orange dark:focus:border-dark-tangerine"
                 />
               </div>
@@ -166,7 +140,7 @@ function Agg() {
                     setTitulo(e.target.value);
                   }}
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
-                  id="titulo"
+                  id="tituloAgg"
                 />
               </div>
 
@@ -177,7 +151,7 @@ function Agg() {
                     setMarca(e.target.value);
                   }}
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
-                  id="marca"
+                  id="marcaAgg"
                 />
               </div>
               <div className="mb-4 w-full">
@@ -186,7 +160,7 @@ function Agg() {
                   onChange={(e) => {
                     setModelo(e.target.value);
                   }}
-                  id="modelo"
+                  id="modeloAgg"
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                 />
               </div>
@@ -197,7 +171,7 @@ function Agg() {
                     setCantidad(e.target.value);
                   }}
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
-                  id="cantidad"
+                  id="cantidadAgg"
                 />
               </div>
               <div className="w-full">
@@ -207,14 +181,14 @@ function Agg() {
                     setPrecio(e.target.value);
                   }}
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
-                  id="precio"
+                  id="precioAgg"
                 />
               </div>
             </form>
           </ModalBody>
           {/* Footer del Nodal */}
           <ModalFooter>
-            <Button handleOpen={handleOpen}>
+            <Button handleOpen={handleOpenAgg}>
               <span>Cancelar</span>
             </Button>
             <button
@@ -228,19 +202,6 @@ function Agg() {
           </ModalFooter>
         </Modal>
       </>
-
-      <Modal open={open2} handleOpen={handleClose}>
-        {/* Cabecera del modal */}
-        <ModalHeader>Aviso</ModalHeader>
-        {/* Cuerpo del Modal */}
-        <ModalBody>
-          <span className="text-white">{message}</span>
-        </ModalBody>
-        {/* Footer del Modal */}
-        <ModalFooter>
-          <Button handleOpen={handleClose}>Aceptar</Button>
-        </ModalFooter>
-      </Modal>
     </>
   );
 }

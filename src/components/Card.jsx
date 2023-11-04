@@ -1,14 +1,25 @@
 import { useItemsContext } from "../contexts/UpProvider";
-import Edit from "./Modal/Edit";
 import ItemDelete from "./Modal/Delete";
+import { Button } from "./Modal/Modal";
 import { useMatch } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 
 function Card() {
-  const match = useMatch("/");
   const match2 = useMatch("/Home");
-  const { user, isAuthenticated } = useAuth();
-  const items = useItemsContext();
+  const { user } = useAuth();
+  const {
+    items,
+    setItem,
+    handleOpenEdit,
+    handleOpenDel,
+    setImage,
+    setTitulo,
+    setMarca,
+    setModelo,
+    setCantidad,
+    setPrecio,
+    setFecha,
+  } = useItemsContext();
 
   const formatDate = (dateString) => {
     let fecha = new Date(dateString);
@@ -40,7 +51,7 @@ function Card() {
           key={item._id}
           id={item._id}
           className={
-            "relative dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " +
+            "relative z-0 dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " +
             (match2 && user.rol == "Admin" ? "h-96" : "h-80")
           }
         >
@@ -117,10 +128,30 @@ function Card() {
           </div>
           {match2 && user.rol == "Admin" ? (
             <div className="flex text-white justify-between items-center">
-              {/* Agrega padding al div del encabezado */}
-
-              <Edit item={item} />
-              <ItemDelete item={item} />
+              {/* Boton para abrir el Modal */}
+              <Button
+                handleOpen={async () => {
+                  handleOpenEdit();
+                  setItem(item);
+                  setImage(item.image);
+                  setTitulo(item.titulo);
+                  setMarca(item.marca);
+                  setModelo(item.modelo);
+                  setCantidad(item.cantidad);
+                  setPrecio(item.precio_adquisicion);
+                  setFecha(item.fecha_adquisicion);
+                }}
+              >
+                Editar
+              </Button>
+              <Button
+                handleOpen={() => {
+                  setItem(item);
+                  handleOpenDel();
+                }}
+              >
+                Eliminar
+              </Button>
             </div>
           ) : null}
         </div>

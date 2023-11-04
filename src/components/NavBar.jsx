@@ -1,12 +1,18 @@
 import { useState, useEffect, useContext } from "react";
-import Agg from "./Modal/Agg";
-import { SearchContext, useUpItemsContext } from "../contexts/UpProvider";
+import {
+  SearchContext,
+  useItemsContext,
+  useUpItemsContext,
+} from "../contexts/UpProvider";
 import { Link, useMatch } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
+import { ButtonIcon } from "./Modal/Modal";
 
 function NavBar() {
   const match = useMatch("/");
   const match2 = useMatch("/Home");
+  const { handleOpenAgg } = useItemsContext();
+
   const { user, isAuthenticated } = useAuth();
   const [menu, setMenu] = useState(false);
 
@@ -78,14 +84,24 @@ function NavBar() {
               >
                 <img id="search" alt="Buscar" className="p-1" />
               </button>
-              {match2 && user.rol == "Admin" ? <Agg /> : null}
+              {match2 && user.rol == "Admin" ? (
+                /* Boton para abrir el Modal */
+                <ButtonIcon handleOpen={handleOpenAgg}>
+                  <img id="plus" alt="+" />
+                </ButtonIcon>
+              ) : null}
             </>
           ) : null}
         </section>
         {/* Contenedor de botones */}
         <div className="flex items-center justify-end w-1/6 md:w-1/4 ssm:w-1/5">
           {/* Contenedor del boton de Modo Oscuro-Claro */}
-          <div className={"flex items-center justify-center w-1/3 h-full "+ (match ? "ssm:w-1/2" : "ssm:w-full")}>
+          <div
+            className={
+              "flex items-center justify-center w-1/3 h-full " +
+              (match ? "ssm:w-1/2" : "ssm:w-full")
+            }
+          >
             <div className="flex justify-center items-center h-full w-full">
               <button
                 onClick={handleChangeTheme}
@@ -98,7 +114,7 @@ function NavBar() {
           {/* Menu */}
           {match ? (
             <>
-              <div className="relative text-white text-center justify-center items-center w-1/3 h-full ssm:w-1/2">
+              <div className="relative text-white text-center justify-center items-center w-1/3 h-full ssm:w-1/2 z-20">
                 <div className="flex justify-center items-center h-full w-full">
                   <button
                     onClick={handleMenu}

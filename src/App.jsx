@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import UpProvider from "./contexts/UpProvider";
 import MyBox from "./routes/MyBox";
 import Register from "./routes/Register";
 import Login from "./routes/Login";
@@ -12,16 +12,18 @@ function App() {
     <>
       <AuthProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<MyBox />} />
-            <Route path="/Register" element={<Register />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="*" element={<NotFoundPage />} />
-            {/* //Faltan los permisos */}
-            <Route element={<ProtectedRoute rol={["User","Admin"]}/>}>
-              <Route path="/Home" element={<MyBox />} />
-            </Route>
-          </Routes>
+          <UpProvider>
+            <Routes>
+              <Route path="/" element={<MyBox />} />
+              <Route path="/Register" element={<Register />} />
+              <Route path="/Login" element={<Login />} />
+              <Route path="*" element={<NotFoundPage />} />
+              {/* //Faltan los permisos */}
+              <Route element={<ProtectedRoute rol={["User", "Admin"]} />}>
+                <Route path="/Home" element={<MyBox />} />
+              </Route>
+            </Routes>
+          </UpProvider>
         </BrowserRouter>
       </AuthProvider>
     </>

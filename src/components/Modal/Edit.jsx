@@ -1,47 +1,63 @@
-import { useState, useEffect } from "react";
-import { useUpItemsContext } from "../../contexts/UpProvider";
-import {
-  Modal,
-  Button,
-  ButtonIcon,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "./Modal";
+import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from "./Modal";
+import { useItemsContext } from "../../contexts/UpProvider";
+import { useEffect, useState } from "react";
 
-function Edit({ item }) {
-  const update = useUpItemsContext();
-
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState("");
-  const [open2, setOpen2] = useState(false);
-  const handleOpen2 = () => setOpen2(!open2);
-
-  const handleClose = () => {
-    setOpen2(!open2);
-    if (status === 500) {
-      handleOpen2();
-      return;
-    }
-    handleOpen();
-    update(true);
-  };
-
-  // Estableciendo las variables
-  const [image, setImage] = useState(item.imagen);
-  const [titulo, setTitulo] = useState(item.titulo);
-  const [marca, setMarca] = useState(item.marca);
-  const [modelo, setModelo] = useState(item.modelo);
-  const [cantidad, setCantidad] = useState(item.cantidad);
-  const [precio, setPrecio] = useState(item.precio_adquisicion);
-  const [fecha, setFecha] = useState(item.fecha_adquisicion);
-
+function Edit() {
   //Creacion del estado del modal
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
+  const {
+    openEdit,
+    handleOpenEdit,
+    image,
+    setImage,
+    titulo,
+    setTitulo,
+    marca,
+    setMarca,
+    modelo,
+    setModelo,
+    cantidad,
+    setCantidad,
+    precio,
+    setPrecio,
+    fecha,
+    setFecha,
+    setMessage,
+    setStatus,
+    item,
+    handleOpenMessage,
+  } = useItemsContext();
 
   // Inputs sin contenidos
   const focusOnFirstEmptyInput = () => {
+    if (fecha === null || fecha === "") {
+      document.getElementById("fecha").focus();
+      return true;
+    }
+
+    if (titulo === null || titulo === "") {
+      document.getElementById("titulo").focus();
+      return true;
+    }
+
+    if (marca === null || marca === "") {
+      document.getElementById("marca").focus();
+      return true;
+    }
+
+    if (modelo === null || modelo === "") {
+      document.getElementById("modelo").focus();
+      return true;
+    }
+
+    if (cantidad === null || cantidad === "") {
+      document.getElementById("cantidad").focus();
+      return true;
+    }
+
+    if (precio === null || precio === "") {
+      document.getElementById("precio").focus();
+      return true;
+    }
     return false;
   };
 
@@ -60,14 +76,6 @@ function Edit({ item }) {
     formData.append("precio_adquisicion", precio);
     formData.append("fecha_adquisicion", fecha);
 
-    setImage(item.image);
-    setTitulo(item.titulo);
-    setMarca(item.marca);
-    setModelo(item.modelo);
-    setCantidad(item.cantidad);
-    setPrecio(item.precio_adquisicion);
-    setFecha(item.fecha_adquisicion);
-
     const itemId = item._id; // Reemplaza esto con el ID del ítem que deseas editar
     const url = `http://localhost:4000/items/${itemId}`;
     fetch(url, {
@@ -78,7 +86,7 @@ function Edit({ item }) {
       .then((data) => {
         setMessage(data.message);
         setStatus(data.status);
-        handleOpen2();
+        handleOpenMessage();
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -97,11 +105,9 @@ function Edit({ item }) {
   };
   return (
     <>
-      {/* Boton para abrir el Modal */}
-      <Button handleOpen={handleOpen}> Editar</Button>
       <>
         {/* Modal */}
-        <Modal open={open} handleOpen={handleOpen}>
+        <Modal open={openEdit} handleOpen={handleOpenEdit}>
           {/* Cabecera del modal */}
           <ModalHeader>Editar un Artículo</ModalHeader>
           {/* Cuerpo del Modal */}
@@ -111,6 +117,7 @@ function Edit({ item }) {
               onSubmit={async (e) => {
                 Editar(e);
               }}
+              id="form_edit"
               encType="multipart/form-data"
             >
               <div className="w-full mb-4">
@@ -131,7 +138,7 @@ function Edit({ item }) {
                   onChange={(e) => {
                     setFecha(e.target.value);
                   }}
-                  value={formatDate(fecha)}
+                  value={formatDate(fecha=="" ? "01/01/1111" :fecha)}
                   id="fecha"
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-gray focus:text-black bg-transparent focus:border-blaze-orange dark:focus:border-dark-tangerine"
                 />
@@ -196,7 +203,7 @@ function Edit({ item }) {
           </ModalBody>
           {/* Footer del Nodal */}
           <ModalFooter>
-            <Button handleOpen={handleOpen}>Cancelar</Button>
+            <Button handleOpen={handleOpenEdit}>Cancelar</Button>
             <button
               className="flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 px-4 mx-2 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange ssm:w-20 ssm:h-8 ssm:px-0 ssm:my-1 text-white font-bold"
               onClick={(e) => {
@@ -205,19 +212,6 @@ function Edit({ item }) {
             >
               Guardar
             </button>
-          </ModalFooter>
-        </Modal>
-
-        <Modal open={open2} handleOpen={handleClose}>
-          {/* Cabecera del modal */}
-          <ModalHeader>Aviso</ModalHeader>
-          {/* Cuerpo del Modal */}
-          <ModalBody>
-            <span className="text-black dark:text-white">{message}</span>
-          </ModalBody>
-          {/* Footer del Modal */}
-          <ModalFooter>
-            <Button handleOpen={handleClose}>Aceptar</Button>
           </ModalFooter>
         </Modal>
       </>

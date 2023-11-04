@@ -11,13 +11,13 @@ const Modal = ({ children, open, handleOpen }) => {
     } else {
       setModal(
         open === false
-          ? "fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center prevshow"
-          : "fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center show"
+          ? "fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center prevshow z-50"
+          : "fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center show z-50"
       );
       if (open === false) {
         setTimeout(() => {
           setModal(
-            "fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center hidden"
+            "fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center hidden z-50"
           );
         }, 800);
       }
