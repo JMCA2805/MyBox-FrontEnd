@@ -22,6 +22,9 @@ function App() {
               <Route element={<ProtectedRoute rol={["User", "Admin"]} />}>
                 <Route path="/Home" element={<MyBox />} />
               </Route>
+              <Route element={<ProtectedRoute rol={["Admin"]} />}>
+                
+              </Route>
             </Routes>
           </UpProvider>
         </BrowserRouter>
