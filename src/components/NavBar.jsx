@@ -13,7 +13,7 @@ function NavBar() {
   const match2 = useMatch("/Home");
   const { handleOpenAgg } = useItemsContext();
 
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const [menu, setMenu] = useState(false);
 
   const setInputSearch = useContext(SearchContext);
@@ -112,7 +112,7 @@ function NavBar() {
             </div>
           </div>
           {/* Menu */}
-          {match ? (
+          {match || match2 ? (
             <>
               <div className="relative text-white text-center justify-center items-center w-1/3 h-full ssm:w-1/2 z-20">
                 <div className="flex justify-center items-center h-full w-full">
@@ -127,18 +127,64 @@ function NavBar() {
                   <>
                     <div className="absolute right-0 w-28 rounded-b-md dark:text-white text-black bg-white dark:bg-black shadow-lg ring-1 ring-pizazz ring-opacity-10">
                       <div>
-                        <Link
-                          to={"/Login"}
-                          className="block py-2 px-2 font-bold hover:dark:bg-woodsmoke hover:bg-white-smoke hover:ring-1 ring-pizazz hover:ring-opacity-30"
-                        >
-                          Acceder
-                        </Link>
-                        <Link
-                          to={"/Register"}
-                          className="block py-2 px-2 font-bold hover:dark:bg-woodsmoke hover:bg-white-smoke hover:ring-1 ring-pizazz hover:ring-opacity-30"
-                        >
-                          Registrarse
-                        </Link>
+                        {match ? (
+                          <>
+                            <Link
+                              to={"/Login"}
+                              className="block py-2 px-2 font-bold hover:dark:bg-woodsmoke hover:bg-white-smoke hover:ring-1 ring-pizazz hover:ring-opacity-30"
+                            >
+                              Acceder
+                            </Link>
+                            <Link
+                              to={"/Register"}
+                              className="block py-2 px-2 font-bold hover:dark:bg-woodsmoke hover:bg-white-smoke hover:ring-1 ring-pizazz hover:ring-opacity-30"
+                            >
+                              Registrarse
+                            </Link>
+                          </>
+                        ) : null}
+                        {match2 ? (
+                          <>
+                            <Link
+                              to={"/"}
+                              className="block py-2 px-2 font-bold hover:dark:bg-woodsmoke hover:bg-white-smoke hover:ring-1 ring-pizazz hover:ring-opacity-30"
+                            >
+                              Perfil
+                            </Link>
+                            {user.rol == "Admin" ? (
+                              <>
+                                <Link
+                                  to={"/"}
+                                  className="block py-2 px-2 font-bold hover:dark:bg-woodsmoke hover:bg-white-smoke hover:ring-1 ring-pizazz hover:ring-opacity-30"
+                                >
+                                  Usuarios
+                                </Link>
+                              </>
+                            ) : null}
+                            {user.rol == "User" ? (
+                              <>
+                                <Link
+                                  to={"/"}
+                                  className="block py-2 px-2 font-bold hover:dark:bg-woodsmoke hover:bg-white-smoke hover:ring-1 ring-pizazz hover:ring-opacity-30"
+                                >
+                                  Favoritos
+                                </Link>
+                              </>
+                            ) : null}
+                            <Link
+                              to={"/"}
+                              className="block py-2 px-2 font-bold hover:dark:bg-woodsmoke hover:bg-white-smoke hover:ring-1 ring-pizazz hover:ring-opacity-30"
+                            >
+                              <button
+                                onClick={() => {
+                                  logout();
+                                }}
+                              >
+                                Salir
+                              </button>
+                            </Link>
+                          </>
+                        ) : null}
                       </div>
                     </div>
                   </>
