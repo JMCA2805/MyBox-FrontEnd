@@ -47,6 +47,7 @@ export default function UpProvider({ children }) {
   const [titulo, setTitulo] = useState("");
   const [marca, setMarca] = useState("");
   const [modelo, setModelo] = useState("");
+  const [category, setCategory] = useState("");
   const [cantidad, setCantidad] = useState("");
   const [precio, setPrecio] = useState("");
   const [fecha, setFecha] = useState("");
@@ -59,6 +60,7 @@ export default function UpProvider({ children }) {
     setImage("");
     setMarca("");
     setModelo("");
+    setCategory("");
     setCantidad("");
     setPrecio("");
     setFecha("");
@@ -126,6 +128,8 @@ export default function UpProvider({ children }) {
         setMarca,
         modelo,
         setModelo,
+        category,
+        setCategory,
         cantidad,
         setCantidad,
         precio,

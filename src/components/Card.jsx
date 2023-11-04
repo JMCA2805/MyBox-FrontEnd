@@ -1,5 +1,4 @@
 import { useItemsContext } from "../contexts/UpProvider";
-import ItemDelete from "./Modal/Delete";
 import { Button } from "./Modal/Modal";
 import { useMatch } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
@@ -16,6 +15,7 @@ function Card() {
     setTitulo,
     setMarca,
     setModelo,
+    setCategory,
     setCantidad,
     setPrecio,
     setFecha,
@@ -107,6 +107,12 @@ function Card() {
                 </span>
               </div>
               <div className="flex text-xs">
+                <span className="text-xs font-bold">Categoría:</span>
+                <span className="font-normal text-center ml-1  ">
+                  {item.category}
+                </span>
+              </div>
+              <div className="flex text-xs">
                 <span className="text-xs font-bold">Cantidad:</span>
                 <span className="font-normal text-center ml-1 ">
                   {item.cantidad + " u"}
@@ -137,6 +143,7 @@ function Card() {
                   setTitulo(item.titulo);
                   setMarca(item.marca);
                   setModelo(item.modelo);
+                  setCategory(item.category);
                   setCantidad(item.cantidad);
                   setPrecio(item.precio_adquisicion);
                   setFecha(item.fecha_adquisicion);

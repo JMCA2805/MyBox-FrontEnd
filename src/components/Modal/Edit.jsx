@@ -15,6 +15,8 @@ function Edit() {
     setMarca,
     modelo,
     setModelo,
+    category,
+    setCategory,
     cantidad,
     setCantidad,
     precio,
@@ -49,6 +51,11 @@ function Edit() {
       return true;
     }
 
+    if (category === null || category === "") {
+      document.getElementById("category").focus();
+      return true;
+    }
+
     if (cantidad === null || cantidad === "") {
       document.getElementById("cantidad").focus();
       return true;
@@ -72,6 +79,7 @@ function Edit() {
     formData.append("titulo", titulo);
     formData.append("marca", marca);
     formData.append("modelo", modelo);
+    formData.append("category", category);
     formData.append("cantidad", cantidad);
     formData.append("precio_adquisicion", precio);
     formData.append("fecha_adquisicion", fecha);
@@ -174,6 +182,17 @@ function Edit() {
                   }}
                   value={modelo}
                   id="modelo"
+                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
+                />
+              </div>
+              <div className="mb-4 w-full">
+                <input
+                  placeholder="Ingrese la categoría"
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                  }}
+                  value={category}
+                  id="category"
                   className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
                 />
               </div>
