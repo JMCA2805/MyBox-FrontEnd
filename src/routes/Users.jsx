@@ -1,11 +1,12 @@
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
-import  userdelete from '../components/Modal/Delete_users'
+import  DeleteModal from '../components/Modal/Delete_users'
 import { Card, Typography } from "@material-tailwind/react";
- 
+import React, {useState} from 'react';
 
 const TABLE_HEAD = ["Email", "Género","Apellido", "Usuario","Celular","Role","", ""];
- 
+
+
 let response = async () => {
   const res = await fetch("http://localhost:4000/User");
   const data = await res.json();
@@ -27,6 +28,22 @@ const TABLE_ROWS = response.map(user => ({
 
 
 export default function Users() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDelete = () => {
+    console.log('Elemento eliminado');
+    setIsModalOpen(false);
+  };
+
+  
   return (
     <>
     <NavBar />
@@ -133,7 +150,11 @@ export default function Users() {
                     color="blue-gray"
                     className="font-medium"
                   >
-                    Eliminar
+                    
+    <div>
+      <button onClick={handleOpenModal}></button>
+      <DeleteModal isOpen={isModalOpen} handleClose={handleCloseModal} handleDelete={handleDelete} />
+    </div>
                   </Typography>
                 </td>
               </tr>
