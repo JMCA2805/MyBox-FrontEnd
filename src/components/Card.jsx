@@ -4,6 +4,7 @@ import { useMatch } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 
 function Card() {
+  const match = useMatch("/");
   const match2 = useMatch("/Home");
   const { user } = useAuth();
   const {
@@ -46,123 +47,133 @@ function Card() {
 
   return (
     <div className="grid grid-cols-5 gap-4 p-12 md:grid-cols-3 ssm:grid-cols-2 ssm:p-4">
-      {items.map((item) => (
-        <div
-          key={item._id}
-          id={item._id}
-          className={
-            "hover:-translate-y-6 hover:scale-105 hover:ease-in hover:duration-300 hover:dark:bg-black relative z-0 dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " +
-            (match2 && user.rol == "Admin" ? "h-96" : "h-80")
-          }
-        >
-          {match2 && user.rol == "User" ? (
-            <>
-              <button
-                className="absolute w-10 h-10 right-0 top-0 dark:bg-transparent bg-white rounded-full hover:border-2 hover:border-dark-tangerine"
-                onClick={() => {
-                  favorito({ categoria: item._id, userId: user.username });
-                  //"Funcion para cambiar el icono por el relleno y agregar a favorito"
-                  //Usar un true para confirmar el response de que esta en favorito y false para no estar en favorito
-                  //Y ese mismo tru usar para ver si se va a guardar de favoritos o eliminar
-                }}
-              >
-                {/* Centra la imagen */}
-                <img
-                  className="h-full p-1"
-                  src="src\assets\icons\star-regular-240.png"
-                  alt="Estrella"
-                />
-              </button>
-            </>
-          ) : null}
+      {items.map((item) =>
+        item.cantidad == 0 && (match || user.rol != "Admin") ? null : (
           <div
+            key={item._id}
+            id={item._id}
             className={
-              "flex items-center justify-center w-full border-b border-pizazz/30 bg-white-smoke rounded-t-lg dark:bg-woodsmoke " +
-              (match2 && user.rol == "Admin" ? "h-2/5 " : "h-2/4")
+              "xl:hover:-translate-y-6 xl:hover:scale-105 xl:hover:ease-in xl:hover:duration-300 xl:hover:dark:bg-black relative z-0 dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " +
+              (match2 && user.rol == "Admin" ? "h-96" : "h-80")
             }
           >
-            {/* Centra la imagen */}
-            <img
-              className="h-full p-2"
-              src={`${item.imagen}`}
-              alt={`Imagen de ${item.titulo}`}
-            />
-          </div>
-          <div className="h-36 py-2 ssm:h-32">
-            <h1 className="text-center text-base font-bold mt-1 ssm:text-sm">
-              {item.titulo}
-            </h1>
-            {/* Agrega el título del ítem centrado debajo de la imagen */}
-            <div className="flex flex-col">
-              <div className="flex text-xs">
-                <span className="text-xs font-bold">Marca: </span>
-                <span className="font-normal text-center ml-1 ">
-                  {item.marca}
+            {match2 && user.rol == "User" ? (
+              <>
+                <button
+                  className="absolute w-10 h-10 right-0 top-0 dark:bg-transparent bg-white rounded-full hover:border-2 hover:border-dark-tangerine"
+                  onClick={() => {
+                    favorito({
+                      categoria: item._id,
+                      userId: user.username,
+                    });
+                    //"Funcion para cambiar el icono por el relleno y agregar a favorito"
+                    //Usar un true para confirmar el response de que esta en favorito y false para no estar en favorito
+                    //Y ese mismo tru usar para ver si se va a guardar de favoritos o eliminar
+                  }}
+                >
+                  {/* Centra la imagen */}
+                  <img
+                    className="h-full p-1"
+                    src="src\assets\icons\star-regular-240.png"
+                    alt="Estrella"
+                  />
+                </button>
+              </>
+            ) : null}
+            <div
+              className={
+                "flex items-center justify-center w-full border-b border-pizazz/30 bg-white-smoke rounded-t-lg dark:bg-woodsmoke " +
+                (match2 && user.rol == "Admin" ? "h-2/5 " : "h-2/4")
+              }
+            >
+              {/* Centra la imagen */}
+              <img
+                className="h-full p-2"
+                src={`${item.imagen}`}
+                alt={`Imagen de ${item.titulo}`}
+              />
+            </div>
+            <div className="h-40 py-2 ssm:h-32">
+              <div className="w-full px-2 group flex relative justify-center items-center">
+                <h1 className="text-center text-base font-bold ssm:text-xs truncate h-full overflow-hidden">
+                  {item.titulo}
+                </h1>
+                <span className="absolute flex text-center -top-8 scale-0 rounded bg-white dark:bg-black p-2 text-xs text-black dark:text-white group-hover:scale-100 border border-pizazz/30">
+                  {item.titulo}
                 </span>
               </div>
-              <div className="flex text-xs">
-                <span className="text-xs font-bold">Modelo:</span>
-                <span className="font-normal text-center ml-1  ">
-                  {item.modelo}
-                </span>
-              </div>
-              <div className="flex text-xs">
-                <span className="text-xs font-bold">Categoría:</span>
-                <span className="font-normal text-center ml-1  ">
-                  {item.category}
-                </span>
-              </div>
-              <div className="flex text-xs">
-                <span className="text-xs font-bold">Cantidad:</span>
-                <span className="font-normal text-center ml-1 ">
-                  {item.cantidad + " u"}
-                </span>
-              </div>
-              <div className="flex text-xs">
-                <span className="text-xs font-bold">Precio:</span>
-                <span className="font-normal text-center ml-1 ">
-                  {item.precio_adquisicion + "$"}
-                </span>
-              </div>
-              <div className="flex">
-                <span className="text-xs font-bold">Fecha:</span>
-                <span className="font-normal text-center ml-1  text-sm">
-                  {formatDate(item.fecha_adquisicion)}
-                </span>
+              {/* Agrega el título del ítem centrado debajo de la imagen */}
+              <div className="flex flex-col justify-center py-1">
+                <div className="flex text-xs">
+                  <span className="text-xs font-bold">Marca: </span>
+                  <span className="font-normal text-center ml-1 ">
+                    {item.marca}
+                  </span>
+                </div>
+                <div className="flex text-xs">
+                  <span className="text-xs font-bold">Modelo:</span>
+                  <span className="font-normal text-center ml-1  ">
+                    {item.modelo}
+                  </span>
+                </div>
+                <div className="flex text-xs">
+                  <span className="text-xs font-bold">Categoría:</span>
+                  <span className="font-normal text-center ml-1  ">
+                    {item.category}
+                  </span>
+                </div>
+                <div className="flex text-xs">
+                  <span className="text-xs font-bold">Cantidad:</span>
+                  <span className="font-normal text-center ml-1 ">
+                    {item.cantidad}
+                  </span>
+                </div>
+                <div className="flex text-xs">
+                  <span className="text-xs font-bold">Precio:</span>
+                  <span className="font-normal text-center ml-1 ">
+                    {item.precio_adquisicion + "$"}
+                  </span>
+                </div>
+                <div className="flex">
+                  <span className="text-xs font-bold">Fecha:</span>
+                  <span className="font-normal text-center ml-1  text-xs">
+                    {formatDate(item.fecha_adquisicion)}
+                  </span>
+                </div>
               </div>
             </div>
+            {match2 && user.rol == "Admin" ? (
+              <div className="flex text-white gap-2 xl:gap-6 items-center justify-center">
+                {/* Boton para abrir el Modal */}
+                <Button
+                  handleOpen={async () => {
+                    handleOpenEdit();
+                    setItem(item);
+                    setImage(item.image);
+                    setTitulo(item.titulo);
+                    setMarca(item.marca);
+                    setModelo(item.modelo);
+                    setCategory(item.category);
+                    setCantidad(item.cantidad);
+                    setPrecio(item.precio_adquisicion);
+                    setFecha(item.fecha_adquisicion);
+                  }}
+                >
+                  Editar
+                </Button>
+                <Button
+                  handleOpen={() => {
+                    setItem(item);
+                    handleOpenDel();
+                  }}
+                >
+                  Eliminar
+                </Button>
+              </div>
+            ) : null}
           </div>
-          {match2 && user.rol == "Admin" ? (
-            <div className="flex text-white justify-between items-center">
-              {/* Boton para abrir el Modal */}
-              <Button
-                handleOpen={async () => {
-                  handleOpenEdit();
-                  setItem(item);
-                  setImage(item.image);
-                  setTitulo(item.titulo);
-                  setMarca(item.marca);
-                  setModelo(item.modelo);
-                  setCategory(item.category);
-                  setCantidad(item.cantidad);
-                  setPrecio(item.precio_adquisicion);
-                  setFecha(item.fecha_adquisicion);
-                }}
-              >
-                Editar
-              </Button>
-              <Button
-                handleOpen={() => {
-                  setItem(item);
-                  handleOpenDel();
-                }}
-              >
-                Eliminar
-              </Button>
-            </div>
-          ) : null}
-        </div>
-      ))}
+        )
+      )}
     </div>
   );
 }
