@@ -1,8 +1,9 @@
 import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from "./Modal";
 import React, { useState } from "react";
 
-function UserDelete() {
-  const [isOpen, setIsOpen] = useState(false);
+function UserDelete({id, isOpen, setIsOpen}) {
+
+  console.log(id);
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -13,7 +14,7 @@ function UserDelete() {
   };
 
   const handleDelete_User = async () => {
-    const response = await fetch(`http://localhost:4000/item/`, {
+    const response = await fetch(`http://localhost:4000//User/:id_`, {
       method: "DELETE",
     });
     const data = await response.json();
