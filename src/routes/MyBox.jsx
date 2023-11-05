@@ -9,9 +9,8 @@ import { useMatch } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 
 function MyBox() {
-  const match = useMatch("/");
   const match2 = useMatch("/Home");
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
 
   return (
     <>

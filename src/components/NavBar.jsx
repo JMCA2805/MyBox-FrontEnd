@@ -108,8 +108,7 @@ function NavBar() {
           {/* Contenedor del boton de Modo Oscuro-Claro */}
           <div
             className={
-              "flex items-center justify-center w-1/3 h-full " +
-              (match ? "ssm:w-1/2" : "ssm:w-full")
+              "flex items-center justify-center w-1/3 h-full " + (match || match2 ? "ssm:w-1/2" : "ssm:w-full")
             }
           >
             <div className="flex justify-center items-center h-full w-full">
@@ -124,7 +123,7 @@ function NavBar() {
           {/* Menu */}
           {match || match2 || match3 || match4 ? (
             <>
-              <div className="relative text-white text-center justify-center items-center w-1/3 h-full ssm:w-1/2 z-20">
+              <div className={"relative text-white text-center justify-center items-center w-1/3 h-full z-20" + (match || match2 ? " ssm:w-1/2" : " ssm:w-full")}>
                 <div className="flex justify-center items-center h-full w-full">
                   <button
                     onClick={handleMenu}
