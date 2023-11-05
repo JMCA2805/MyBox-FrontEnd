@@ -51,6 +51,17 @@
   content: url("src/assets/icons/menu-regular-240.png");
 }
 
+.dark #Home {
+  content: url("src/assets/icons/home-white.png");
+}
+
+#Home {
+  content: url("src/assets/icons/home-orange.png");
+}
+
+#Error {
+  content: url("src/assets/Error.png")
+}
 @keyframes move-show {
   0% {
     transform: translate(0, -100px);
