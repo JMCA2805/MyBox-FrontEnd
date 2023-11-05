@@ -24,15 +24,22 @@ const TABLE_ROWS = response.map(user => ({
   ,name: user.name
   ,phone: user.phone
   ,rol: user.rol
+  ,id: user._id
 }));
 
 
 export default function Users() {
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = () => {
+  const [userIdToDelete, setUserIdToDelete] = useState(null);
+
+  const handleOpenModal = (userId) => {
+    setUserIdToDelete(userId);
+    console.log('test');
     setIsModalOpen(true);
   };
+  
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -71,12 +78,12 @@ export default function Users() {
           </tr>
         </thead>
         <tbody>
-          {TABLE_ROWS.map(({ email, gender, lastname, name, phone, rol }, index) => {
+          {TABLE_ROWS.map(({ email, gender, lastname, name, phone, rol, id }, index) => {
             const isLast = index === TABLE_ROWS.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
  
             return (
-              <tr key={email}>
+              <tr key={id}>
                 <td className={classes}>
                   <Typography
                     variant="small"
@@ -152,8 +159,9 @@ export default function Users() {
                   >
                     
     <div>
-      <button onClick={handleOpenModal}></button>
-      <DeleteModal isOpen={isModalOpen} handleClose={handleCloseModal} handleDelete={handleDelete} />
+    <button onClick={(event) => { event.stopPropagation(); handleOpenModal(id); }}>Eliminar</button>
+
+    <DeleteModal id={id} isOpen={isModalOpen} setIsOpen={setIsModalOpen} handleClose={handleCloseModal} handleDelete={handleDelete} />
     </div>
                   </Typography>
                 </td>
