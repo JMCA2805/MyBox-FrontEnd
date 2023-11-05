@@ -51,7 +51,7 @@ function Card() {
           key={item._id}
           id={item._id}
           className={
-            "hover:-translate-y-6 hover:scale-105 hover:ease-in hover:duration-300 hover:dark:bg-black relative z-0 dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " +
+            "xl:hover:-translate-y-6 xl:hover:scale-105 xl:hover:ease-in xl:hover:duration-300 xl:hover:dark:bg-black relative z-0 dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " +
             (match2 && user.rol == "Admin" ? "h-96" : "h-80")
           }
         >
@@ -88,12 +88,19 @@ function Card() {
               alt={`Imagen de ${item.titulo}`}
             />
           </div>
-          <div className="h-36 py-2 ssm:h-32">
-            <h1 className="text-center text-base font-bold mt-1 ssm:text-sm">
-              {item.titulo}
-            </h1>
+          <div className="h-40 py-2 ssm:h-32">
+            <div className="w-full px-2 group flex relative justify-center items-center">
+              <h1 className="text-center text-base font-bold ssm:text-xs truncate h-full overflow-hidden">
+                {item.titulo}
+              </h1>
+              <span
+                className="absolute flex text-center -top-8 scale-0 rounded bg-white dark:bg-black p-2 text-xs text-black dark:text-white group-hover:scale-100 border border-pizazz/30"
+              >
+                {item.titulo}
+              </span>
+            </div>
             {/* Agrega el título del ítem centrado debajo de la imagen */}
-            <div className="flex flex-col">
+            <div className="flex flex-col justify-center py-1">
               <div className="flex text-xs">
                 <span className="text-xs font-bold">Marca: </span>
                 <span className="font-normal text-center ml-1 ">
@@ -115,7 +122,7 @@ function Card() {
               <div className="flex text-xs">
                 <span className="text-xs font-bold">Cantidad:</span>
                 <span className="font-normal text-center ml-1 ">
-                  {item.cantidad + " u"}
+                  {item.cantidad}
                 </span>
               </div>
               <div className="flex text-xs">
@@ -126,14 +133,14 @@ function Card() {
               </div>
               <div className="flex">
                 <span className="text-xs font-bold">Fecha:</span>
-                <span className="font-normal text-center ml-1  text-sm">
+                <span className="font-normal text-center ml-1  text-xs">
                   {formatDate(item.fecha_adquisicion)}
                 </span>
               </div>
             </div>
           </div>
           {match2 && user.rol == "Admin" ? (
-            <div className="flex text-white justify-between items-center">
+            <div className="flex text-white gap-2 xl:gap-6 items-center justify-center">
               {/* Boton para abrir el Modal */}
               <Button
                 handleOpen={async () => {
