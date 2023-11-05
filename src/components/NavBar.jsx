@@ -59,7 +59,7 @@ function NavBar() {
         {/* Contenedor del logo */}
         <div className="w-1/6 h-full flex justify-center items-center md:w-1/4 ssm:w-2/4">
           <Link to={isAuthenticated ? "/Home" : "/"}>
-            <img id="logo_theme" alt="Logo" className="h-12 ssm:h-8" />
+            <img onClick={()=>{update(true)}} id="logo_theme" alt="Logo" className="h-12 ssm:h-8" />
           </Link>
         </div>
         {/* Contenedor del Buscar */}
@@ -178,6 +178,7 @@ function NavBar() {
                               <button
                                 onClick={() => {
                                   logout();
+                                  update(true);
                                 }}
                               >
                                 Salir

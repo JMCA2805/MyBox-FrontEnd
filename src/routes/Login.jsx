@@ -3,12 +3,13 @@ import Nav from "../components/NavBar";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
+import { useUpItemsContext } from "../contexts/UpProvider";
 
 export default function Login() {
+  const update = useUpItemsContext();
   const navigate = useNavigate()
   const { signin } = useAuth();
   // Estableciendo las
-  const [data, setData] = useState({});
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -87,6 +88,7 @@ export default function Login() {
               type="submit"
               onClick={(e) => {
                 Loguear(e);
+                update(true);
               }}
               className="px-2 flex items-center text-center bg-dark-tangerine dark:bg-gray/50 dark:hover:text-dark-tangerine dark:hover:bg-gray dark:border-woodsmoke justify-center h-10 rounded-lg hover:bg-pizazz focus:bg-blaze-orange dark:focus:bg-woodsmoke border-b-4 border-blaze-orange w-24 ssm:h-10 text-white font-bold"
             >
