@@ -127,22 +127,25 @@ export default function Register() {
                 <span className="text-lg font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
                   Teléfono
                 </span>
-                <div class="relative group">
+                <div className="relative group:">
                   <input
                     type="text"
                     placeholder="Ingrese su teléfono"
-                    className="p-1 pl-20 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
+                    className="peer/phone p-1 pl-20 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange invalid:border-red-600 invalid:dark:border-red-600"
                     id="phone"
+                    maxLength={7}
+                    minLength={7}
+                    pattern="^[0-9]*$"
                     onChange={(e) => {
                       setPhone(e.target.value);
                     }}
                   />
-                  <div class="absolute inset-y-0 flex items-center">
+                  <div className="peer-invalid/phone:border-red-600 peer-focus/phone:dark:border-dark-tangerine peer-focus/phone:border-blaze-orange absolute inset-y-0 flex h-10 rounded-l-lg border-2 border-dark-tangerine dark:border-white ring-transparent">
                     <select
                       id="select_number"
                       name="select_number"
                       onChange={(e) => setPrefijo(e.target.value)}
-                      class="dark:focus:border-pizazz dark:text-white text-black text-center h-full w-16 rounded-l-lg border-2 border-dark-tangerine dark:border-white ring-transparent bg-white dark:bg-black"
+                      className="focus:dark:outline-pizazz  focus:outline-dark-tangerine border-2 border-transparent ring-0 rounded-l-lg inset-y-0 dark:text-white text-black text-center h-9 w-16 bg-white dark:bg-black"
                     >
                       <option value={"0414"}>0414</option>
                       <option value={"0424"}>0424</option>
@@ -151,6 +154,10 @@ export default function Register() {
                       <option value={"0412"}>0412</option>
                     </select>
                   </div>
+
+                  <p className="hidden peer-invalid/phone:flex text-red-600 text-sm w-full text-center">
+                    Porfavor ingrese solo numeros min-max: 7.
+                  </p>
                 </div>
               </div>
 
