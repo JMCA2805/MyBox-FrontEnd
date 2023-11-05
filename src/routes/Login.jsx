@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Message from "../components/Modal/Message";
 import Nav from "../components/NavBar";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
-import { useUpItemsContext } from "../contexts/UpProvider";
+import { useItemsContext, useUpItemsContext } from "../contexts/UpProvider";
 
 export default function Login() {
+  const { setMessage, setStatus, handleOpenMessage } = useItemsContext();
+
   const update = useUpItemsContext();
   const navigate = useNavigate()
-  const { signin } = useAuth();
+  const { signin, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token != "" && isAuthenticated) {
+      navigate("/Home")
+    }
+  }, [isAuthenticated]);
+
   // Estableciendo las
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -41,10 +52,16 @@ export default function Login() {
     };
 
     const response = await signin(data_login);
-    navigate(response)
+    if (response.data.status != 200 ){
+      await setMessage(response.data.message)
+      await setStatus(response.data.status)
+      await handleOpenMessage()
+    }
+    navigate(response.ruta)
   };
   return (
     <>
+      <Message />
       <Nav />
       <div className="flex justify-center items-center py-20">
         <div className="py-6 dark:bg-black  text-black dark:text-pizazz bg-white rounded-lg flex flex-col xl:w-96 md:w-96 lg:w-96 ssm:w-72 border border-pizazz/40 shadow-xl">

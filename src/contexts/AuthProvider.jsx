@@ -24,11 +24,11 @@ export const AuthProvider = ({ children }) => {
       setUser(data.payload);
       setIsAuthenticated(true);
       sessionStorage.setItem("token", data.token);
-      return "/Home";
+      return { ruta: "/Home", data: data };
     } else {
       setUser(null);
       setIsAuthenticated(false);
-      return "/Register";
+      return { ruta: "/Register", data: data };
     }
   };
 
@@ -43,11 +43,11 @@ export const AuthProvider = ({ children }) => {
       setUser(data.payload);
       setIsAuthenticated(true);
       sessionStorage.setItem("token", data.token);
-      return "/Home";
+      return { ruta: "/Home", data: data };
     } else {
       setUser(null);
       setIsAuthenticated(false);
-      return "/Login";
+      return { ruta: "/Login", data: data };
     }
   };
 
