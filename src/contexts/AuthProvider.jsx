@@ -12,6 +12,14 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  //Modo Oscuro Global
+  const [theme, setTheme] = useState(() => {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+    return "light";
+  });
+
   const signup = async (user) => {
     const response = await fetch("http://localhost:4000/registro", {
       method: "POST",
@@ -100,6 +108,8 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         loading,
         user,
+        theme,
+        setTheme,
       }}
     >
       {children}
