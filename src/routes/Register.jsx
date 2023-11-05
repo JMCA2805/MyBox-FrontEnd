@@ -7,7 +7,7 @@ import { useUpItemsContext } from "../contexts/UpProvider";
 
 export default function Register() {
   const update = useUpItemsContext();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { signup } = useAuth();
 
   // Estableciendo las variables
@@ -16,10 +16,11 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmar_password, setConfirmarPassword] = useState("");
+  const [prefijo, setPrefijo] = useState("");
   const [phone, setPhone] = useState("");
   const [username, setUserName] = useState("");
   const [gender, setGender] = useState("");
-  const [style, setStyle] = useState("")
+  const [style, setStyle] = useState("");
 
   // Inputs sin contenidos
   const focusOnFirstEmptyInput = () => {
@@ -29,6 +30,10 @@ export default function Register() {
     }
     if (lastname == "") {
       document.getElementById("lastname").focus();
+      return true;
+    }
+    if (prefijo == "") {
+      document.getElementById("select_number").focus();
       return true;
     }
     if (phone == "") {
@@ -53,7 +58,7 @@ export default function Register() {
       return true;
     }
     if (gender == "") {
-      setStyle(" invalid")
+      setStyle(" invalid");
       return true;
     }
     return false;
@@ -71,13 +76,13 @@ export default function Register() {
       lastname,
       email,
       password,
-      phone,
+      phone: prefijo + phone,
       username,
       gender,
     };
 
     const response = await signup(data_register);
-    navigate(response)
+    navigate(response);
   };
   return (
     <>
@@ -117,20 +122,36 @@ export default function Register() {
                   }}
                 />
               </div>
+
               <div className="mb-4 w-full">
                 <span className="text-lg font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
                   Teléfono
                 </span>
-
-                <input
-                  type="text"
-                  placeholder="Ingrese su teléfono"
-                  className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
-                  id="phone"
-                  onChange={(e) => {
-                    setPhone(e.target.value);
-                  }}
-                />
+                <div class="relative group">
+                  <input
+                    type="text"
+                    placeholder="Ingrese su teléfono"
+                    className="p-1 pl-20 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange"
+                    id="phone"
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                    }}
+                  />
+                  <div class="absolute inset-y-0 flex items-center">
+                    <select
+                      id="select_number"
+                      name="select_number"
+                      onChange={(e) => setPrefijo(e.target.value)}
+                      class="dark:focus:border-pizazz dark:text-white text-black text-center h-full w-16 rounded-l-lg border-2 border-dark-tangerine dark:border-white ring-transparent bg-white dark:bg-black"
+                    >
+                      <option value={"0414"}>0414</option>
+                      <option value={"0424"}>0424</option>
+                      <option value={"0416"}>0416</option>
+                      <option value={"0426"}>0426</option>
+                      <option value={"0412"}>0412</option>
+                    </select>
+                  </div>
+                </div>
               </div>
 
               <div className="mb-4 w-full">
@@ -211,7 +232,7 @@ export default function Register() {
                     value="Masculino"
                     onChange={(e) => {
                       setGender(e.target.value);
-                      setStyle("")
+                      setStyle("");
                     }}
                   />
                   <label className="peer-checked/Masculino:text-pizazz">
@@ -225,7 +246,7 @@ export default function Register() {
                     value="Femenino"
                     onChange={(e) => {
                       setGender(e.target.value);
-                      setStyle("")
+                      setStyle("");
                     }}
                   />
                   <label className="peer-checked/Femenino:text-pizazz">
@@ -239,13 +260,18 @@ export default function Register() {
                     value="Otro"
                     onChange={(e) => {
                       setGender(e.target.value);
-                      setStyle("")
+                      setStyle("");
                     }}
                   />
                   <label className="peer-checked/Otro:text-pizazz">Otro</label>
                 </div>
                 {/* //Corregir para que se vea los invalid */}
-                <p className={"hidden invalid:flex text-red-600 text-sm w-full text-center" + style}>
+                <p
+                  className={
+                    "hidden invalid:flex text-red-600 text-sm w-full text-center" +
+                    style
+                  }
+                >
                   Porfavor seleccione un genero.
                 </p>
               </div>
