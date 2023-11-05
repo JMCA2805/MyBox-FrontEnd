@@ -146,7 +146,7 @@ function NavBar() {
                         {match2 ? (
                           <>
                             <Link
-                              to={"/"}
+                              to={"/Profile"}
                               className="block py-2 px-2 font-bold hover:dark:bg-woodsmoke hover:bg-white-smoke hover:ring-1 ring-pizazz hover:ring-opacity-30"
                             >
                               Perfil

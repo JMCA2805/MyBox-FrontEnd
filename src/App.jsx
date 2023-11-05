@@ -7,7 +7,7 @@ import NotFoundPage from "./routes/NotFoundPage";
 import ProtectedRoute from "./ProtectedRoute";
 import { AuthProvider, useAuth } from "./contexts/AuthProvider";
 import Users from "./routes/Users";
-import EditUser from "./routes/EditM"
+import Profile from "./routes/Profile"
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
               {/* //Faltan los permisos */}
               <Route element={<ProtectedRoute rol={["User", "Admin"]} />}>
                 <Route path="/Home" element={<MyBox />} />
-                <Route path="/Profile" element={<EditUser />} />
+                <Route path="/Profile" element={<Profile />} />
               </Route>
               <Route element={<ProtectedRoute rol={["Admin"]} />}>
                 <Route path="/Users" element={<Users />} />
