@@ -6,6 +6,7 @@ import Login from "./routes/Login";
 import NotFoundPage from "./routes/NotFoundPage";
 import ProtectedRoute from "./ProtectedRoute";
 import { AuthProvider, useAuth } from "./contexts/AuthProvider";
+import Users from "./routes/Users";
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
                 <Route path="/Home" element={<MyBox />} />
               </Route>
               <Route element={<ProtectedRoute rol={["Admin"]} />}>
-                
+                <Route path="/Users" element={<Users />} />
               </Route>
             </Routes>
           </UpProvider>
