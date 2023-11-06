@@ -5,17 +5,16 @@ import React, { useState } from "react";
 function UserDelete() {
   //Creacion del estado del modal
   const { openDelUser, handleOpenDelUser, userIdToDelete } = useItemsContext();
-
+  const { setMessage, setStatus, handleOpenMessage } = useItemsContext();
   const handleDelete_User = async () => {
     console.log(userIdToDelete);
-    //  const response = await fetch(, {
-    //    method: "DELETE",
-    //  });
-    //  const data = await response.json();
-    //  await setMessage(data.message);
-    //  await setStatus(data.status);
-    //  await handleOpenMessage();
-    //  setIsOpen(false);
+    const response = await fetch(`http://localhost:4000/User/${userIdToDelete}`, {
+      method: "DELETE",
+    });
+    const data = await response.json();
+    await setMessage(data.message);
+    await setStatus(data.status);
+    await handleOpenMessage();
   };
 
   return (
