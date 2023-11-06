@@ -50,69 +50,88 @@ const Profile = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await fetch(
-        `http://localhost:4000/User/${user.userId}/edit`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            lastname,
-            email,
-            phone,
-            username,
-            gender,
-          }),
-        }
-      );
-      const data = await response.json();
-      await setMessage(data.msg);
-      await setStatus(data.status);
-      handleOpenMessage();
-      toggleEditing();
-    } catch (error) {
-      console.error(error);
+    if (name === "" || lastname === "" || email === "" || phone === "" || username === "" || gender === "") {
+       setMessage("Todos los campos son obligatorios");
+       handleOpenMessage();
+       return;
     }
-  };
-
+   
+    try {
+       const response = await fetch(
+         `http://localhost:4000/User/${user.userId}/edit`,
+         {
+           method: "PUT",
+           headers: {
+             "Content-Type": "application/json",
+           },
+           body: JSON.stringify({
+             name,
+             lastname,
+             email,
+             phone,
+             username,
+             gender,
+           }),
+         }
+       );
+   
+       const data = await response.json();
+       await setMessage(data.msg);
+       await setStatus(data.status);
+       handleOpenMessage();
+       toggleEditing();
+   
+    } catch (error) {
+       console.error(error);
+    }
+   };
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    try {
-      const response = await fetch(
-        `http://localhost:4000/User/${user.userId}/Password`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            oldPassword: password,
-            newPassword: newPassword,
-          }),
-        }
-      );
-
-      if (response.ok) {
-        alert("Contraseña actualizado correctamente");
-      } else {
-        alert("Algo ha ocurrido mal...");
+   
+      if (password === "" || newPassword === "" || confirmPassword === "") {
+        setMessage("Todos los campos son obligatorios");
+        handleOpenMessage();
+        return;
       }
-
-      const data = await response.json();
-      await setMessage(data.msg);
-      await setStatus(data.status);
-      handleOpenMessage();
-      togglePasswordEditing();
+    
+      if (newPassword !== confirmPassword) {
+        setMessage("Las contraseñas no coinciden");
+        handleOpenMessage();
+        return;
+      }
+   
+    try {
+       const response = await fetch(
+         `http://localhost:4000/User/${user.userId}/Password`,
+         {
+           method: "PUT",
+           headers: {
+             "Content-Type": "application/json",
+           },
+           body: JSON.stringify({
+             oldPassword: password,
+             newPassword: newPassword,
+           }),
+         }
+       );
+   
+       if (response.ok) {
+         setMessage("Contraseña actualizado correctamente");
+       } else {
+         setMessage("Algo ha ocurrido mal...");
+       }
+     
+       const data = await response.json();
+       await setMessage(data.msg);
+       await setStatus(data.status);
+       handleOpenMessage();
+       togglePasswordEditing();  
     } catch (error) {
       console.log("Error:", error);
       setMessage("Error al intentar actualizar la contraseña");
     }
-  };
+   };
 
   const toggleEditing = async () => {
     setIsEditing(!isEditing);
@@ -298,3 +317,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
