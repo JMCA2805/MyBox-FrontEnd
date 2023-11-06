@@ -13,6 +13,7 @@ function NavBar() {
   const match2 = useMatch("/Home");
   const match3 = useMatch("/Profile");
   const match4 = useMatch("/Users");
+  const match5 = useMatch("/Favoritos");
 
   const { handleOpenAgg } = useItemsContext();
 
@@ -115,7 +116,7 @@ function NavBar() {
             </div>
           </div>
           {/* Menu */}
-          {match || match2 || match3 || match4 ? (
+          {match || match2 || match3 || match4 || match5 ? (
             <>
               <div
                 className={
@@ -151,7 +152,7 @@ function NavBar() {
                             </Link>
                           </>
                         ) : null}
-                        {match2 || match3 || match4 ? (
+                        {match2 || match3 || match4 || match5 ? (
                           <>
                             {!match3 ? (
                               <>
@@ -179,12 +180,16 @@ function NavBar() {
                             ) : null}
                             {user.rol == "User" ? (
                               <>
-                                <Link
-                                  to={"/"}
-                                  className="block py-2 px-2 font-bold hover:dark:bg-woodsmoke hover:bg-white-smoke hover:ring-1 ring-pizazz hover:ring-opacity-30"
-                                >
-                                  Favoritos
-                                </Link>
+                                {!match5 ? (
+                                  <>
+                                    <Link
+                                      to={"/Favoritos"}
+                                      className="block py-2 px-2 font-bold hover:dark:bg-woodsmoke hover:bg-white-smoke hover:ring-1 ring-pizazz hover:ring-opacity-30"
+                                    >
+                                      Favoritos
+                                    </Link>
+                                  </>
+                                ) : null}
                               </>
                             ) : null}
                             <Link

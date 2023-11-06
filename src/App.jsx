@@ -8,6 +8,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import { AuthProvider, useAuth } from "./contexts/AuthProvider";
 import Users from "./routes/Users";
 import Profile from "./routes/Profile"
+import Favoritos from "./routes/Favoritos"
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
               <Route path="/Login" element={<Login />} />
               <Route path="*" element={<NotFoundPage />} />
               {/* //Faltan los permisos */}
+              <Route element={<ProtectedRoute rol={["User"]} />}>
+                <Route path="/Favoritos" element={<Favoritos />} />
+              </Route>
               <Route element={<ProtectedRoute rol={["User", "Admin"]} />}>
                 <Route path="/Home" element={<MyBox />} />
                 <Route path="/Profile" element={<Profile />} />

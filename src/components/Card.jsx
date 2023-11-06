@@ -6,6 +6,7 @@ import { useAuth } from "../contexts/AuthProvider";
 function Card() {
   const match = useMatch("/");
   const match2 = useMatch("/Home");
+  const match3 = useMatch("/Favoritos");
   const { user } = useAuth();
   const {
     items,
@@ -60,25 +61,29 @@ function Card() {
         </>
       ) : (
         <>
-          <div className="w-full h-12 px-12 ssm:p-4 pt-5 grid grid-cols-5 ssm:grid-cols-2 md:grid-cols-3 justify-end pr-12 gap-4 ">
-            <select
-              onChange={(e) => {
-                setFilterCategory(e.target.value);
-              }}
-              name="filter_categoria"
-              id="filter_categoria"
-              className="p-1 w-full border focus:outline-none rounded-lg border-pizazz/40 h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange bg-white dark:bg-black"
-            >
-              <option value={false}>Seleccione la categoría</option>
-              {listCategory
-                ? listCategory.map((cat) => (
-                    <option key={cat._id} value={cat.name}>
-                      {cat.name}
-                    </option>
-                  ))
-                : null}
-            </select>
-          </div>
+          {!match3 ? (
+            <>
+              <div className="w-full h-12 px-12 ssm:p-4 pt-5 grid grid-cols-5 ssm:grid-cols-2 md:grid-cols-3 justify-end pr-12 gap-4 ">
+                <select
+                  onChange={(e) => {
+                    setFilterCategory(e.target.value);
+                  }}
+                  name="filter_categoria"
+                  id="filter_categoria"
+                  className="p-1 w-full border focus:outline-none rounded-lg border-pizazz/40 h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange bg-white dark:bg-black"
+                >
+                  <option value={false}>Seleccione la categoría</option>
+                  {listCategory
+                    ? listCategory.map((cat) => (
+                        <option key={cat._id} value={cat.name}>
+                          {cat.name}
+                        </option>
+                      ))
+                    : null}
+                </select>
+              </div>
+            </>
+          ) : null}
           <div className="grid grid-cols-5 gap-4 p-12 pt-6 md:grid-cols-3 ssm:grid-cols-2 ssm:p-4">
             {items.map((item) =>
               item.cantidad == 0 && (match || user.rol != "Admin") ? null : (
@@ -97,11 +102,8 @@ function Card() {
                         onClick={() => {
                           favorito({
                             categoria: item._id,
-                            userId: user.username,
+                            username: user.username,
                           });
-                          //"Funcion para cambiar el icono por el relleno y agregar a favorito"
-                          //Usar un true para confirmar el response de que esta en favorito y false para no estar en favorito
-                          //Y ese mismo tru usar para ver si se va a guardar de favoritos o eliminar
                         }}
                       >
                         {/* Centra la imagen */}
