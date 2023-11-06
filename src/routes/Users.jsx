@@ -4,9 +4,16 @@ import DeleteModal from "../components/Modal/Delete_users";
 import React, { useEffect, useState } from "react";
 import { useItemsContext } from "../contexts/UpProvider";
 import Message from "../components/Modal/Message";
+import { Button } from "../components/Modal/Modal";
 
 export default function Users() {
-  const { setUserIdToDelete, handleOpenDelUser, Usuarios, usuarios } =
+  const { 
+    setUserIdToDelete
+    , handleOpenDelUser
+    , Usuarios
+    , usuarios 
+    ,handleOpenEdit_user
+  } =
     useItemsContext();
 
   useEffect(() => {
@@ -23,6 +30,7 @@ export default function Users() {
     "Role",
     "Accion",
   ];
+
 
   const borrar = async (user) => {
     await setUserIdToDelete(user);
@@ -76,7 +84,15 @@ export default function Users() {
                       <span className="font-normal">{user.rol}</span>
                     </td>
                     <td className="gap-4">
-                      <button className="font-medium">Editar</button>
+                    <Button
+                        handleOpen={async () => {
+                          handleOpenEdit_user();
+                          
+                        }}
+                      >
+                        Editar
+                      </Button>
+
 
                       <button
                         onClick={() => {
