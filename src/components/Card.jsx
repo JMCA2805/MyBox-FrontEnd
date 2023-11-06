@@ -67,7 +67,7 @@ function Card() {
               }}
               name="filter_categoria"
               id="filter_categoria"
-              className="p-1 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange bg-white dark:bg-black"
+              className="p-1 w-full border focus:outline-none rounded-lg border-pizazz/40 h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange bg-white dark:bg-black"
             >
               <option value={false}>Seleccione la categoría</option>
               {listCategory
