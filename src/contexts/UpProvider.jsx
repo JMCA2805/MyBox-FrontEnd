@@ -140,6 +140,8 @@ export default function UpProvider({ children }) {
   const [openDelUser, setOpenDelUser] = useState(false);
   const handleOpenDelUser = () => setOpenDelUser(!openDelUser);
 
+  
+  const [userIdToEdit, setUserIdToEdit] = useState("");
   const [openEdit_user, setOpenEdit_user] = useState(false);
   const handleOpenEdit_user = () => setOpenEdit_user(!openEdit_user);
 
@@ -221,6 +223,8 @@ export default function UpProvider({ children }) {
         setSubCategory,
         userIdToDelete,
         setUserIdToDelete,
+        userIdToEdit,
+        setUserIdToEdit,
         filterCategory,
         setFilterCategory,
         Usuarios,
