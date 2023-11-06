@@ -10,7 +10,7 @@ export default function Message() {
       <ModalHeader>Aviso</ModalHeader>
       {/* Cuerpo del Modal */}
       <ModalBody>
-        <span className="text-white">{message}</span>
+        <span className="text-black dark:text-white">{message}</span>
       </ModalBody>
       {/* Footer del Modal */}
       <ModalFooter>
