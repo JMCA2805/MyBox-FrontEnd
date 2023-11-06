@@ -15,7 +15,7 @@ function NavBar() {
   const match4 = useMatch("/Users");
   const match5 = useMatch("/Favoritos");
 
-  const { handleOpenAgg } = useItemsContext();
+  const { handleOpenAgg, setFilterCategory } = useItemsContext();
 
   const { user, isAuthenticated, logout, theme, setTheme } = useAuth();
   const [menu, setMenu] = useState(false);
@@ -40,6 +40,7 @@ function NavBar() {
   const handleInputSearchChange = async (e) => {
     setInputSearch(e.target.value);
     if (e.target.value == "") {
+      setFilterCategory("")
       update(true);
     }
   };

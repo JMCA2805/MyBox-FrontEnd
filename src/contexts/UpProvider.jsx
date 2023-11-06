@@ -20,6 +20,8 @@ export default function UpProvider({ children }) {
   const [items, setItems] = useState([]);
   const [listCategory, setListCategory] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
+
   const fetchData = async (load) => {
     if (load === true) {
       await fetch("http://localhost:4000/ListarItem")
@@ -37,6 +39,20 @@ export default function UpProvider({ children }) {
         .catch((error) => console.error("Error:", error));
     }
   };
+
+  const FiltrarCategory = async () => {
+    await fetch(`http://localhost:4000/Filtrar_categorias/${filterCategory}`)
+      .then((res) => res.json())
+      .then((data) => {
+        (filterCategory != "") ? setItems(data) : fetchData(true);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  useEffect(() => {
+    FiltrarCategory();
+  }, [filterCategory]);
+
   const getCategory = async () => {
     await fetch("http://localhost:4000/Listar_categorias")
       .then((res) => res.json())
@@ -124,8 +140,6 @@ export default function UpProvider({ children }) {
   const [openDelUser, setOpenDelUser] = useState(false);
   const handleOpenDelUser = () => setOpenDelUser(!openDelUser);
 
-  const [filterCategory, setFilterCategory] = useState("");
-
   //Modal Message
   const [openMessage, setOpenMessage] = useState(false);
   const handleOpenMessage = () => setOpenMessage(!openMessage);
@@ -205,7 +219,7 @@ export default function UpProvider({ children }) {
         filterCategory,
         setFilterCategory,
         Usuarios,
-        usuarios
+        usuarios,
       }}
     >
       <upitemsContext.Provider value={fetchData}>

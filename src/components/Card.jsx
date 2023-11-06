@@ -1,4 +1,4 @@
-import { useItemsContext } from "../contexts/UpProvider";
+import { useItemsContext, useUpItemsContext } from "../contexts/UpProvider";
 import { Button } from "./Modal/Modal";
 import { useMatch } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
@@ -7,6 +7,7 @@ function Card() {
   const match = useMatch("/");
   const match2 = useMatch("/Home");
   const match3 = useMatch("/Favoritos");
+  const update = useUpItemsContext();
   const { user } = useAuth();
   const {
     items,
@@ -48,6 +49,14 @@ function Card() {
     console.log(data);
   };
 
+  const handleInputFilterChange = async (e) => {
+    if (e.target.value == "") {
+      await update(true);
+      return
+    }
+    await setFilterCategory(e.target.value);
+  };
+
   return (
     <>
       {items.length == 0 ? (
@@ -65,14 +74,12 @@ function Card() {
             <>
               <div className="w-full h-12 px-12 ssm:p-4 pt-5 grid grid-cols-5 ssm:grid-cols-2 md:grid-cols-3 justify-end pr-12 gap-4 ">
                 <select
-                  onChange={(e) => {
-                    setFilterCategory(e.target.value);
-                  }}
+                  onChange={handleInputFilterChange}
                   name="filter_categoria"
                   id="filter_categoria"
                   className="p-1 w-full border focus:outline-none rounded-lg border-pizazz/40 h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange bg-white dark:bg-black"
                 >
-                  <option value={false}>Seleccione la categoría</option>
+                  <option value={""}>Seleccione la categoría</option>
                   {listCategory
                     ? listCategory.map((cat) => (
                         <option key={cat._id} value={cat.name}>
