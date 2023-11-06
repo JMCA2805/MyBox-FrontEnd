@@ -31,7 +31,6 @@ export default function Users() {
   ];
 
   const borrar = async (user) => {
-    console.log(user)
     await setUserIdToDelete(user);
     handleOpenDelUser();
   };
