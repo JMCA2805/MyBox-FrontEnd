@@ -6,14 +6,8 @@ import { useItemsContext } from "../contexts/UpProvider";
 import Message from "../components/Modal/Message";
 
 export default function Users() {
-  const [usuarios, setUsuarios] = useState([]);
-  const { setUserIdToDelete, handleOpenDelUser } = useItemsContext();
-
-  const Usuarios = async () => {
-    const res = await fetch("http://localhost:4000/User");
-    const data = await res.json();
-    await setUsuarios(data);
-  };
+  const { setUserIdToDelete, handleOpenDelUser, Usuarios, usuarios } =
+    useItemsContext();
 
   useEffect(() => {
     Usuarios();

@@ -117,6 +117,15 @@ export default function UpProvider({ children }) {
 
   //Editar
   const [item, setItem] = useState("");
+
+  //Eliminar user
+  const [userIdToDelete, setUserIdToDelete] = useState("");
+
+  const [openDelUser, setOpenDelUser] = useState(false);
+  const handleOpenDelUser = () => setOpenDelUser(!openDelUser);
+
+  const [filterCategory, setFilterCategory] = useState("");
+
   //Modal Message
   const [openMessage, setOpenMessage] = useState(false);
   const handleOpenMessage = () => setOpenMessage(!openMessage);
@@ -127,20 +136,23 @@ export default function UpProvider({ children }) {
       return;
     }
     handleOpenMessage();
-    reset();
     setOpenAgg(false);
     setOpenEdit(false);
     setOpenDel(false);
+    setOpenDelUser(false);
     fetchData(true);
     setMessage("");
+    reset();
   };
 
-  const [userIdToDelete, setUserIdToDelete] = useState("");
+  const [usuarios, setUsuarios] = useState([]);
 
-  const [openDelUser, setOpenDelUser] = useState(false);
-  const handleOpenDelUser = () => setOpenDelUser(!openDelUser);
+  const Usuarios = async () => {
+    const res = await fetch("http://localhost:4000/User");
+    const data = await res.json();
+    await setUsuarios(data);
+  };
 
-  const [filterCategory, setFilterCategory] = useState("");
   return (
     <itemsContext.Provider
       value={{
@@ -192,6 +204,8 @@ export default function UpProvider({ children }) {
         setUserIdToDelete,
         filterCategory,
         setFilterCategory,
+        Usuarios,
+        usuarios
       }}
     >
       <upitemsContext.Provider value={fetchData}>
