@@ -1,4 +1,4 @@
-import { useItemsContext, useUpItemsContext } from "../contexts/UpProvider";
+import { useItemsContext } from "../contexts/UpProvider";
 import { Button } from "./Modal/Modal";
 import { useMatch } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
@@ -7,7 +7,6 @@ function Card() {
   const match = useMatch("/");
   const match2 = useMatch("/Home");
   const match3 = useMatch("/Favoritos");
-  const update = useUpItemsContext();
   const { user } = useAuth();
   const {
     items,
@@ -39,23 +38,19 @@ function Card() {
     return dia + "-" + mes + "-" + año;
   };
 
-  const favorito = async (fav) => {
-    const response = await fetch("http://localhost:4000/favoritos", {
-      method: "POST",
+  
+
+ const favorito = (itemId) => {
+    const fav = { favorito: !items.find((item) => item._id === itemId).favorito };
+
+    fetch(`http://localhost:4000/favoritos/${user.userId}/${itemId}`, {
+      method: "PUT",
       body: JSON.stringify(fav),
       headers: { "Content-type": "application/json; charset=UTF-8" },
-    });
-    const data = await response.json();
-    console.log(data);
-  };
-
-  const handleInputFilterChange = async (e) => {
-    if (e.target.value == "") {
-      await update(true);
-      return
-    }
-    await setFilterCategory(e.target.value);
-  };
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+ };
 
   return (
     <>
@@ -74,12 +69,14 @@ function Card() {
             <>
               <div className="w-full h-12 px-12 ssm:p-4 pt-5 grid grid-cols-5 ssm:grid-cols-2 md:grid-cols-3 justify-end pr-12 gap-4 ">
                 <select
-                  onChange={handleInputFilterChange}
+                  onChange={(e) => {
+                    setFilterCategory(e.target.value);
+                  }}
                   name="filter_categoria"
                   id="filter_categoria"
                   className="p-1 w-full border focus:outline-none rounded-lg border-pizazz/40 h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange bg-white dark:bg-black"
                 >
-                  <option value={""}>Seleccione la categoría</option>
+                  <option value={false}>Seleccione la categoría</option>
                   {listCategory
                     ? listCategory.map((cat) => (
                         <option key={cat._id} value={cat.name}>
@@ -101,18 +98,14 @@ function Card() {
                     "xl:hover:-translate-y-6 xl:hover:scale-105 xl:hover:ease-in xl:hover:duration-300 xl:hover:dark:bg-black relative z-0 dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " +
                     (match2 && user.rol == "Admin" ? "h-96" : "h-80")
                   }
-                >
+                > 
                   {match2 && user.rol == "User" ? (
                     <>
-                      <button
-                        className="absolute w-10 h-10 right-0 top-0 dark:bg-transparent bg-white rounded-full hover:border-2 hover:border-dark-tangerine"
-                        onClick={() => {
-                          favorito({
-                            categoria: item._id,
-                            username: user.username,
-                          });
-                        }}
+                      <button className="absolute w-10 h-10 right-0 top-0 dark:bg-transparent bg-white rounded-full hover:border-2 hover:border-dark-tangerine"
+                      onClick={() => 
+                      favorito(item._id)}
                       >
+                      {item.favorito}
                         {/* Centra la imagen */}
                         <img
                           className="h-full p-1"
