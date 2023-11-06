@@ -1,179 +1,108 @@
-import NavBar from '../components/NavBar'
-import Footer from '../components/Footer'
-import  DeleteModal from '../components/Modal/Delete_users'
-import { Card, Typography } from "@material-tailwind/react";
-import React, {useState} from 'react';
-
-const TABLE_HEAD = ["Email", "Género","Apellido", "Usuario","Celular","Role","", ""];
-
-
-let response = async () => {
-  const res = await fetch("http://localhost:4000/User");
-  const data = await res.json();
-  return data;
-};
-
-response = await response();
-response = response;
-console.log(response);
-// Convertir el array de respuesta a la estructura deseada
-const TABLE_ROWS = response.map(user => ({
-  email: user.email
-  ,gender: user.gender
-  ,lastname: user.lastname 
-  ,name: user.name
-  ,phone: user.phone
-  ,rol: user.rol
-  ,id: user._id
-}));
-
+import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
+import DeleteModal from "../components/Modal/Delete_users";
+import React, { useEffect, useState } from "react";
+import { useItemsContext } from "../contexts/UpProvider";
+import Message from "../components/Modal/Message";
 
 export default function Users() {
+  const [usuarios, setUsuarios] = useState([]);
+  const { setUserIdToDelete, handleOpenDelUser } = useItemsContext();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [userIdToDelete, setUserIdToDelete] = useState(null);
-
-  const handleOpenModal = (userId) => {
-    setUserIdToDelete(userId);
-    console.log('test');
-    setIsModalOpen(true);
-  };
-  
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const Usuarios = async () => {
+    const res = await fetch("http://localhost:4000/User");
+    const data = await res.json();
+    await setUsuarios(data);
   };
 
-  const handleDelete = () => {
-    console.log('Elemento eliminado');
-    setIsModalOpen(false);
-  };
+  useEffect(() => {
+    Usuarios();
+  }, []);
 
-  
+  const table_head = [
+    "Nombre",
+    "Apellido",
+    "Email",
+    "Teléfono",
+    "Género",
+    "Usuario",
+    "Role",
+    "Accion",
+  ];
+
+  const borrar = async (user) => {
+    console.log(user)
+    await setUserIdToDelete(user);
+    handleOpenDelUser();
+  };
   return (
     <>
-    <NavBar />
-    <div className='mt-6 ml-2 mr-4 mb-8'>
+      <DeleteModal />
+      <Message />
+      <NavBar />
+      <div className="mt-6 ml-2 mr-4 mb-8">
+        {usuarios.length != 0 ? (
+          <div className="h-full w-full overflow-scroll">
+            <table className="w-full min-w-max table-auto text-left">
+              <thead>
+                <tr>
+                  {table_head.map((head) => (
+                    <th
+                      key={head}
+                      className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                    >
+                      <span className="font-normal leading-none opacity-70">
+                        {head}
+                      </span>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {usuarios.map((user) => (
+                  <tr key={user._id}>
+                    <td className="">
+                      <span className="font-normal">{user.name}</span>
+                    </td>
+                    <td className="">
+                      <span className="font-normal">{user.lastname}</span>
+                    </td>
+                    <td className="">
+                      <span className="font-normal">{user.email}</span>
+                    </td>
+                    <td className="">
+                      <span className="font-normal">{user.phone}</span>
+                    </td>
+                    <td className="">
+                      <span className="font-normal">{user.gender}</span>
+                    </td>
+                    <td className="">
+                      <span className="font-normal">{user.username}</span>
+                    </td>
+                    <td className="">
+                      <span className="font-normal">{user.rol}</span>
+                    </td>
+                    <td className="gap-4">
+                      <button className="font-medium">Editar</button>
 
-    
-    <Card className="h-full w-full overflow-scroll">
-      <table className="w-full min-w-max table-auto text-left">
-        <thead>
-          <tr>
-            {TABLE_HEAD.map((head) => (
-              <th
-                key={head}
-                className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-              >
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
-                  {head}
-                </Typography>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {TABLE_ROWS.map(({ email, gender, lastname, name, phone, rol, id }, index) => {
-            const isLast = index === TABLE_ROWS.length - 1;
-            const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
- 
-            return (
-              <tr key={id}>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {email}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {gender}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {lastname}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {name}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {phone}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {rol}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    as="a"
-                    href="#"
-                    variant="small"
-                    color="blue-gray"
-                    className="font-medium"
-                  >
-                    Editar
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    as="a"
-                    href="#"
-                    variant="small"
-                    color="blue-gray"
-                    className="font-medium"
-                  >
-                    
-    <div>
-    <button onClick={(event) => { event.stopPropagation(); handleOpenModal(id); }}>Eliminar</button>
-
-    <DeleteModal id={id} isOpen={isModalOpen} setIsOpen={setIsModalOpen} handleClose={handleCloseModal} handleDelete={handleDelete} />
-    </div>
-                  </Typography>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </Card>
-    </div>
-    <Footer />
-      
+                      <button
+                        onClick={() => {
+                          borrar(user._id);
+                        }}
+                      >
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <h1>No hay usuarios</h1>
+        )}
+      </div>
+      <Footer />
     </>
   );
 }
