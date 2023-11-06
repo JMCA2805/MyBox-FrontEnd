@@ -44,7 +44,7 @@ export default function UpProvider({ children }) {
     await fetch(`http://localhost:4000/Filtrar_categorias/${filterCategory}`)
       .then((res) => res.json())
       .then((data) => {
-        (filterCategory != "") ? setItems(data) : fetchData(true);
+        filterCategory != "" ? setItems(data) : fetchData(true);
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -140,9 +140,13 @@ export default function UpProvider({ children }) {
   const [openDelUser, setOpenDelUser] = useState(false);
   const handleOpenDelUser = () => setOpenDelUser(!openDelUser);
 
+  const [openEdit_user, setOpenEdit_user] = useState(false);
+  const handleOpenEdit_user = () => setOpenEdit_user(!openEdit_user);
+
   //Modal Message
   const [openMessage, setOpenMessage] = useState(false);
   const handleOpenMessage = () => setOpenMessage(!openMessage);
+
   const handleClose = () => {
     if (status != 200) {
       handleOpenMessage();
@@ -154,6 +158,7 @@ export default function UpProvider({ children }) {
     setOpenEdit(false);
     setOpenDel(false);
     setOpenDelUser(false);
+    setOpenEdit_user(false);
     fetchData(true);
     setMessage("");
     reset();
@@ -220,6 +225,9 @@ export default function UpProvider({ children }) {
         setFilterCategory,
         Usuarios,
         usuarios,
+        openEdit_user,
+        setOpenEdit_user,
+        handleOpenEdit_user,
       }}
     >
       <upitemsContext.Provider value={fetchData}>

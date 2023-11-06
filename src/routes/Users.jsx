@@ -1,20 +1,20 @@
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import DeleteModal from "../components/Modal/Delete_users";
+import Edit_User from "../components/Modal/Edit_Users_m";
 import React, { useEffect, useState } from "react";
 import { useItemsContext } from "../contexts/UpProvider";
 import Message from "../components/Modal/Message";
 import { Button } from "../components/Modal/Modal";
 
 export default function Users() {
-  const { 
-    setUserIdToDelete
-    , handleOpenDelUser
-    , Usuarios
-    , usuarios 
-    ,handleOpenEdit_user
-  } =
-    useItemsContext();
+  const {
+    setUserIdToDelete,
+    handleOpenDelUser,
+    Usuarios,
+    usuarios,
+    handleOpenEdit_user,
+  } = useItemsContext();
 
   useEffect(() => {
     Usuarios();
@@ -31,14 +31,17 @@ export default function Users() {
     "Accion",
   ];
 
-
   const borrar = async (user) => {
     await setUserIdToDelete(user);
     handleOpenDelUser();
   };
+  const Edit = async () => {
+    handleOpenEdit_user();
+  };
   return (
     <>
       <DeleteModal />
+      <Edit_User />
       <Message />
       <NavBar />
       <div className="mt-6 ml-2 mr-4 mb-8">
@@ -83,16 +86,14 @@ export default function Users() {
                     <td className="">
                       <span className="font-normal">{user.rol}</span>
                     </td>
-                    <td className="gap-4">
-                    <Button
-                        handleOpen={async () => {
-                          handleOpenEdit_user();
-                          
+                    <td className="flex gap-4">
+                      <button
+                        onClick={() => {
+                          Edit();
                         }}
                       >
                         Editar
-                      </Button>
-
+                      </button>
 
                       <button
                         onClick={() => {
