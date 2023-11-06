@@ -136,9 +136,11 @@ export default function UpProvider({ children }) {
   };
 
   const [userIdToDelete, setUserIdToDelete] = useState("");
-  
+
   const [openDelUser, setOpenDelUser] = useState(false);
   const handleOpenDelUser = () => setOpenDelUser(!openDelUser);
+
+  const [filterCategory, setFilterCategory] = useState("");
   return (
     <itemsContext.Provider
       value={{
@@ -188,6 +190,8 @@ export default function UpProvider({ children }) {
         setSubCategory,
         userIdToDelete,
         setUserIdToDelete,
+        filterCategory,
+        setFilterCategory,
       }}
     >
       <upitemsContext.Provider value={fetchData}>
