@@ -13,6 +13,7 @@ export default function Users() {
     handleOpenDelUser,
     Usuarios,
     usuarios,
+    setUserIdToEdit,
     handleOpenEdit_user,
   } = useItemsContext();
 
@@ -35,7 +36,8 @@ export default function Users() {
     await setUserIdToDelete(user);
     handleOpenDelUser();
   };
-  const Edit = async () => {
+  const Edit = async (user) => {
+    await setUserIdToEdit(user);
     handleOpenEdit_user();
   };
   return (
@@ -89,7 +91,7 @@ export default function Users() {
                     <td className="flex gap-4">
                       <button
                         onClick={() => {
-                          Edit();
+                          Edit(user);
                         }}
                       >
                         Editar
