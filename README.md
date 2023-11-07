@@ -1,5 +1,5 @@
 # Proyecto: Block_de_Notas
-  Actividad 2.1 Front-End II
+  Actividad 2.2 Front-End II
 
 # Integrantes
 
@@ -8,7 +8,7 @@
 - Yetzenia Mendoa 27.268.361
 - Carlos Pimiento 27.497.945
 
-# Comandos
+# Comandos utilizados
     git clone https://github.com/JMCA2805/MyBox-FrontEnd.git
 
     npm install
@@ -19,52 +19,60 @@
   Ing. Freddy David Ramirez
 
 # Funcionalidades
-- Agregar un articulo
-- Editar un articulo
-- Eliminar un articulo
-- Buscar un Articulos
-- Listar los Articulos
-- Modo Oscuro-Claro
-- Base de Datos a traves de MongoDB
+- Homepage
+  - Buscar un Articulos
+  - Filtrat un Artículo segun la categoría
+  - Listar los Articulos 
+  - Modo Oscuro-Claro 
+  - Login
+  - Register
+- Usuario
+  - Perfil (Editar y Cambiar Contraseña)
+  - Favoritos ( Agregar Listar y Eliminar)
+- Admin
+  - Agregar un articulo (Admin)
+  - Editar un articulo  (Admin)
+  - Eliminar un articulo  (Admin)
+  - Ver y Editar los Usuario Registrados
 
 # Instrucciones
-Paso 1 
+  Paso 1 
 
-- Descarga el repositorio de Back-End
-
-      https://github.com/Ochoaadev/MyBox-BackEnd
+- Descarga el repositorio del Back-End y seguir sus intrucciones (https://github.com/Ochoaadev/MyBox-BackEnd)
 
       git clone https://github.com/Ochoaadev/MyBox-BackEnd.git
 
-Paso 2 
+  Paso 2 
 
 - Haz un clon del repositorio de Front-End
 
       git clone https://github.com/JMCA2805/MyBox-FrontEnd.git
 
-Paso 3
+  Paso 3
 
 - Abrir carpeta con tu editor de código de preferencia (Visual Studio Code)
 
-Paso 4
+  Paso 4
 
-- Abrir la consola del editor (Visual Studio Code)
+  - Abrir la consola del editor (Visual Studio Code (Ctrl + J))
 
-Paso 5 
+  Paso 5 
 
 - Ejecutar el comando npm i (Instala todas las dependencias necesarias)
 
       npm i
 
-Paso 6
+  Paso 6
 
 - Ejecuta el comando npm run dev (Inicia el servidor de front-end)
 
       npm run dev
 
-Paso 7
+  Paso 7
 
-- Abre tu Navegador y coloca http://localhost:3000/
+- Abre tu Navegador y coloca http://localhost:3000
+
+      http://localhost:3000
 
 Paso 8
 
