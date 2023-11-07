@@ -137,7 +137,11 @@ export default function Users() {
             </div>
           </div>
         ) : (
-          <h1>No hay usuarios</h1>
+          <div className="w-full h-96 flex justify-center items-center ">
+            <h1 className="text-5xl font-bold text-black dark:text-pizazz ssm:text-xl px-12">
+              No hay usuarios
+            </h1>
+          </div>
         )}
       </div>
       <Footer />
