@@ -5,7 +5,6 @@ import Edit_User from "../components/Modal/Edit_Users_m";
 import React, { useEffect, useState } from "react";
 import { useItemsContext } from "../contexts/UpProvider";
 import Message from "../components/Modal/Message";
-import { Button } from "../components/Modal/Modal";
 
 export default function Users() {
   const {
@@ -40,6 +39,7 @@ export default function Users() {
     await setUserIdToEdit(user);
     handleOpenEdit_user();
   };
+
   return (
     <>
       <DeleteModal />
@@ -48,67 +48,93 @@ export default function Users() {
       <NavBar />
       <div className="mt-6 ml-2 mr-4 mb-8">
         {usuarios.length != 0 ? (
-          <div className="h-full w-full overflow-scroll">
-            <table className="w-full min-w-max table-auto text-left">
-              <thead>
-                <tr>
-                  {table_head.map((head) => (
-                    <th
-                      key={head}
-                      className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                    >
-                      <span className="font-normal leading-none opacity-70">
-                        {head}
-                      </span>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {usuarios.map((user) => (
-                  <tr key={user._id}>
-                    <td className="">
-                      <span className="font-normal">{user.name}</span>
-                    </td>
-                    <td className="">
-                      <span className="font-normal">{user.lastname}</span>
-                    </td>
-                    <td className="">
-                      <span className="font-normal">{user.email}</span>
-                    </td>
-                    <td className="">
-                      <span className="font-normal">{user.phone}</span>
-                    </td>
-                    <td className="">
-                      <span className="font-normal">{user.gender}</span>
-                    </td>
-                    <td className="">
-                      <span className="font-normal">{user.username}</span>
-                    </td>
-                    <td className="">
-                      <span className="font-normal">{user.rol}</span>
-                    </td>
-                    <td className="flex gap-4">
-                      <button
-                        onClick={() => {
-                          Edit(user);
-                        }}
-                      >
-                        Editar
-                      </button>
+          <div className="px-12 ssm:px-4">
+            <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+              <div className=" inline-block min-w-full shadow rounded-xl overflow-hidden">
+                <table className="min-w-full leading-normal border border-pizazz/40">
+                  <thead>
+                    <tr>
+                      {table_head.map((head) => (
+                        <th
+                          key={head}
+                          className="px-5 py-3 border-b-2 border-pizazz text-left text-xs font-bold text-black dark:bg-black bg-white dark:text-pizazz uppercase tracking-wider"
+                        >
+                          <span className="">{head}</span>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {usuarios.map((user) => (
+                      <tr key={user._id}>
+                        <td className="px-5 py-5 border-b border-pizazz/40 bg-white dark:bg-black text-sm">
+                          <span className="text-black dark:text-white whitespace-no-wrap">
+                            {user.name}
+                          </span>
+                        </td>
+                        <td className="px-5 py-5 border-b border-pizazz/40 bg-white dark:bg-black text-sm">
+                          <span className="text-black dark:text-white whitespace-no-wrap">
+                            {user.lastname}
+                          </span>
+                        </td>
+                        <td className="px-5 py-5 border-b border-pizazz/40 bg-white dark:bg-black text-sm">
+                          <span className="text-black dark:text-white whitespace-no-wrap">
+                            {user.email}
+                          </span>
+                        </td>
+                        <td className="px-5 py-5 border-b border-pizazz/40 bg-white dark:bg-black text-sm">
+                          <span className="text-black dark:text-white whitespace-no-wrap">
+                            {user.phone}
+                          </span>
+                        </td>
+                        <td className="px-5 py-5 border-b border-pizazz/40 bg-white dark:bg-black text-sm">
+                          <span className="text-black dark:text-white whitespace-no-wrap">
+                            {user.gender}
+                          </span>
+                        </td>
+                        <td className="px-5 py-5 border-b border-pizazz/40 bg-white dark:bg-black text-sm">
+                          <span className="text-black dark:text-white whitespace-no-wrap">
+                            {user.username}
+                          </span>
+                        </td>
+                        <td className="px-5 py-5 border-b border-pizazz/40 bg-white dark:bg-black text-sm">
+                          <span className="text-black dark:text-white whitespace-no-wrap">
+                            {user.rol}
+                          </span>
+                        </td>
+                        <td className="gap-4 flex px-5 py-5 border-b border-pizazz/40 bg-white dark:bg-black text-sm text-white">
+                          <button
+                            className="rounded-full w-10 h-10 bg-pizazz hover:bg-blaze-orange focus:bg-dark-tangerine  dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent"
+                            onClick={() => {
+                              Edit(user);
+                            }}
+                          >
+                            <img
+                              id="icon_edit"
+                              alt="Editar"
+                              className="w-full p-2"
+                            />
+                          </button>
 
-                      <button
-                        onClick={() => {
-                          borrar(user._id);
-                        }}
-                      >
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                          <button
+                            className="rounded-full w-10 h-10 bg-pizazz hover:bg-blaze-orange focus:bg-dark-tangerine  dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent"
+                            onClick={() => {
+                              borrar(user._id);
+                            }}
+                          >
+                            <img
+                              id="icon_del"
+                              alt="Eliminar"
+                              className="w-full p-2"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         ) : (
           <h1>No hay usuarios</h1>

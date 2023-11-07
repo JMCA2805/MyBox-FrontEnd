@@ -62,6 +62,22 @@
 #Error {
   content: url("src/assets/Error.png")
 }
+
+.dark #icon_edit {
+  content: url("src/assets/icons/edit-alt-orange-240.png");
+}
+
+#icon_edit {
+  content: url("src/assets/icons/edit-alt-solid-240.png");
+}
+
+.dark #icon_del {
+  content: url("src/assets/icons/trash-orange-240.png");
+}
+
+#icon_del {
+  content: url("src/assets/icons/trash-solid-240.png");
+}
 @keyframes move-show {
   0% {
     transform: translate(0, -100px);
