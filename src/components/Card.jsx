@@ -40,7 +40,6 @@ function Card() {
       return;
     }
     isPlus ? await setPage(page + 1) : await setPage(page - 1);
-
   };
   const formatDate = (dateString) => {
     let fecha = new Date(dateString);
@@ -97,7 +96,7 @@ function Card() {
           </div>
         </>
       ) : null}
-      {items.length == 0 ? (
+      {items.products.length === 0 ? (
         <>
           {" "}
           <div className="w-full h-96 flex justify-center items-center ">
@@ -273,38 +272,46 @@ function Card() {
           </div>
 
           {/* Paginador */}
-          <div className="flex items-center justify-end px-12 ssm:px-4">
-            <div className="flex items-center justify-end bg-white rounded-full border border-pizazz/40 dark:bg-black ">
-              <div className="flex  items-center gap-2  p-1">
-                <button
-                  onClick={()=>{handlePage(false)}}
-                  className="h-8 w-8 border border-pizazz/40 text-sm font-medium text-black dark:text-pizazz rounded-full "
-                >
-                  {"<"}
-                </button>
-                <>
-                  {Array.from(Array(pages), (_, i) => (
+          {match3 ? null : (
+            <>
+              <div className="flex items-center justify-end px-12 ssm:px-4 mb-4">
+                <div className="flex items-center justify-end bg-white rounded-full border border-pizazz/40 dark:bg-black ">
+                  <div className="flex  items-center gap-2  p-1">
                     <button
-                      key={i}
-                      className={
-                        "h-8 w-6 bordertext-sm font-medium text-black dark:text-pizazz" +
-                        (i + 1 == page ? " border-2 border-pizazz" : " ")
-                      }
+                      onClick={() => {
+                        handlePage(false);
+                      }}
+                      className="h-8 w-8 border border-pizazz/40 text-sm font-medium text-black dark:text-pizazz rounded-full "
                     >
-                      {i + 1}
+                      {"<"}
                     </button>
-                  ))}
-                </>
+                    <>
+                      {Array.from(Array(pages), (_, i) => (
+                        <button
+                          key={i}
+                          className={
+                            "h-8 w-6 bordertext-sm font-medium text-black dark:text-pizazz" +
+                            (i + 1 == page ? " border-2 border-pizazz" : " ")
+                          }
+                        >
+                          {i + 1}
+                        </button>
+                      ))}
+                    </>
 
-                <button
-                  onClick={()=>{handlePage(true)}}
-                  className="h-8 w-8 border border-pizazz/40 text-sm font-medium text-black dark:text-pizazz rounded-full "
-                >
-                  {">"}
-                </button>
+                    <button
+                      onClick={() => {
+                        handlePage(true);
+                      }}
+                      className="h-8 w-8 border border-pizazz/40 text-sm font-medium text-black dark:text-pizazz rounded-full "
+                    >
+                      {">"}
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </>
       )}
     </>

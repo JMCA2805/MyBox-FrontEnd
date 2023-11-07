@@ -17,11 +17,12 @@ export function useSearchContext() {
 }
 
 export default function UpProvider({ children }) {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState({products:[],totalPages:""});
   const [listCategory, setListCategory] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
   const [page, setPage] = useState(1);
+  const [page2, setPage2] = useState(1);
   const [pages, setPages] = useState(0);
 
   const fetchData = async (load) => {
@@ -30,17 +31,15 @@ export default function UpProvider({ children }) {
         .then((res) => res.json())
         .then((data) => {
           setItems(data);
-          console.log(data)
           setPages(data.totalPages)
         })
         .catch((error) => console.error("Error:", error));
     } else {
-      await fetch(`http://localhost:4000/FilterProducts/${inputSearch}/${page}`)
+      await fetch(`http://localhost:4000/FilterProducts/${inputSearch}/${page2}`)
         .then((res) => res.json())
         .then((data) => {
           data.length > 0 ? setItems(data) : setItems([]);
           setItems(data);
-          console.log(data)
           setPages(data.totalPages)
         })
         .catch((error) => console.error("Error:", error));
@@ -52,7 +51,7 @@ export default function UpProvider({ children }) {
       fetchData(true);
       return;
     }
-    await fetch(`http://localhost:4000/Filtrar_categorias/${filterCategory}`)
+    await fetch(`http://localhost:4000/Filtrar_categorias/${filterCategory}/${page2}`)
       .then((res) => res.json())
       .then((data) => {
         filterCategory != "" ? setItems(data) : fetchData(true);
