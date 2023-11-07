@@ -42,9 +42,9 @@ export default function UpProvider({ children }) {
   };
 
   const FiltrarCategory = async () => {
-    if (filterCategory == ""){
-      fetchData(true)
-      return
+    if (filterCategory == "") {
+      fetchData(true);
+      return;
     }
     await fetch(`http://localhost:4000/Filtrar_categorias/${filterCategory}`)
       .then((res) => res.json())
@@ -145,7 +145,14 @@ export default function UpProvider({ children }) {
   const [openDelUser, setOpenDelUser] = useState(false);
   const handleOpenDelUser = () => setOpenDelUser(!openDelUser);
 
-  const [userIdToEdit, setUserIdToEdit] = useState("");
+  const [userIdToEdit, setUserIdToEdit] = useState({
+    name: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    username: "",
+    gender: "",
+  });
   const [openEdit_user, setOpenEdit_user] = useState(false);
   const handleOpenEdit_user = () => setOpenEdit_user(!openEdit_user);
 
