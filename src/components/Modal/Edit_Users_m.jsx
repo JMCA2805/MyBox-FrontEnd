@@ -1,7 +1,6 @@
 import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from "./Modal";
 import { useItemsContext } from "../../contexts/UpProvider";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../contexts/AuthProvider";
 
 function Edit_User() {
   const { openEdit_user, handleOpenEdit_user, userIdToEdit, Usuarios } =

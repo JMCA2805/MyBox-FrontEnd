@@ -1,6 +1,5 @@
 import { useItemsContext } from "../../contexts/UpProvider";
 import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from "./Modal";
-import React, { useState } from "react";
 
 function UserDelete() {
   //Creacion del estado del modal

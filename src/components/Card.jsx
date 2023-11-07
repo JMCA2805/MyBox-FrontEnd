@@ -1,4 +1,4 @@
-import { useItemsContext } from "../contexts/UpProvider";
+import { useItemsContext, useUpItemsContext } from "../contexts/UpProvider";
 import { Button } from "./Modal/Modal";
 import { useMatch } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
@@ -27,8 +27,21 @@ function Card() {
     setStatus,
     setMessage,
     handleOpenMessage,
+    pages,
+    setPage,
+    page,
   } = useItemsContext();
 
+  const handlePage = async (isPlus) => {
+    if (page == 1 && !isPlus) {
+      return;
+    }
+    if (page == pages && isPlus) {
+      return;
+    }
+    isPlus ? await setPage(page + 1) : await setPage(page - 1);
+
+  };
   const formatDate = (dateString) => {
     let fecha = new Date(dateString);
     let dia = fecha.getDate();
@@ -122,7 +135,7 @@ function Card() {
             id="cards"
             className="grid grid-cols-5 gap-4 p-12 pt-6 md:grid-cols-3 ssm:grid-cols-2 ssm:p-4"
           >
-            {items.map((item) =>
+            {items.products.map((item) =>
               item.cantidad == 0 && (match || user.rol != "Admin") ? null : (
                 <div
                   key={item._id}
@@ -257,6 +270,40 @@ function Card() {
                 </div>
               )
             )}
+          </div>
+
+          {/* Paginador */}
+          <div className="flex items-center justify-end px-12 ssm:px-4">
+            <div className="flex items-center justify-end bg-white rounded-full border border-pizazz/40 dark:bg-black ">
+              <div className="flex  items-center gap-2  p-1">
+                <button
+                  onClick={()=>{handlePage(false)}}
+                  className="h-8 w-8 border border-pizazz/40 text-sm font-medium text-black dark:text-pizazz rounded-full "
+                >
+                  {"<"}
+                </button>
+                <>
+                  {Array.from(Array(pages), (_, i) => (
+                    <button
+                      key={i}
+                      className={
+                        "h-8 w-6 bordertext-sm font-medium text-black dark:text-pizazz" +
+                        (i + 1 == page ? " border-2 border-pizazz" : " ")
+                      }
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                </>
+
+                <button
+                  onClick={()=>{handlePage(true)}}
+                  className="h-8 w-8 border border-pizazz/40 text-sm font-medium text-black dark:text-pizazz rounded-full "
+                >
+                  {">"}
+                </button>
+              </div>
+            </div>
           </div>
         </>
       )}

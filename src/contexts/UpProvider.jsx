@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useAuth } from "./AuthProvider";
 
 const itemsContext = React.createContext();
 const upitemsContext = React.createContext();
@@ -22,20 +21,27 @@ export default function UpProvider({ children }) {
   const [listCategory, setListCategory] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(0);
 
   const fetchData = async (load) => {
     if (load === true) {
-      await fetch("http://localhost:4000/ListarItem")
+      await fetch(`http://localhost:4000/productos/${page}`)
         .then((res) => res.json())
         .then((data) => {
           setItems(data);
+          console.log(data)
+          setPages(data.totalPages)
         })
         .catch((error) => console.error("Error:", error));
     } else {
-      await fetch(`http://localhost:4000/FilterProducts/${inputSearch}`)
+      await fetch(`http://localhost:4000/FilterProducts/${inputSearch}/${page}`)
         .then((res) => res.json())
         .then((data) => {
           data.length > 0 ? setItems(data) : setItems([]);
+          setItems(data);
+          console.log(data)
+          setPages(data.totalPages)
         })
         .catch((error) => console.error("Error:", error));
     }
@@ -50,6 +56,7 @@ export default function UpProvider({ children }) {
       .then((res) => res.json())
       .then((data) => {
         filterCategory != "" ? setItems(data) : fetchData(true);
+        setPages(data.totalPages)
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -57,6 +64,11 @@ export default function UpProvider({ children }) {
   useEffect(() => {
     FiltrarCategory();
   }, [filterCategory]);
+
+  
+  useEffect(() => {
+    fetchData(true);
+  }, [page]);
 
   const getCategory = async () => {
     await fetch("http://localhost:4000/Listar_categorias")
@@ -243,6 +255,7 @@ export default function UpProvider({ children }) {
         handleOpenEdit_user,
         userIdToEdit,
         setUserIdToEdit,
+        page, setPage,pages
       }}
     >
       <upitemsContext.Provider value={fetchData}>
