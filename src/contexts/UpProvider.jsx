@@ -42,6 +42,10 @@ export default function UpProvider({ children }) {
   };
 
   const FiltrarCategory = async () => {
+    if (filterCategory == ""){
+      fetchData(true)
+      return
+    }
     await fetch(`http://localhost:4000/Filtrar_categorias/${filterCategory}`)
       .then((res) => res.json())
       .then((data) => {
