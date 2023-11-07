@@ -2,12 +2,13 @@ import { useItemsContext } from "../contexts/UpProvider";
 import { Button } from "./Modal/Modal";
 import { useMatch } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
+import { useEffect, useState } from "react";
 
 function Card() {
   const match = useMatch("/");
   const match2 = useMatch("/Home");
   const match3 = useMatch("/Favoritos");
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const {
     items,
     setItem,
@@ -23,6 +24,9 @@ function Card() {
     setFecha,
     listCategory,
     setFilterCategory,
+    setStatus,
+    setMessage,
+    handleOpenMessage,
   } = useItemsContext();
 
   const formatDate = (dateString) => {
@@ -38,22 +42,48 @@ function Card() {
     return dia + "-" + mes + "-" + año;
   };
 
-  
+  const [getfavoritos, setGetFavoritos] = useState([{ _id: "" }]);
+  const [load, setLoad] = useState(true);
 
- const favorito = (itemId) => {
-    const fav = { favorito: !items.find((item) => item._id === itemId).favorito };
+  const GetFavoritos = async (user) => {
+    const res = await fetch(`http://localhost:4000/favoritos/${user}`);
+    const data = await res.json();
+    await setGetFavoritos(data);
+  };
 
-    fetch(`http://localhost:4000/favoritos/${user.userId}/${itemId}`, {
-      method: "PUT",
-      body: JSON.stringify(fav),
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
- };
+  useEffect(() => {
+    if ((user != null || user != {}) && isAuthenticated) {
+      GetFavoritos(user.userId);
+    }
+  }, [load]);
+
+  const favorito = async (itemId) => {
+    const res = await fetch(
+      `http://localhost:4000/favoritos/${user.userId}/${itemId}`,
+      {
+        method: "PUT",
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      }
+    );
+    const data = await res.json();
+    await setMessage(data.message);
+    await setStatus(data.status);
+    handleOpenMessage();
+    await GetFavoritos(user.userId);
+  };
 
   return (
     <>
+      {getfavoritos == "" && match3 ? (
+        <>
+          {" "}
+          <div className="w-full h-96 flex justify-center items-center ">
+            <h1 className="text-5xl font-bold text-black dark:text-pizazz ssm:text-xl px-12">
+              No hay Favoritos
+            </h1>
+          </div>
+        </>
+      ) : null}
       {items.length == 0 ? (
         <>
           {" "}
@@ -76,7 +106,7 @@ function Card() {
                   id="filter_categoria"
                   className="p-1 w-full border focus:outline-none rounded-lg border-pizazz/40 h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange bg-white dark:bg-black"
                 >
-                  <option value={false}>Seleccione la categoría</option>
+                  <option value={""}>Seleccione la categoría</option>
                   {listCategory
                     ? listCategory.map((cat) => (
                         <option key={cat._id} value={cat.name}>
@@ -88,7 +118,10 @@ function Card() {
               </div>
             </>
           ) : null}
-          <div className="grid grid-cols-5 gap-4 p-12 pt-6 md:grid-cols-3 ssm:grid-cols-2 ssm:p-4">
+          <div
+            id="cards"
+            className="grid grid-cols-5 gap-4 p-12 pt-6 md:grid-cols-3 ssm:grid-cols-2 ssm:p-4"
+          >
             {items.map((item) =>
               item.cantidad == 0 && (match || user.rol != "Admin") ? null : (
                 <div
@@ -96,20 +129,35 @@ function Card() {
                   id={item._id}
                   className={
                     "xl:hover:-translate-y-6 xl:hover:scale-105 xl:hover:ease-in xl:hover:duration-300 xl:hover:dark:bg-black relative z-0 dark:text-white dark:bg-black/30 bg-white rounded-lg shadow-lg overflow-hidden w-full border border-pizazz/40  p-4 ssm:h-80 hover:shadow-xl hover:border-dark-tangerine hover:border-2 " +
-                    (match2 && user.rol == "Admin" ? "h-96" : "h-80")
+                    (match2 && user.rol == "Admin" ? "h-96" : "h-80") +
+                    (getfavoritos.find((e) => e._id === item._id) !=
+                      undefined && match3
+                      ? " flex-col"
+                      : getfavoritos.find((e) => e._id === item._id) ==
+                          undefined && match3
+                      ? " hidden"
+                      : match2 || match
+                      ? " flex-col"
+                      : null)
                   }
-                > 
-                  {match2 && user.rol == "User" ? (
+                >
+                  {(match2 || match3) && user.rol == "User" ? (
                     <>
-                      <button className="absolute w-10 h-10 right-0 top-0 dark:bg-transparent bg-white rounded-full hover:border-2 hover:border-dark-tangerine"
-                      onClick={() => 
-                      favorito(item._id)}
+                      <button
+                        className="absolute w-10 h-10 right-0 top-0 dark:bg-transparent bg-white rounded-full hover:border-2 hover:border-dark-tangerine"
+                        onClick={() => {
+                          favorito(item._id);
+                          setLoad(!load);
+                        }}
                       >
-                      {item.favorito}
-                        {/* Centra la imagen */}
                         <img
                           className="h-full p-1"
-                          src="src\assets\icons\star-regular-240.png"
+                          src={
+                            getfavoritos.find((e) => e._id === item._id) !=
+                            undefined
+                              ? "src/assets/icons/star-solid-240.png"
+                              : "src/assets/icons/star-regular-240.png"
+                          }
                           alt="Estrella"
                         />
                       </button>

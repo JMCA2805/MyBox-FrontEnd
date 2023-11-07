@@ -7,20 +7,23 @@ import { useAuth } from "../contexts/AuthProvider";
 import { useItemsContext, useUpItemsContext } from "../contexts/UpProvider";
 
 export default function Login() {
+  //Estados del Modal Message
   const { setMessage, setStatus, handleOpenMessage } = useItemsContext();
 
+  //Actualización de estados de Sección
   const update = useUpItemsContext();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { signin, isAuthenticated } = useAuth();
 
+  //Comprobación de la existencia de un token
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (token != "" && isAuthenticated) {
-      navigate("/Home")
+      navigate("/Home");
     }
   }, [isAuthenticated]);
 
-  // Estableciendo las
+  // Estableciendo los estados de los datos
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -39,6 +42,7 @@ export default function Login() {
     return false;
   };
 
+  //Función de Inicio de Sección
   const Loguear = async (e) => {
     e.preventDefault();
     const alert = await focusOnFirstEmptyInput();
@@ -51,17 +55,23 @@ export default function Login() {
       password,
     };
 
+    //Solicitud al backend
     const response = await signin(data_login);
-    if (response.data.status != 200 ){
-      await setMessage(response.data.message)
-      await setStatus(response.data.status)
-      await handleOpenMessage()
+
+    //Respuestas de la solicitud
+    if (response.data.status != 200) {
+      await setMessage(response.data.message);
+      await setStatus(response.data.status);
+      await handleOpenMessage();
     }
-    navigate(response.ruta)
+    navigate(response.ruta);
   };
+
   return (
     <>
+      {/* //Modal de mensajes de respuestas */}
       <Message />
+      {/* //Barra de navegación */}
       <Nav />
       <div className="flex justify-center items-center py-20">
         <div className="py-6 dark:bg-black  text-black dark:text-pizazz bg-white rounded-lg flex flex-col xl:w-96 md:w-96 lg:w-96 ssm:w-72 border border-pizazz/40 shadow-xl">
@@ -69,6 +79,7 @@ export default function Login() {
             Iniciar Sección
           </div>
           <div className="flex items-center justify-center w-full p-5 bg-white dark:bg-black text-black dark:text-white">
+            {/* //Formulario de Inicio de Sección */}
             <form className="flex-col flex px-4 justify-center items-center w-full">
               <div className="mb-4 w-full">
                 <span className="text-lg font-medium">Usuario</span>
@@ -101,6 +112,7 @@ export default function Login() {
           </div>
 
           <div className="flex flex-col justify-center items-center rounded-b-lg w-full">
+            {/* //Botón de Acción */}
             <button
               type="submit"
               onClick={(e) => {
@@ -112,8 +124,9 @@ export default function Login() {
               Entrar
             </button>
             <div className="flex text-black dark:text-white ssm:text-sm my-2 w-full px-5 justify-center items-center">
+            {/* //Reenvió al formulario de registro */}
               <span>
-                ¿No estás registrado?{" "}
+                ¿No estás registrado? 
                 <Link to="/Register" className="text-pizazz">
                   ¡Crea una cuenta!
                 </Link>
