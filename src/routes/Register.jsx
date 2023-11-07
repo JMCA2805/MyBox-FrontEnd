@@ -26,8 +26,6 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmar_password, setConfirmarPassword] = useState("");
-  const [prefijo, setPrefijo] = useState("");
-  const [phone, setPhone] = useState("");
   const [username, setUserName] = useState("");
   const [gender, setGender] = useState("");
   const [style, setStyle] = useState("");
@@ -40,14 +38,6 @@ export default function Register() {
     }
     if (lastname == "") {
       document.getElementById("lastname").focus();
-      return true;
-    }
-    if (prefijo == "") {
-      document.getElementById("select_number").focus();
-      return true;
-    }
-    if (phone == "") {
-      document.getElementById("phone").focus();
       return true;
     }
     if (email == "") {
@@ -86,7 +76,7 @@ export default function Register() {
       lastname,
       email,
       password,
-      phone: prefijo + phone,
+      phone: "",
       username,
       gender,
     };
@@ -137,44 +127,6 @@ export default function Register() {
                     setLastName(e.target.value);
                   }}
                 />
-              </div>
-
-              <div className="mb-4 w-full">
-                <span className="text-lg font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                  Teléfono
-                </span>
-                <div className="relative group:">
-                  <input
-                    type="text"
-                    placeholder="Ingrese su teléfono"
-                    className="peer/phone p-1 pl-20 w-full border-2 focus:outline-none rounded-lg border-dark-tangerine dark:border-white  h-10 dark:text-white text-black bg-transparent dark:placeholder-white placeholder-gray dark:focus:border-dark-tangerine focus:border-blaze-orange invalid:border-red-600 invalid:dark:border-red-600"
-                    id="phone"
-                    maxLength={7}
-                    minLength={7}
-                    pattern="^[0-9]*$"
-                    onChange={(e) => {
-                      setPhone(e.target.value);
-                    }}
-                  />
-                  <div className="peer-invalid/phone:border-red-600 peer-focus/phone:dark:border-dark-tangerine peer-focus/phone:border-blaze-orange absolute inset-y-0 flex h-10 rounded-l-lg border-2 border-dark-tangerine dark:border-white ring-transparent">
-                    <select
-                      id="select_number"
-                      name="select_number"
-                      onChange={(e) => setPrefijo(e.target.value)}
-                      className="focus:dark:outline-pizazz  focus:outline-dark-tangerine border-2 border-transparent ring-0 rounded-l-lg inset-y-0 dark:text-white text-black text-center h-9 w-16 bg-white dark:bg-black"
-                    >
-                      <option value={"0414"}>0414</option>
-                      <option value={"0424"}>0424</option>
-                      <option value={"0416"}>0416</option>
-                      <option value={"0426"}>0426</option>
-                      <option value={"0412"}>0412</option>
-                    </select>
-                  </div>
-
-                  <p className="hidden peer-invalid/phone:flex text-red-600 text-sm w-full text-center">
-                    Porfavor ingrese solo numeros min-max: 7.
-                  </p>
-                </div>
               </div>
 
               <div className="mb-4 w-full">
